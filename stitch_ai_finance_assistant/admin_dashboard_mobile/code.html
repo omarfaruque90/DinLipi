@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-container": "#ae8dff",
+                        "on-primary": "#39008c",
+                        "background": "#060e20",
+                        "on-primary-fixed": "#000000",
+                        "surface-tint": "#ba9eff",
+                        "primary-dim": "#8455ef",
+                        "primary": "#ba9eff",
+                        "tertiary": "#9bffce",
+                        "surface-container": "#0f1930",
+                        "on-tertiary-fixed-variant": "#006544",
+                        "surface-container-high": "#141f38",
+                        "on-background": "#dee5ff",
+                        "surface-bright": "#1f2b49",
+                        "on-primary-container": "#2b006e",
+                        "tertiary-container": "#69f6b8",
+                        "on-error": "#490013",
+                        "error-container": "#a70138",
+                        "on-surface": "#dee5ff",
+                        "inverse-on-surface": "#4d556b",
+                        "secondary": "#d6b2fc",
+                        "on-secondary-fixed-variant": "#614283",
+                        "surface-dim": "#060e20",
+                        "secondary-container": "#573878",
+                        "primary-fixed": "#ae8dff",
+                        "secondary-fixed-dim": "#d9b5ff",
+                        "tertiary-dim": "#58e7ab",
+                        "on-tertiary-container": "#005a3c",
+                        "surface-container-highest": "#192540",
+                        "surface-container-lowest": "#000000",
+                        "surface": "#060e20",
+                        "on-error-container": "#ffb2b9",
+                        "on-tertiary-fixed": "#00452d",
+                        "surface-variant": "#192540",
+                        "tertiary-fixed": "#69f6b8",
+                        "secondary-fixed": "#e3c6ff",
+                        "inverse-primary": "#6e3bd7",
+                        "secondary-dim": "#c8a5ed",
+                        "on-tertiary": "#006443",
+                        "on-secondary": "#4c2e6d",
+                        "error-dim": "#d73357",
+                        "surface-container-low": "#091328",
+                        "on-secondary-container": "#e2c5ff",
+                        "outline-variant": "#40485d",
+                        "on-primary-fixed-variant": "#370086",
+                        "primary-fixed-dim": "#a27cff",
+                        "inverse-surface": "#faf8ff",
+                        "outline": "#6d758c",
+                        "error": "#ff6e84",
+                        "on-surface-variant": "#a3aac4",
+                        "tertiary-fixed-dim": "#58e7ab",
+                        "on-secondary-fixed": "#432564"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Plus Jakarta Sans"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #060e20;
+            color: #dee5ff;
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        .font-plus-jakarta { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .glass-panel {
+            background: rgba(31, 43, 73, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .premium-gradient {
+            background: linear-gradient(135deg, #ba9eff 0%, #8455ef 100%);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#060e20] bg-gradient-to-b from-[#121a2c] to-transparent flex justify-between items-center px-6 py-4 w-full">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-surface-bright flex items-center justify-center">
+<img alt="Admin profile" class="w-full h-full object-cover" data-alt="close up professional headshot of a software administrator in a minimalist studio setting with soft purple ambient lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAABbXNfUgVyBtPCniQykJGIC00_RIMLLm8YdHHvpFs3MpdURdZsTnBLY3j9zc37LpGfggm24v4Z0n9l51JIq1gsj0waLJmidNVa_JbRhq1T4ylz-bZAASCUpj0oO_esSlDgMDxvGO9OF9BtLEM_Uw5aVVW9XxsN74ZSsEimKnnEOXMoBhzjXK1QMrjLsgfjbwLXR5CjdvUL-8TIEZ4sRKx1yqgbHpEbIST3A5b9JqogUXwto9h4eXZgqnuWyLkNK_tqpRnlxyYKOEp"/>
+</div>
+<span class="font-plus-jakarta text-2xl font-bold tracking-tight text-[#ba9eff]">Finzo</span>
+</div>
+<button class="text-[#ba9eff] hover:opacity-80 transition-opacity active:scale-95 duration-200">
+<span class="material-symbols-outlined text-2xl">lock</span>
+</button>
+</header>
+<main class="pt-24 px-6 space-y-8">
+<!-- Metrics Bento Grid -->
+<section class="grid grid-cols-2 gap-4">
+<div class="col-span-2 glass-panel p-6 rounded-lg relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 premium-gradient opacity-10 rounded-full -mr-16 -mt-16 blur-3xl"></div>
+<p class="text-on-surface-variant text-sm font-medium mb-1">Total Volume</p>
+<h2 class="text-primary font-plus-jakarta text-4xl font-extrabold">৳45.82 Cr</h2>
+<div class="mt-4 flex items-center gap-2">
+<span class="text-tertiary text-xs font-bold bg-tertiary/10 px-2 py-1 rounded-full">+12.4%</span>
+<span class="text-on-surface-variant text-[10px]">vs last month</span>
+</div>
+</div>
+<div class="glass-panel p-5 rounded-lg border border-outline-variant/10">
+<span class="material-symbols-outlined text-primary mb-2">group</span>
+<p class="text-on-surface-variant text-xs mb-1">Total Users</p>
+<h3 class="text-on-surface font-plus-jakarta text-xl font-bold">1.2M</h3>
+</div>
+<div class="glass-panel p-5 rounded-lg border border-outline-variant/10">
+<span class="material-symbols-outlined text-tertiary mb-2">bolt</span>
+<p class="text-on-surface-variant text-xs mb-1">Active Today</p>
+<h3 class="text-on-surface font-plus-jakarta text-xl font-bold">84.2K</h3>
+</div>
+</section>
+<!-- User Growth Chart (Visual Representation) -->
+<section class="space-y-4">
+<div class="flex justify-between items-end">
+<h2 class="font-plus-jakarta text-xl font-bold">User Growth</h2>
+<span class="text-xs text-primary font-medium">Last 7 Days</span>
+</div>
+<div class="glass-panel p-6 rounded-lg h-48 flex items-end justify-between gap-2">
+<div class="w-full bg-primary/20 rounded-t-sm relative group" style="height: 40%;">
+<div class="absolute inset-0 bg-primary opacity-0 group-active:opacity-40 transition-opacity"></div>
+</div>
+<div class="w-full bg-primary/20 rounded-t-sm" style="height: 65%;"></div>
+<div class="w-full bg-primary/20 rounded-t-sm" style="height: 55%;"></div>
+<div class="w-full bg-primary/20 rounded-t-sm" style="height: 85%;"></div>
+<div class="w-full bg-primary rounded-t-sm relative" style="height: 100%;">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 text-[10px] font-bold text-primary">84K</div>
+</div>
+<div class="w-full bg-primary/20 rounded-t-sm" style="height: 70%;"></div>
+<div class="w-full bg-primary/20 rounded-t-sm" style="height: 60%;"></div>
+</div>
+<div class="flex justify-between px-1 text-[10px] text-on-surface-variant font-medium">
+<span>MON</span><span>TUE</span><span>WED</span><span>THU</span><span>FRI</span><span>SAT</span><span>SUN</span>
+</div>
+</section>
+<!-- Partner Gateway Status -->
+<section class="space-y-4">
+<h2 class="font-plus-jakarta text-xl font-bold">Partner Gateways</h2>
+<div class="space-y-3">
+<div class="flex items-center justify-between p-4 glass-panel rounded-lg">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center overflow-hidden">
+<img alt="bKash" class="w-6 h-6 object-contain" data-alt="logo of a popular mobile financial service on a clean white background with minimal styling" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDU32yndmqlM-BW-Oc53V_aOkrRqf0FuZjHG2aoA6f3AOP0mifp9gte9oPKK2owOwLO3ZKe90JSI5d6ZOQy_I1zVklcQ9WaWZnUr-KCiyTMqE8EBd8rWdNDmExEElMP2x209Jhow5F2Jvhirvw4QpyEotfn4kkFUaXltIjfqgtWyML31wd1c751WDcPlqq1Ju6QHhLxaZgGUdErJxkIEDGyQ_okjUqjfIQmERZP1J2VHB-SO2COGEKglUbXxWxiD01wmFr7NhXUYcTt"/>
+</div>
+<div>
+<p class="font-bold text-sm">bKash Settlement</p>
+<p class="text-[10px] text-on-surface-variant">Avg. Latency: 140ms</p>
+</div>
+</div>
+<span class="px-3 py-1 rounded-full bg-tertiary/10 text-tertiary text-[10px] font-bold uppercase tracking-wider">Healthy</span>
+</div>
+<div class="flex items-center justify-between p-4 glass-panel rounded-lg">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center overflow-hidden">
+<img alt="Nagad" class="w-6 h-6 object-contain" data-alt="logo of a regional digital wallet on a clean white background with minimal styling" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBzMmISDZ2BvNZzksoA8n1Qd8s7WaEqsO3ow9HDWUyzDIhmRWVJTkOwlmWzk7ecoDxrKJi8YZOcvhmp74TqBBacatV86eZeTiSqkvISoHHX50rh1-lr8vWqD7hjFtZFLrfxGWiaf0t2M8OFZUodrapzrhPqgycW9W9sBASbdeyqPWU8guckMoslTriCPyrgakixbNAdmZ6yYLSibu2WZFoUEm3iWlBfHi9Ey5AfIVXtWpMO2Rr_fwqDAwV4S_rvDVLmb5Esk0QiIi7T"/>
+</div>
+<div>
+<p class="font-bold text-sm">Nagad Gateway</p>
+<p class="text-[10px] text-on-surface-variant">Avg. Latency: 2.4s</p>
+</div>
+</div>
+<span class="px-3 py-1 rounded-full bg-error/10 text-error text-[10px] font-bold uppercase tracking-wider">Degraded</span>
+</div>
+</div>
+</section>
+<!-- Live System Feed -->
+<section class="space-y-4">
+<div class="flex justify-between items-center">
+<h2 class="font-plus-jakarta text-xl font-bold">Live System Feed</h2>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+<span class="text-[10px] font-bold text-tertiary uppercase tracking-tighter">Live</span>
+</div>
+</div>
+<div class="space-y-4">
+<div class="relative pl-6 border-l-2 border-outline-variant/20 space-y-6 pb-2">
+<div class="relative">
+<div class="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-error border-4 border-background"></div>
+<div class="space-y-1">
+<div class="flex justify-between items-start">
+<p class="text-sm font-semibold">bKash Cash-out Failure</p>
+<span class="text-[10px] text-on-surface-variant">2m ago</span>
+</div>
+<p class="text-xs text-on-surface-variant leading-relaxed">High error rate detected in regional node DH-04. Automated fallback initiated.</p>
+</div>
+</div>
+<div class="relative">
+<div class="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-primary border-4 border-background"></div>
+<div class="space-y-1">
+<div class="flex justify-between items-start">
+<p class="text-sm font-semibold">AI Risk Check Triggered</p>
+<span class="text-[10px] text-on-surface-variant">14m ago</span>
+</div>
+<p class="text-xs text-on-surface-variant leading-relaxed">User #82910 flagged for unusual transaction velocity (৳2.4L in 5m).</p>
+</div>
+</div>
+<div class="relative">
+<div class="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-tertiary border-4 border-background"></div>
+<div class="space-y-1">
+<div class="flex justify-between items-start">
+<p class="text-sm font-semibold">System Patch v4.2.1</p>
+<span class="text-[10px] text-on-surface-variant">1h ago</span>
+</div>
+<p class="text-xs text-on-surface-variant leading-relaxed">Security updates successfully deployed to all 12 edge clusters.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 rounded-t-[3rem] bg-[#0b1426]/70 backdrop-blur-[30px] shadow-[0_-8px_32px_rgba(222,229,255,0.06)] flex justify-around items-center px-4 pt-3 pb-8 w-full">
+<!-- Dashboard (Active) -->
+<div class="flex flex-col items-center justify-center text-[#ba9eff] relative after:content-[''] after:absolute after:w-12 after:h-8 after:bg-[#ba9eff]/20 after:rounded-full after:-z-10 transition-colors active:scale-90 duration-200 ease-out cursor-pointer">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-inter text-[10px] font-medium tracking-wide">Dashboard</span>
+</div>
+<!-- Users -->
+<div class="flex flex-col items-center justify-center text-[#dee5ff]/50 hover:text-[#ba9eff] transition-colors active:scale-90 duration-200 ease-out cursor-pointer">
+<span class="material-symbols-outlined">group</span>
+<span class="font-inter text-[10px] font-medium tracking-wide">Users</span>
+</div>
+<!-- Logs -->
+<div class="flex flex-col items-center justify-center text-[#dee5ff]/50 hover:text-[#ba9eff] transition-colors active:scale-90 duration-200 ease-out cursor-pointer">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="font-inter text-[10px] font-medium tracking-wide">Logs</span>
+</div>
+<!-- Settings -->
+<div class="flex flex-col items-center justify-center text-[#dee5ff]/50 hover:text-[#ba9eff] transition-colors active:scale-90 duration-200 ease-out cursor-pointer">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-inter text-[10px] font-medium tracking-wide">Settings</span>
+</div>
+</nav>
+</body></html>

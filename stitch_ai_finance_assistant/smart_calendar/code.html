@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Finzo Smart Calendar</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-tint": "#ba9eff",
+                        "secondary-container": "#573878",
+                        "on-tertiary-container": "#005a3c",
+                        "on-tertiary": "#006443",
+                        "outline-variant": "#40485d",
+                        "tertiary-fixed": "#69f6b8",
+                        "tertiary-dim": "#58e7ab",
+                        "primary-container": "#ae8dff",
+                        "primary-fixed": "#ae8dff",
+                        "on-secondary-fixed": "#432564",
+                        "surface-bright": "#1f2b49",
+                        "on-secondary-fixed-variant": "#614283",
+                        "primary": "#ba9eff",
+                        "on-tertiary-fixed-variant": "#006544",
+                        "secondary-dim": "#c8a5ed",
+                        "secondary-fixed": "#e3c6ff",
+                        "on-tertiary-fixed": "#00452d",
+                        "on-error-container": "#ffb2b9",
+                        "surface": "#060e20",
+                        "on-primary-fixed-variant": "#370086",
+                        "on-background": "#dee5ff",
+                        "on-primary": "#39008c",
+                        "on-primary-fixed": "#000000",
+                        "inverse-on-surface": "#4d556b",
+                        "error": "#ff6e84",
+                        "surface-dim": "#060e20",
+                        "on-secondary": "#4c2e6d",
+                        "inverse-surface": "#faf8ff",
+                        "primary-fixed-dim": "#a27cff",
+                        "error-dim": "#d73357",
+                        "on-surface-variant": "#a3aac4",
+                        "surface-container": "#0f1930",
+                        "tertiary": "#9bffce",
+                        "background": "#060e20",
+                        "surface-container-lowest": "#000000",
+                        "on-primary-container": "#2b006e",
+                        "primary-dim": "#8455ef",
+                        "surface-container-highest": "#192540",
+                        "outline": "#6d758c",
+                        "on-secondary-container": "#e2c5ff",
+                        "error-container": "#a70138",
+                        "secondary": "#d6b2fc",
+                        "surface-container-low": "#091328",
+                        "surface-container-high": "#141f38",
+                        "on-error": "#490013",
+                        "on-surface": "#dee5ff",
+                        "secondary-fixed-dim": "#d9b5ff",
+                        "tertiary-container": "#69f6b8",
+                        "inverse-primary": "#6e3bd7",
+                        "tertiary-fixed-dim": "#58e7ab",
+                        "surface-variant": "#192540"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Plus Jakarta Sans"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #060e20;
+            color: #dee5ff;
+            font-family: 'Inter', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(25, 37, 64, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-6 py-4 bg-slate-950/60 backdrop-blur-xl shadow-2xl shadow-indigo-500/10">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden border border-primary/20">
+<img class="w-full h-full object-cover" data-alt="Close-up portrait of a professional man with a friendly expression in soft studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsflH1CY6c1N4TriMDG0MW3fUXAsHIBT7AXqi7Iuriu3sudWe8H2X-RPWfcYJJrXqoSKrLzoIJCMkWOiEQFaotwpZAUnteV4pqN4_BGoj1_BnG_J_U1tor5lntWh5kNSneyAyv1IhgAX_DHmhyG2fVhFQf2Um2dmKt4fMOObxLBTMgntPs_vJ4r87kcIMGulNVEurSdECd07vBua4mr9Mb-kzbV1XhBW7ReEhzm6jjw4DhDOFL6Aq8qBAo5DudhtXuVq-5_NR3c17G"/>
+</div>
+<h1 class="text-2xl font-bold bg-gradient-to-br from-violet-300 to-violet-500 bg-clip-text text-transparent font-['Plus_Jakarta_Sans']">Finzo</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-violet-300 hover:opacity-80 transition-opacity scale-95 active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-2xl">notifications</span>
+</button>
+</div>
+</header>
+<main class="mt-24 px-6 max-w-5xl mx-auto space-y-8">
+<!-- Calendar Hero Section -->
+<section class="relative">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+<div>
+<h2 class="text-primary font-headline text-5xl font-extrabold tracking-tight">June 2024</h2>
+<p class="text-on-surface-variant font-body mt-2">Plan your wealth and wellness around the lunar cycle.</p>
+</div>
+<div class="flex items-center gap-3 bg-surface-container-high p-2 rounded-xl">
+<button class="p-3 hover:bg-surface-bright rounded-lg transition-colors group">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary">chevron_left</span>
+</button>
+<div class="px-4 font-headline font-bold text-on-surface">TODAY</div>
+<button class="p-3 hover:bg-surface-bright rounded-lg transition-colors group">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Calendar Grid -->
+<div class="glass-panel p-6 rounded-lg shadow-2xl overflow-hidden">
+<div class="grid grid-cols-7 gap-1 md:gap-4 text-center mb-4">
+<div class="text-on-surface-variant font-label text-[10px] uppercase tracking-[0.2em]">Sun</div>
+<div class="text-on-surface-variant font-label text-[10px] uppercase tracking-[0.2em]">Mon</div>
+<div class="text-on-surface-variant font-label text-[10px] uppercase tracking-[0.2em]">Tue</div>
+<div class="text-on-surface-variant font-label text-[10px] uppercase tracking-[0.2em]">Wed</div>
+<div class="text-on-surface-variant font-label text-[10px] uppercase tracking-[0.2em]">Thu</div>
+<div class="text-on-surface-variant font-label text-[10px] uppercase tracking-[0.2em]">Fri</div>
+<div class="text-on-surface-variant font-label text-[10px] uppercase tracking-[0.2em]">Sat</div>
+</div>
+<div class="grid grid-cols-7 gap-1 md:gap-4">
+<!-- Week 1 -->
+<div class="aspect-square flex items-center justify-center text-outline/30 font-body text-lg">26</div>
+<div class="aspect-square flex items-center justify-center text-outline/30 font-body text-lg">27</div>
+<div class="aspect-square flex items-center justify-center text-outline/30 font-body text-lg">28</div>
+<div class="aspect-square flex items-center justify-center text-outline/30 font-body text-lg">29</div>
+<div class="aspect-square flex items-center justify-center text-outline/30 font-body text-lg">30</div>
+<div class="aspect-square flex items-center justify-center text-outline/30 font-body text-lg">31</div>
+<div class="aspect-square rounded-lg flex flex-col items-center justify-center text-on-surface font-body text-lg hover:bg-surface-bright/50 cursor-pointer transition-all">1</div>
+<!-- Week 2 -->
+<div class="aspect-square rounded-lg flex flex-col items-center justify-center text-on-surface font-body text-lg hover:bg-surface-bright/50 cursor-pointer transition-all">2</div>
+<div class="aspect-square rounded-lg flex flex-col items-center justify-center text-on-surface font-body text-lg hover:bg-surface-bright/50 cursor-pointer transition-all">3</div>
+<div class="aspect-square rounded-lg flex flex-col items-center justify-center text-on-surface font-body text-lg hover:bg-surface-bright/50 cursor-pointer transition-all">4</div>
+<div class="aspect-square rounded-lg flex flex-col items-center justify-center text-on-surface font-body text-lg hover:bg-surface-bright/50 cursor-pointer transition-all">5</div>
+<div class="aspect-square rounded-lg flex flex-col items-center justify-center text-on-surface font-body text-lg hover:bg-surface-bright/50 cursor-pointer transition-all">6</div>
+<!-- Eid Holiday Highlight -->
+<div class="aspect-square rounded-lg flex flex-col items-center justify-center border-2 border-primary/20 bg-primary/10 relative group cursor-pointer transition-all">
+<span class="text-primary font-bold text-lg">7</span>
+<div class="absolute bottom-2 w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></div>
+</div>
+<div class="aspect-square rounded-lg flex flex-col items-center justify-center text-on-surface font-body text-lg hover:bg-surface-bright/50 cursor-pointer transition-all">8</div>
+<!-- Week 3 -->
+<div class="aspect-square rounded-lg flex flex-col items-center justify-center text-on-surface font-body text-lg hover:bg-surface-bright/50 cursor-pointer transition-all">9</div>
+<div class="aspect-square rounded-lg flex flex-col items-center justify-center text-on-surface font-body text-lg hover:bg-surface-bright/50 cursor-pointer transition-all">10</div>
+<div class="aspect-square rounded-lg flex flex-col items-center justify-center text-on-surface font-body text-lg hover:bg-surface-bright/50 cursor-pointer transition-all">11</div>
+<div class="aspect-square rounded-lg flex flex-col items-center justify-center text-on-surface font-body text-lg hover:bg-surface-bright/50 cursor-pointer transition-all">12</div>
+<div class="aspect-square rounded-lg flex flex-col items-center justify-center text-on-surface font-body text-lg hover:bg-surface-bright/50 cursor-pointer transition-all">13</div>
+<div class="aspect-square rounded-lg flex flex-col items-center justify-center text-on-surface font-body text-lg hover:bg-surface-bright/50 cursor-pointer transition-all">14</div>
+<!-- Weekend -->
+<div class="aspect-square rounded-lg flex flex-col items-center justify-center text-error font-body text-lg hover:bg-error/10 cursor-pointer transition-all">15</div>
+<!-- Week 4 -->
+<div class="aspect-square rounded-lg flex flex-col items-center justify-center text-error font-body text-lg hover:bg-error/10 cursor-pointer transition-all">16</div>
+<!-- Current Selection -->
+<div class="aspect-square rounded-xl flex flex-col items-center justify-center bg-gradient-to-br from-primary to-primary-dim shadow-xl shadow-primary/20 cursor-pointer scale-105">
+<span class="text-on-primary-fixed font-bold text-xl">17</span>
+<span class="text-on-primary-fixed text-[8px] font-bold uppercase tracking-widest mt-1">EID</span>
+</div>
+<div class="aspect-square rounded-lg flex flex-col items-center justify-center border border-tertiary/20 bg-tertiary/5 cursor-pointer hover:bg-tertiary/10">
+<span class="text-tertiary font-body text-lg">18</span>
+<div class="absolute bottom-2 w-1 h-1 rounded-full bg-tertiary"></div>
+</div>
+<div class="aspect-square rounded-lg flex flex-col items-center justify-center text-on-surface font-body text-lg hover:bg-surface-bright/50 cursor-pointer transition-all">19</div>
+<div class="aspect-square rounded-lg flex flex-col items-center justify-center text-on-surface font-body text-lg hover:bg-surface-bright/50 cursor-pointer transition-all">20</div>
+<div class="aspect-square rounded-lg flex flex-col items-center justify-center text-on-surface font-body text-lg hover:bg-surface-bright/50 cursor-pointer transition-all">21</div>
+<div class="aspect-square rounded-lg flex flex-col items-center justify-center text-on-surface font-body text-lg hover:bg-surface-bright/50 cursor-pointer transition-all">22</div>
+<!-- Week 5 -->
+<div class="aspect-square rounded-lg flex flex-col items-center justify-center text-on-surface font-body text-lg hover:bg-surface-bright/50 cursor-pointer transition-all">23</div>
+<div class="aspect-square rounded-lg flex flex-col items-center justify-center text-on-surface font-body text-lg hover:bg-surface-bright/50 cursor-pointer transition-all">24</div>
+<div class="aspect-square rounded-lg flex flex-col items-center justify-center text-on-surface font-body text-lg hover:bg-surface-bright/50 cursor-pointer transition-all">25</div>
+<div class="aspect-square rounded-lg flex flex-col items-center justify-center text-on-surface font-body text-lg hover:bg-surface-bright/50 cursor-pointer transition-all">26</div>
+<div class="aspect-square rounded-lg flex flex-col items-center justify-center text-on-surface font-body text-lg hover:bg-surface-bright/50 cursor-pointer transition-all">27</div>
+<div class="aspect-square rounded-lg flex flex-col items-center justify-center text-on-surface font-body text-lg hover:bg-surface-bright/50 cursor-pointer transition-all">28</div>
+<div class="aspect-square rounded-lg flex flex-col items-center justify-center text-on-surface font-body text-lg hover:bg-surface-bright/50 cursor-pointer transition-all">29</div>
+<!-- Week 6 -->
+<div class="aspect-square rounded-lg flex flex-col items-center justify-center text-on-surface font-body text-lg hover:bg-surface-bright/50 cursor-pointer transition-all">30</div>
+<div class="aspect-square flex items-center justify-center text-outline/30 font-body text-lg">1</div>
+<div class="aspect-square flex items-center justify-center text-outline/30 font-body text-lg">2</div>
+<div class="aspect-square flex items-center justify-center text-outline/30 font-body text-lg">3</div>
+<div class="aspect-square flex items-center justify-center text-outline/30 font-body text-lg">4</div>
+<div class="aspect-square flex items-center justify-center text-outline/30 font-body text-lg">5</div>
+<div class="aspect-square flex items-center justify-center text-outline/30 font-body text-lg">6</div>
+</div>
+</div>
+</section>
+<!-- Holiday Detailed Bento Grid -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Main Info Card -->
+<div class="md:col-span-2 glass-panel p-8 rounded-lg relative overflow-hidden flex flex-col justify-between min-h-[320px]">
+<div class="absolute top-0 right-0 p-8 opacity-10">
+<span class="material-symbols-outlined text-[160px] text-primary">shield_moon</span>
+</div>
+<div class="relative z-10">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/20 text-primary text-xs font-bold tracking-widest uppercase">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                        Islamic Holiday
+                    </div>
+<h3 class="text-4xl font-headline font-extrabold mt-4 mb-2">Eid al-Adha</h3>
+<p class="text-on-surface-variant max-w-md leading-relaxed">
+                        Commonly known as the "Festival of Sacrifice". It is the second of two Islamic holidays celebrated worldwide each year.
+                    </p>
+</div>
+<div class="relative z-10 flex flex-wrap gap-4 mt-8">
+<div class="flex flex-col">
+<span class="text-on-surface-variant text-[10px] uppercase font-bold tracking-tighter">Status</span>
+<span class="text-tertiary font-bold">Public Holiday</span>
+</div>
+<div class="w-px h-10 bg-outline/20"></div>
+<div class="flex flex-col">
+<span class="text-on-surface-variant text-[10px] uppercase font-bold tracking-tighter">Region</span>
+<span class="text-on-surface font-bold">Bangladesh / Global</span>
+</div>
+<div class="w-px h-10 bg-outline/20"></div>
+<div class="flex flex-col">
+<span class="text-on-surface-variant text-[10px] uppercase font-bold tracking-tighter">Typical Duration</span>
+<span class="text-on-surface font-bold">3 Days</span>
+</div>
+</div>
+</div>
+<!-- Side Card: Spending Insight -->
+<div class="glass-panel p-8 rounded-lg flex flex-col justify-between border border-primary/5">
+<div>
+<div class="w-12 h-12 rounded-xl bg-surface-container-highest flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-primary">analytics</span>
+</div>
+<h4 class="text-lg font-headline font-bold text-on-surface">Holiday Budget</h4>
+<p class="text-sm text-on-surface-variant mt-2">Historical spending for Eid festivals shows a 45% increase in grocery &amp; gift expenses.</p>
+</div>
+<div class="mt-8">
+<div class="flex justify-between items-end mb-2">
+<span class="text-2xl font-headline font-bold text-primary">৳45,200</span>
+<span class="text-tertiary text-xs">+12% vs LY</span>
+</div>
+<div class="w-full h-2 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="w-2/3 h-full bg-gradient-to-r from-primary to-primary-dim"></div>
+</div>
+<p class="text-[10px] text-on-surface-variant mt-2 uppercase tracking-widest">Recommended Provision</p>
+</div>
+</div>
+</section>
+<!-- Upcoming Dates List -->
+<section class="space-y-6">
+<h3 class="text-xl font-headline font-bold text-on-surface">Upcoming Observances</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Date Item 1 -->
+<div class="flex items-center gap-6 p-4 rounded-xl bg-surface-container-low hover:bg-surface-container-high transition-colors group cursor-pointer">
+<div class="w-16 h-16 rounded-lg bg-surface-container flex flex-col items-center justify-center group-hover:bg-primary group-hover:text-on-primary transition-all">
+<span class="text-[10px] font-bold uppercase">Jul</span>
+<span class="text-2xl font-bold">01</span>
+</div>
+<div class="flex-1">
+<h4 class="font-headline font-bold text-on-surface">Bank Holiday</h4>
+<p class="text-xs text-on-surface-variant">National • Bangladesh</p>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-primary">arrow_forward_ios</span>
+</div>
+<!-- Date Item 2 -->
+<div class="flex items-center gap-6 p-4 rounded-xl bg-surface-container-low hover:bg-surface-container-high transition-colors group cursor-pointer">
+<div class="w-16 h-16 rounded-lg bg-surface-container flex flex-col items-center justify-center group-hover:bg-tertiary group-hover:text-on-tertiary transition-all">
+<span class="text-[10px] font-bold uppercase">Jul</span>
+<span class="text-2xl font-bold">17</span>
+</div>
+<div class="flex-1">
+<h4 class="font-headline font-bold text-on-surface">Ashura</h4>
+<p class="text-xs text-on-surface-variant">Religious • Islamic</p>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-tertiary">arrow_forward_ios</span>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center px-4 pb-8 pt-4 bg-slate-900/70 backdrop-blur-2xl rounded-t-[3rem] shadow-[0_-8px_40px_rgba(0,0,0,0.5)]">
+<a class="flex flex-col items-center justify-center text-slate-500 hover:text-violet-200 transition-colors scale-110 active:scale-95" href="#">
+<span class="material-symbols-outlined mb-1">dashboard</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 hover:text-violet-200 transition-colors scale-110 active:scale-95" href="#">
+<span class="material-symbols-outlined mb-1">magic_button</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest">AI Chat</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 hover:text-violet-200 transition-colors scale-110 active:scale-95" href="#">
+<span class="material-symbols-outlined mb-1">receipt_long</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest">History</span>
+</a>
+<a class="flex flex-col items-center justify-center relative after:content-[''] after:absolute after:w-12 after:h-12 after:bg-violet-500/20 after:rounded-full after:blur-xl text-violet-300 scale-110" href="#">
+<span class="material-symbols-outlined mb-1">settings</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest">Settings</span>
+</a>
+</nav>
+<!-- Floating Action Button: Contextually suppressed but keeping template logic for reference -->
+<!-- Not rendered as per navigation suppression for specific sub-flows, but calendar might need a "Quick Plan" -->
+<button class="fixed bottom-28 right-6 w-16 h-16 rounded-full bg-gradient-to-br from-primary to-primary-dim text-on-primary shadow-2xl shadow-primary/40 flex items-center justify-center scale-100 hover:scale-110 active:scale-90 transition-all z-40">
+<span class="material-symbols-outlined text-3xl">add</span>
+</button>
+</body></html>

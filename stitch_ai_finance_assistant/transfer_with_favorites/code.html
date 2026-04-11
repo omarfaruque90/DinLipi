@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-on-surface": "#4d556b",
+                    "on-primary-fixed-variant": "#370086",
+                    "primary-container": "#ae8dff",
+                    "primary": "#ba9eff",
+                    "on-background": "#dee5ff",
+                    "secondary-fixed-dim": "#d9b5ff",
+                    "on-primary": "#39008c",
+                    "error": "#ff6e84",
+                    "tertiary": "#9bffce",
+                    "on-tertiary": "#006443",
+                    "on-primary-container": "#2b006e",
+                    "inverse-primary": "#6e3bd7",
+                    "on-background": "#dee5ff",
+                    "on-error": "#490013",
+                    "primary-dim": "#8455ef",
+                    "on-surface-variant": "#a3aac4",
+                    "on-error-container": "#ffb2b9",
+                    "on-secondary-fixed-variant": "#614283",
+                    "on-tertiary-fixed-variant": "#006544",
+                    "secondary-container": "#573878",
+                    "primary-fixed": "#ae8dff",
+                    "surface": "#060e20",
+                    "surface-dim": "#060e20",
+                    "outline-variant": "#40485d",
+                    "on-secondary-container": "#e2c5ff",
+                    "background": "#060e20",
+                    "on-secondary-fixed": "#432564",
+                    "surface-container": "#0f1930",
+                    "outline": "#6d758c",
+                    "surface-container-high": "#141f38",
+                    "primary-fixed-dim": "#a27cff",
+                    "surface-tint": "#ba9eff",
+                    "secondary-fixed": "#e3c6ff",
+                    "error-container": "#a70138",
+                    "tertiary-dim": "#58e7ab",
+                    "surface-container-lowest": "#000000",
+                    "on-tertiary-container": "#005a3c",
+                    "on-secondary": "#4c2e6d",
+                    "surface-container-highest": "#192540",
+                    "secondary": "#d6b2fc",
+                    "surface-container-low": "#091328",
+                    "inverse-surface": "#faf8ff",
+                    "tertiary-fixed-dim": "#58e7ab",
+                    "on-tertiary-fixed": "#00452d",
+                    "secondary-dim": "#c8a5ed",
+                    "tertiary-fixed": "#69f6b8",
+                    "on-primary-fixed": "#000000",
+                    "surface-variant": "#192540",
+                    "surface-bright": "#1f2b49",
+                    "tertiary-container": "#69f6b8",
+                    "on-surface": "#dee5ff",
+                    "error-dim": "#d73357"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Plus Jakarta Sans"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(25, 37, 64, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #ba9eff 0%, #8455ef 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .active-ring {
+            box-shadow: 0 0 0 2px #ba9eff;
+        }
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="bg-slate-950/60 backdrop-blur-xl fixed top-0 w-full z-50 shadow-2xl shadow-indigo-950/20">
+<div class="flex justify-between items-center w-full px-6 py-4">
+<div class="flex items-center gap-4">
+<button class="text-violet-300 dark:text-violet-200 hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h1 class="font-['Plus_Jakarta_Sans'] font-semibold tracking-tight text-xl text-violet-300">Transfer</h1>
+</div>
+<div class="w-10 h-10 rounded-full overflow-hidden border border-outline-variant/30">
+<img alt="User profile" class="w-full h-full object-cover" data-alt="Professional male portrait with soft studio lighting and a clean neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCX3oFydQXQzRmizeMLBeuNZN3Vyobbw4AuPswkDlsyYRAtvAHgHj2MF-xi4Xp9EDI3awrbUX3WhjlXZwymY0iLnA2Pv-eFVFfj74rsJKauyuPjgsuFajiaSyQVhItMNMXDM47xJ-md0ZHwKeRKCO5zXYzu2AQ_yE_YK6xh_5JKYpTHzU9aB8FGkPL2OUURhzDJ_7jyy8PyqUqe7ZPVEyQtgBJ5kc_4GihVE7Wc__Dbk-8rIUo9yHqL8JttZDvq3mEvHmze4ne5APvX"/>
+</div>
+</div>
+</header>
+<main class="pt-24 px-6 space-y-8">
+<!-- Favorites Section -->
+<section>
+<div class="flex items-baseline justify-between mb-4">
+<h2 class="font-headline text-on-surface text-lg font-bold">Favorites</h2>
+<span class="text-label-sm text-primary font-medium">View All</span>
+</div>
+<div class="flex gap-6 overflow-x-auto pb-2 -mx-2 px-2">
+<!-- Mom -->
+<div class="flex flex-col items-center gap-2 flex-shrink-0">
+<div class="w-16 h-16 rounded-full p-0.5 bg-gradient-to-tr from-primary to-tertiary">
+<div class="w-full h-full rounded-full border-2 border-surface overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Middle-aged woman with a warm smile, natural lighting, outdoor setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuJ5dvy-iX8trxIMvqnyvqHYnaU4rR59aiG85U_UH6KjnGhyoaZ5XPTsAjdJaT_-w3yfMIBseQzYpfDw3qftQqP9ai5XbYaAiwhbHaopdyqdHS2BrTlqY63fN9VfouMmm5Nfxrsak3vFITMYIxzf-9VCZji9NvnjowJXii-NvOOjbXLnBDy0WmhuY-psuDo1NacZsK68wtvyCQCwutSAg61qxS2lPxQvkKdGwQ4HL7IY83D-jOb-n3Qmm871qTcSsNBbsR4sA0t3ee"/>
+</div>
+</div>
+<span class="text-body-md font-medium">Mom</span>
+</div>
+<!-- Apu -->
+<div class="flex flex-col items-center gap-2 flex-shrink-0">
+<div class="w-16 h-16 rounded-full overflow-hidden border border-outline-variant/30">
+<img class="w-full h-full object-cover" data-alt="Young woman with bright smile, high-end fashion photography style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAKrvixMk1-Q59yPYOIrVCHBRv4fLVZUlfKSUr0tsLodXG_kif57o0xCxjK_aCi_G8hfJ5hx2tBylWRr5OaV604-eKNkJDXagtSmLpSBNyTnSNbNSHn7pv7it9zoXNNs7HxxQVJQkk7ieIetJE85Uk50CRthPUCge0dOk206sIKHt6_8MXlxNUEWIa4gwjBMxwKQEVysTKKRd379fo-1lPIkCk2aPCBA6VPO88pLpyKWknzAopHE6z-jzmC3gZ18B2ue57VV1NVqjpw"/>
+</div>
+<span class="text-body-md font-medium text-on-surface-variant">Apu</span>
+</div>
+<!-- Rahat -->
+<div class="flex flex-col items-center gap-2 flex-shrink-0">
+<div class="w-16 h-16 rounded-full overflow-hidden border border-outline-variant/30">
+<img class="w-full h-full object-cover" data-alt="Young man looking confidently at camera, sunset lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCydssHJfOl59yBFj7b75YS6N-l9KV1NkJAP3aLZA7WE0wlYpNhBmspnikHdxm4o186iK_9Xsv6zxGljCM2jlwyNO9_ev5MpcVmL0HIQGpKk-sR0lnuaSn6EgM_n6gXfUm8t4X4iaMWRea710X0wsRaolCuBOgcCgPVcTAg0QyMGRJRiVuiCnk9L7CnZfVPgj9kBa7U521r-DB0V1Z0BkzjB2ChBm7wYBxuOdpc7ZgjzVPOWjgGdvW2vEs5hJIHKidiZ117IXC-3Nhc"/>
+</div>
+<span class="text-body-md font-medium text-on-surface-variant">Rahat</span>
+</div>
+<!-- New -->
+<div class="flex flex-col items-center gap-2 flex-shrink-0">
+<button class="w-16 h-16 rounded-full bg-surface-container-highest flex items-center justify-center border border-dashed border-outline">
+<span class="material-symbols-outlined text-outline">add</span>
+</button>
+<span class="text-body-md font-medium text-on-surface-variant">New</span>
+</div>
+</div>
+</section>
+<!-- Amount Entry Section -->
+<section class="flex flex-col items-center text-center space-y-2">
+<span class="text-label-sm uppercase tracking-widest text-on-surface-variant font-semibold">Enter Amount</span>
+<div class="flex items-center gap-3">
+<span class="font-headline text-4xl text-primary font-bold">৳</span>
+<input class="bg-transparent border-none focus:ring-0 text-5xl md:text-7xl font-headline font-extrabold text-on-surface w-full max-w-[280px] text-center" placeholder="0" type="text" value="12,500"/>
+</div>
+<div class="bg-primary/10 px-4 py-1.5 rounded-full">
+<span class="text-body-md text-primary font-medium">Balance: ৳ 45,280.00</span>
+</div>
+</section>
+<!-- Transfer From Section -->
+<section class="space-y-4">
+<h2 class="font-headline text-lg font-bold">Transfer From</h2>
+<div class="glass-card rounded-lg p-5 flex items-center justify-between border border-white/5">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-white rounded-full flex items-center justify-center p-2 shadow-lg">
+<img alt="City Bank" class="w-full object-contain" data-alt="City Bank corporate logo with professional blue and red colors" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBC_HJtSqYxDEMnzGckbW_Qw0E-8GajIRu1RLDRzjvBNdeX5YRyFJhDE0YBHlZ4TyAEHUo1hyTvfeS-DcB6XAQNxzqBTKhZine8dRJG0ldCl2KxJDnzVzHDaMB4rBndyndZ5nAH44YtjImi00joVsqpS4gWePnKZnAq2iekIDhYJjYCmPwnelGXrd3kmCAniKUG5KV1P_6lZuoniGYehq0O1LTqf69sr5l9JYcDWx9My1CnfBX0kbeXxjG0nXXgcCXk_Jm1hqEo8qmK"/>
+</div>
+<div>
+<p class="font-headline font-bold text-on-surface">City Bank</p>
+<p class="text-body-md text-on-surface-variant">Savings Account • 4482</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-title-md font-bold text-tertiary">৳ 32,840</p>
+<span class="text-[10px] text-on-surface-variant font-medium uppercase tracking-tighter">Primary</span>
+</div>
+</div>
+</section>
+<!-- Transfer To Section -->
+<section class="space-y-4">
+<h2 class="font-headline text-lg font-bold">Transfer To</h2>
+<!-- Selectable bKash Card -->
+<div class="glass-card rounded-lg p-5 border-2 border-primary bg-primary/5 flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-white rounded-full flex items-center justify-center p-1 shadow-lg overflow-hidden">
+<img alt="bKash" class="w-full object-contain" data-alt="bKash mobile financial service logo pink color theme" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUsN9yGDNebPcDVKTFuKHY3L9twIRSOIASJl30uqTPUljNHzP9c_yo4ZoEY8zjtwjwtYtFGGnfkNcQ4PFDxPFTPsnOklRMbW1_sGH0KD7VIhqvyKn2opWjIjXGuB6-W6YzBA_27PDahZPUhTBSDumzsJ1jubX-G3d9OX4VGUZVh8jdEelTyd1k3ads_LsvZH2OCJDtmkOWjBXz_7T5a-xz_9Q8AdYrZbJWOe0mPClirlvTIRn0_oP5IlF4bzHDfc7NRV2yG74xpGN6"/>
+</div>
+<div>
+<p class="font-headline font-bold text-on-surface">bKash</p>
+<p class="text-body-md text-on-surface-variant">01712 ••• 882</p>
+</div>
+</div>
+<div class="w-6 h-6 rounded-full bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[16px] text-on-primary font-bold">check</span>
+</div>
+</div>
+<!-- Grid Options -->
+<div class="grid grid-cols-3 gap-4">
+<div class="glass-card rounded-lg p-4 flex flex-col items-center gap-3 border border-white/5 active:scale-95 transition-transform">
+<div class="w-10 h-10 bg-white rounded-full flex items-center justify-center p-1">
+<img alt="Nagad" class="w-full object-contain" data-alt="Nagad mobile financial service logo orange color theme" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-w31XnFLzR0cUDXWjJvas2aCbRgs0ec-3XAwr5Nnd2KYopjayRJ_uibxNv0GEMIjOxHRGnOUImFB8CNsKbWML0trRIEWzRC0CgOXv0QoLBlyM-elKwam1frs9nyw6D0Xz0u5arBdEqqg7MB6F5vAnqcjpz_-wvL-FVZhghOxWmKBP0p1K-kDLXKheiV7kDdmuwFWC9nMvEyK9glD6g7fJnX6Iyl4dxJpxY8C_eWtnU5xtM3jU49CGY5topX9Hb_2Ur_2a0h_5D1nM"/>
+</div>
+<span class="text-body-md font-medium text-on-surface-variant">Nagad</span>
+</div>
+<div class="glass-card rounded-lg p-4 flex flex-col items-center gap-3 border border-white/5 active:scale-95 transition-transform">
+<div class="w-10 h-10 bg-surface-container-highest rounded-full flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">account_balance</span>
+</div>
+<span class="text-body-md font-medium text-on-surface-variant text-center leading-tight">Bank</span>
+</div>
+<div class="glass-card rounded-lg p-4 flex flex-col items-center gap-3 border border-white/5 active:scale-95 transition-transform">
+<div class="w-10 h-10 bg-surface-container-highest rounded-full flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">more_horiz</span>
+</div>
+<span class="text-body-md font-medium text-on-surface-variant">Other</span>
+</div>
+</div>
+</section>
+</main>
+<!-- Floating Confirm Button -->
+<div class="fixed bottom-32 left-0 w-full px-6 z-40">
+<button class="w-full py-5 bg-gradient-to-r from-primary to-primary-dim rounded-xl text-on-primary font-headline font-bold text-lg shadow-xl shadow-primary/20 active:scale-95 transition-transform flex items-center justify-center gap-3">
+            Confirm Transfer
+            <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+<!-- BottomNavBar -->
+<nav class="bg-slate-900/70 backdrop-blur-[30px] fixed bottom-0 left-0 w-full px-8 pb-6 pt-4 flex justify-between items-center z-50 rounded-t-[2.5rem] shadow-[0_-8px_30px_rgb(0,0,0,0.5)]">
+<button class="flex flex-col items-center justify-center text-slate-500 hover:text-violet-300 transition-colors active:scale-90 duration-300 ease-out">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest mt-1">Home</span>
+</button>
+<button class="flex flex-col items-center justify-center text-slate-500 hover:text-violet-300 transition-colors active:scale-90 duration-300 ease-out">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest mt-1">Ledger</span>
+</button>
+<button class="flex flex-col items-center justify-center relative before:content-[''] before:absolute before:w-12 before:h-8 before:bg-violet-500/20 before:rounded-full before:-z-10 text-violet-200 active:scale-90 duration-300 ease-out">
+<span class="material-symbols-outlined">swap_horiz</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest mt-1">Transfer</span>
+</button>
+<button class="flex flex-col items-center justify-center text-slate-500 hover:text-violet-300 transition-colors active:scale-90 duration-300 ease-out">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest mt-1">Settings</span>
+</button>
+</nav>
+</body></html>

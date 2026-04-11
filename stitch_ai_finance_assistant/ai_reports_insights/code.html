@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Finzo - AI Reports</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary-container": "#69f6b8",
+                      "on-tertiary-fixed": "#00452d",
+                      "on-error": "#490013",
+                      "on-secondary-container": "#e2c5ff",
+                      "error": "#ff6e84",
+                      "secondary-fixed-dim": "#d9b5ff",
+                      "surface-container-high": "#141f38",
+                      "secondary": "#d6b2fc",
+                      "primary": "#ba9eff",
+                      "tertiary-fixed": "#69f6b8",
+                      "on-tertiary": "#006443",
+                      "primary-fixed-dim": "#a27cff",
+                      "surface-bright": "#1f2b49",
+                      "on-primary": "#39008c",
+                      "outline": "#6d758c",
+                      "surface-container-highest": "#192540",
+                      "tertiary-fixed-dim": "#58e7ab",
+                      "inverse-primary": "#6e3bd7",
+                      "on-primary-container": "#2b006e",
+                      "on-tertiary-container": "#005a3c",
+                      "surface": "#060e20",
+                      "error-container": "#a70138",
+                      "on-secondary": "#4c2e6d",
+                      "surface-variant": "#192540",
+                      "on-primary-fixed": "#000000",
+                      "surface-tint": "#ba9eff",
+                      "on-secondary-fixed-variant": "#614283",
+                      "primary-dim": "#8455ef",
+                      "on-tertiary-fixed-variant": "#006544",
+                      "on-primary-fixed-variant": "#370086",
+                      "on-surface-variant": "#a3aac4",
+                      "secondary-dim": "#c8a5ed",
+                      "on-error-container": "#ffb2b9",
+                      "surface-container-low": "#091328",
+                      "on-surface": "#dee5ff",
+                      "inverse-on-surface": "#4d556b",
+                      "secondary-fixed": "#e3c6ff",
+                      "error-dim": "#d73357",
+                      "surface-container": "#0f1930",
+                      "background": "#060e20",
+                      "surface-dim": "#060e20",
+                      "tertiary": "#9bffce",
+                      "primary-container": "#ae8dff",
+                      "primary-fixed": "#ae8dff",
+                      "on-secondary-fixed": "#432564",
+                      "on-background": "#dee5ff",
+                      "outline-variant": "#40485d",
+                      "secondary-container": "#573878",
+                      "surface-container-lowest": "#000000",
+                      "tertiary-dim": "#58e7ab",
+                      "inverse-surface": "#faf8ff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "1rem",
+                      "lg": "2rem",
+                      "xl": "3rem",
+                      "full": "9999px"
+              },
+              "fontFamily": {
+                      "headline": ["Plus Jakarta Sans"],
+                      "body": ["Inter"],
+                      "label": ["Inter"]
+              }
+            },
+          },
+        }
+      </script>
+<style>
+        .glass-card {
+            background: rgba(31, 43, 73, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .filled-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body selection:bg-primary/30">
+<!-- Top AppBar -->
+<header class="w-full top-0 flex justify-between items-center px-6 py-4 w-full bg-transparent z-50">
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-white/10 transition-colors rounded-full active:scale-95 duration-200">
+<span class="material-symbols-outlined text-[#ba9eff]">menu</span>
+</button>
+<h1 class="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-br from-[#ba9eff] to-[#8455ef] font-['Plus_Jakarta_Sans'] tracking-tight">Finzo</h1>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary/20">
+<img alt="Profile" data-alt="Portrait of a young professional man with short dark hair, wearing glasses and a minimalist sweater, clean aesthetic background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmHUJveHMWCr4vCWcdq0dqIyT9OWlI5FXAoZFoje1AjODbGT_CSldpjcDMnTEn4srKPl3KWt1DWg0h-MmeuQbFxweDiYhtziWHg-g2mVLAYVgsLGm74TdvjDM9uFnMXxr2BrnNCX5z-9x6Ti9pyDL2ySFb3VEOHWRvfj1t1Ycy6A0WjU3sg_O0-r9g7_SVfe3x9iqfsXO6lwUrPQghfH0CCSq-Mzl9e3U-BR4jk-wAuE3-Qca4Y_pHVHoxeoofpeJkOjY25gqKHZ5k"/>
+</div>
+</div>
+</header>
+<main class="px-6 pt-2 pb-32 max-w-lg mx-auto">
+<!-- AI Health Score Section -->
+<section class="mb-8">
+<div class="glass-card rounded-xl p-6 relative overflow-hidden">
+<!-- Abstract Glow -->
+<div class="absolute -top-12 -right-12 w-32 h-32 bg-primary/20 blur-[60px] rounded-full"></div>
+<div class="flex items-center justify-between mb-6">
+<h2 class="font-headline font-bold text-xl">AI Health Score</h2>
+<span class="bg-primary-container/20 text-primary text-[10px] px-3 py-1 rounded-full font-bold uppercase tracking-widest">Live Analysis</span>
+</div>
+<div class="flex items-center gap-8">
+<!-- Circular Progress Gauge -->
+<div class="relative w-32 h-32 flex items-center justify-center">
+<svg class="w-full h-full -rotate-90">
+<circle class="text-surface-container-highest" cx="64" cy="64" fill="transparent" r="58" stroke="currentColor" stroke-width="10"></circle>
+<circle class="text-primary" cx="64" cy="64" fill="transparent" r="58" stroke="currentColor" stroke-dasharray="364.4" stroke-dashoffset="54.6" stroke-linecap="round" stroke-width="10"></circle>
+</svg>
+<div class="absolute flex flex-col items-center">
+<span class="text-3xl font-black font-headline text-primary">85</span>
+<span class="text-[10px] font-medium opacity-60 uppercase">Excellent</span>
+</div>
+</div>
+<div class="flex-1 space-y-3">
+<p class="text-sm leading-relaxed text-on-surface-variant">Your financial habit is better than <span class="text-tertiary">92%</span> of Dhaka users this week.</p>
+<div class="flex flex-wrap gap-2">
+<span class="text-[10px] bg-tertiary/10 text-tertiary px-2 py-0.5 rounded border border-tertiary/10">+৳4.5k saved</span>
+<span class="text-[10px] bg-primary/10 text-primary px-2 py-0.5 rounded border border-primary/10">Stable Burn</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- AI Predictive Insights -->
+<section class="mb-8">
+<div class="glass-card rounded-xl p-5 border border-primary/10 bg-gradient-to-br from-surface-container-high to-surface">
+<div class="flex items-center gap-3 mb-3">
+<div class="p-2 bg-primary/20 rounded-lg">
+<span class="material-symbols-outlined filled-icon text-primary text-lg" style="font-variation-settings: 'FILL' 1;">colors_spark</span>
+</div>
+<h3 class="font-headline font-bold text-base">Predictive Insight</h3>
+</div>
+<p class="text-sm font-medium leading-relaxed">
+                    Your <span class="text-primary">"Tea (Cha)"</span> spending is up by <span class="text-error">15%</span> this month. At this rate, you'll exceed your lifestyle budget by <span class="font-bold">৳250</span>.
+                </p>
+<div class="mt-4 pt-4 border-t border-outline-variant/10 flex justify-between items-center">
+<span class="text-xs text-on-surface-variant italic">Suggested: Bring a flask to work?</span>
+<button class="text-xs font-bold text-primary flex items-center gap-1 uppercase tracking-tighter">Adjust Budget <span class="material-symbols-outlined text-xs">chevron_right</span></button>
+</div>
+</div>
+</section>
+<!-- Monthly Spending Analysis (Chart Placeholder) -->
+<section class="mb-8">
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-headline font-bold text-lg">Monthly Trends</h3>
+<div class="flex gap-2">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="w-2 h-2 rounded-full bg-surface-container-highest"></span>
+</div>
+</div>
+<div class="glass-card rounded-xl p-6 h-56 flex flex-col justify-end gap-4">
+<div class="flex items-end justify-between h-32 gap-2">
+<div class="w-full bg-surface-container-highest rounded-t-lg h-[40%]"></div>
+<div class="w-full bg-surface-container-highest rounded-t-lg h-[65%]"></div>
+<div class="w-full bg-surface-container-highest rounded-t-lg h-[45%]"></div>
+<div class="w-full bg-primary/40 rounded-t-lg h-[85%] relative">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-primary text-on-primary text-[10px] px-2 py-0.5 rounded font-bold">৳12k</div>
+</div>
+<div class="w-full bg-primary rounded-t-lg h-[100%]"></div>
+<div class="w-full bg-surface-container-highest rounded-t-lg h-[30%]"></div>
+<div class="w-full bg-surface-container-highest rounded-t-lg h-[50%]"></div>
+</div>
+<div class="flex justify-between text-[10px] font-medium text-on-surface-variant uppercase tracking-widest px-1">
+<span>Sat</span><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span>
+</div>
+</div>
+</section>
+<!-- Top Categories Breakdown -->
+<section class="mb-8">
+<h3 class="font-headline font-bold text-lg mb-4">Top Spending</h3>
+<div class="space-y-4">
+<!-- bKash / P2P -->
+<div class="glass-card rounded-xl p-4 flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-white flex items-center justify-center p-2 shrink-0">
+<img alt="bKash" class="w-full h-full object-contain" data-alt="Official magenta and white logo of bKash mobile financial service in Bangladesh" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC2Fk8VluzsPwrQztV403MQBjbhoM9u_7KwyRmsXqulqBkQWBLWSbQZIFJEGcisLPiPgV3_x-sq-cIGqpWUq_GqSAVnrGyqzrCC14J6H8cx8PPGlWUktHYU4CAr41qjoC40XahMq6rbasWCy5Dy8JWYiCyESoktuvdQMHDxMb5RwI8UVGwMXxtwvrnegIgiI8am_kfCrxT6AvQjJHDHEu9mTJ1sZPY-qJO54VFMK3Ecll58PTAwjpVlSbjzs6_cgldrhHU5rWNMPeMS"/>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-end mb-2">
+<span class="text-sm font-semibold">bKash Transfers</span>
+<span class="text-sm font-bold">৳8,400</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 65%;"></div>
+</div>
+</div>
+</div>
+<!-- Food -->
+<div class="glass-card rounded-xl p-4 flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-surface-container-highest flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-tertiary">restaurant</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-end mb-2">
+<span class="text-sm font-semibold">Food &amp; Dining</span>
+<span class="text-sm font-bold">৳5,250</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-tertiary rounded-full" style="width: 42%;"></div>
+</div>
+</div>
+</div>
+<!-- Transport -->
+<div class="glass-card rounded-xl p-4 flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-surface-container-highest flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-secondary">commute</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-end mb-2">
+<span class="text-sm font-semibold">Rickshaw &amp; Uber</span>
+<span class="text-sm font-bold">৳2,100</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-secondary rounded-full" style="width: 28%;"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Projected Savings Card (Bento Style) -->
+<section class="grid grid-cols-2 gap-4">
+<div class="glass-card rounded-xl p-5 flex flex-col justify-between aspect-square bg-gradient-to-tr from-surface-container-high to-transparent">
+<span class="material-symbols-outlined text-tertiary text-3xl">savings</span>
+<div>
+<h4 class="text-[10px] uppercase font-bold text-on-surface-variant tracking-wider mb-1">Projected Savings</h4>
+<p class="text-2xl font-black font-headline text-tertiary leading-none">৳14,200</p>
+<p class="text-[10px] mt-2 text-on-tertiary-container bg-tertiary/20 px-2 py-0.5 rounded-full inline-block">+12% vs Last Month</p>
+</div>
+</div>
+<div class="glass-card rounded-xl p-5 flex flex-col justify-between aspect-square border border-white/5">
+<span class="material-symbols-outlined text-primary text-3xl">trending_up</span>
+<div>
+<h4 class="text-[10px] uppercase font-bold text-on-surface-variant tracking-wider mb-1">Asset Growth</h4>
+<p class="text-2xl font-black font-headline text-primary leading-none">৳3.2L</p>
+<p class="text-[10px] mt-2 opacity-60">Portfolio Valuation</p>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom NavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-2 bg-[#060e20]/70 backdrop-blur-[30px] shadow-[0_-8px_32px_rgba(186,158,255,0.06)] rounded-t-[3rem] overflow-hidden">
+<!-- Vault -->
+<a class="flex flex-col items-center justify-center py-2 text-[#dee5ff]/50 hover:text-[#ba9eff] transition-all" href="#">
+<span class="material-symbols-outlined mb-1">account_balance_wallet</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-wider">Vault</span>
+</a>
+<!-- Insights (Active) -->
+<a class="flex flex-col items-center justify-center relative py-2 text-[#ba9eff] after:content-[''] after:absolute after:w-12 after:h-8 after:bg-[#ba9eff]/20 after:blur-xl after:rounded-full" href="#">
+<span class="material-symbols-outlined filled-icon mb-1" style="font-variation-settings: 'FILL' 1;">query_stats</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-wider">Insights</span>
+</a>
+<!-- Cards -->
+<a class="flex flex-col items-center justify-center py-2 text-[#dee5ff]/50 hover:text-[#ba9eff] transition-all" href="#">
+<span class="material-symbols-outlined mb-1">credit_card</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-wider">Cards</span>
+</a>
+<!-- Settings -->
+<a class="flex flex-col items-center justify-center py-2 text-[#dee5ff]/50 hover:text-[#ba9eff] transition-all" href="#">
+<span class="material-symbols-outlined mb-1">settings</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-wider">Settings</span>
+</a>
+</nav>
+</body></html>

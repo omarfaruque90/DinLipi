@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Finzo - Transaction History</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #060e20;
+            font-family: 'Inter', sans-serif;
+            color: #dee5ff;
+        }
+        .glass-panel {
+            background: rgba(31, 43, 73, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-tint": "#ba9eff",
+                        "secondary-container": "#573878",
+                        "on-tertiary-container": "#005a3c",
+                        "on-tertiary": "#006443",
+                        "outline-variant": "#40485d",
+                        "tertiary-fixed": "#69f6b8",
+                        "tertiary-dim": "#58e7ab",
+                        "primary-container": "#ae8dff",
+                        "primary-fixed": "#ae8dff",
+                        "on-secondary-fixed": "#432564",
+                        "surface-bright": "#1f2b49",
+                        "on-secondary-fixed-variant": "#614283",
+                        "primary": "#ba9eff",
+                        "on-tertiary-fixed-variant": "#006544",
+                        "secondary-dim": "#c8a5ed",
+                        "secondary-fixed": "#e3c6ff",
+                        "on-tertiary-fixed": "#00452d",
+                        "on-error-container": "#ffb2b9",
+                        "surface": "#060e20",
+                        "on-primary-fixed-variant": "#370086",
+                        "on-background": "#dee5ff",
+                        "on-primary": "#39008c",
+                        "on-primary-fixed": "#000000",
+                        "inverse-on-surface": "#4d556b",
+                        "error": "#ff6e84",
+                        "surface-dim": "#060e20",
+                        "on-secondary": "#4c2e6d",
+                        "inverse-surface": "#faf8ff",
+                        "primary-fixed-dim": "#a27cff",
+                        "error-dim": "#d73357",
+                        "on-surface-variant": "#a3aac4",
+                        "surface-container": "#0f1930",
+                        "tertiary": "#9bffce",
+                        "background": "#060e20",
+                        "surface-container-lowest": "#000000",
+                        "on-primary-container": "#2b006e",
+                        "primary-dim": "#8455ef",
+                        "surface-container-highest": "#192540",
+                        "outline": "#6d758c",
+                        "on-secondary-container": "#e2c5ff",
+                        "error-container": "#a70138",
+                        "secondary": "#d6b2fc",
+                        "surface-container-low": "#091328",
+                        "surface-container-high": "#141f38",
+                        "on-error": "#490013",
+                        "on-surface": "#dee5ff",
+                        "secondary-fixed-dim": "#d9b5ff",
+                        "tertiary-container": "#69f6b8",
+                        "inverse-primary": "#6e3bd7",
+                        "tertiary-fixed-dim": "#58e7ab",
+                        "surface-variant": "#192540"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Plus Jakarta Sans"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-6 py-4 bg-slate-950/60 backdrop-blur-xl shadow-2xl shadow-indigo-500/10">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary/20">
+<img alt="User profile photo" data-alt="professional portrait of a young tech professional with soft cinematic lighting and a blurred office background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC2bn1hxnhP7KnAVjFqLuSVjK-DXP4OPbKLqtxs1iPwW5lRIAZx634EfCsF7oWUtaaczKCbHO2ar0RM0Y95f_grpFvNHhzZ9QaZjPinY4HJN117PR8cGE6mAAvKondVbDZnsPzyguK4aDwKcRoR2bsv5qHzeBLfGZ1bImVfBHSbVBKwBtOCXqYNHASzdL90cvFJlX0bjgAViiAkTni9CJna2M00LmUuAYz7eoLkXMOaoVslDq8pS3tq4KnvYGp8lS-lUQ_HdB8pXVum"/>
+</div>
+<h1 class="text-2xl font-bold bg-gradient-to-br from-violet-300 to-violet-500 bg-clip-text text-transparent font-['Plus_Jakarta_Sans'] tracking-tight">Finzo</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-slate-400 hover:opacity-80 transition-opacity scale-95 active:scale-90 transition-transform">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</div>
+</header>
+<main class="pt-24 px-6 max-w-4xl mx-auto">
+<!-- Editorial Header -->
+<section class="mb-10">
+<p class="text-primary font-headline font-bold uppercase tracking-[0.2em] text-[10px] mb-2">Financial Records</p>
+<h2 class="text-primary font-headline font-extrabold text-4xl lg:text-5xl tracking-tight leading-tight">History</h2>
+</section>
+<!-- Search & Filters -->
+<section class="mb-12 space-y-6">
+<div class="relative group">
+<div class="absolute inset-y-0 left-5 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline text-xl group-focus-within:text-primary transition-colors">search</span>
+</div>
+<input class="w-full bg-surface-container-highest border-none rounded-xl py-4 pl-14 pr-6 text-on-surface focus:ring-2 focus:ring-primary/30 transition-all placeholder:text-outline/60" placeholder="Search transactions..." type="text"/>
+</div>
+<div class="flex gap-3 overflow-x-auto hide-scrollbar pb-2">
+<button class="px-6 py-2.5 rounded-full bg-primary text-on-primary-fixed font-semibold text-sm whitespace-nowrap shadow-lg shadow-primary/20 transition-transform active:scale-95">All Activity</button>
+<button class="px-6 py-2.5 rounded-full bg-surface-container-high text-on-surface-variant font-medium text-sm whitespace-nowrap hover:bg-surface-container-highest transition-colors">bKash</button>
+<button class="px-6 py-2.5 rounded-full bg-surface-container-high text-on-surface-variant font-medium text-sm whitespace-nowrap hover:bg-surface-container-highest transition-colors">Nagad</button>
+<button class="px-6 py-2.5 rounded-full bg-surface-container-high text-on-surface-variant font-medium text-sm whitespace-nowrap hover:bg-surface-container-highest transition-colors">Cash</button>
+<button class="px-6 py-2.5 rounded-full bg-surface-container-high text-on-surface-variant font-medium text-sm whitespace-nowrap hover:bg-surface-container-highest transition-colors">Groceries</button>
+<button class="px-6 py-2.5 rounded-full bg-surface-container-high text-on-surface-variant font-medium text-sm whitespace-nowrap hover:bg-surface-container-highest transition-colors">Subscriptions</button>
+</div>
+</section>
+<!-- Transactions List -->
+<div class="space-y-10">
+<!-- Group: Today -->
+<section>
+<h3 class="text-on-surface-variant font-headline font-bold text-xs uppercase tracking-widest mb-6 px-2">Today — May 24</h3>
+<div class="space-y-4">
+<!-- Item 1 -->
+<div class="glass-panel rounded-lg p-4 flex items-center justify-between group cursor-pointer hover:bg-surface-bright/40 transition-all duration-300">
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-full bg-white/10 flex items-center justify-center relative overflow-hidden">
+<img alt="bKash" class="z-10" data-alt="minimalist logo for mobile banking service bkash on a clean white circular background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCoP7csr_GdRlqAY2XtGPrUu4XMwWUhlSkLIvQNOj8bPXkdMroo-tOx3Yd00fMHxmsRz9Taf4Td06z3WmYVcm9JwH2-pVEW1AEkww7M1CTwLWTEo_KyyABQjJfO6Y6rY9JO0jJ7qSqSfNwy-2T3POoB8J131I-rNutxH2qhv6uZxex-cWuhB0qXlrCDj5rnsdnpp1zVXUmBeTQZQl9_sTaDsTitgWLnNKY41iu2jFDhgiBdPx_QFUkyOaYGq6D2SWexZfecNDDwAEzL"/>
+<div class="absolute inset-0 bg-gradient-to-tr from-pink-500/20 to-transparent"></div>
+</div>
+<div>
+<h4 class="font-headline font-bold text-on-surface text-lg">Netflix Subscription</h4>
+<p class="text-on-surface-variant text-sm font-medium">Digital Services • bKash</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-headline font-bold text-lg text-on-surface">-$12.99</p>
+<p class="text-outline text-[10px] uppercase font-bold tracking-tighter mt-1">10:45 AM</p>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="glass-panel rounded-lg p-4 flex items-center justify-between group cursor-pointer hover:bg-surface-bright/40 transition-all duration-300">
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-full bg-white/10 flex items-center justify-center relative overflow-hidden">
+<span class="material-symbols-outlined text-tertiary text-2xl z-10" style="font-variation-settings: 'FILL' 1;">payments</span>
+<div class="absolute inset-0 bg-gradient-to-tr from-tertiary/20 to-transparent"></div>
+</div>
+<div>
+<h4 class="font-headline font-bold text-on-surface text-lg">Freelance Payment</h4>
+<p class="text-on-surface-variant text-sm font-medium">Income • Cash</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-headline font-bold text-lg text-tertiary">+$850.00</p>
+<p class="text-outline text-[10px] uppercase font-bold tracking-tighter mt-1">09:12 AM</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Group: Yesterday -->
+<section>
+<h3 class="text-on-surface-variant font-headline font-bold text-xs uppercase tracking-widest mb-6 px-2">Yesterday — May 23</h3>
+<div class="space-y-4">
+<!-- Item 3 -->
+<div class="glass-panel rounded-lg p-4 flex items-center justify-between group cursor-pointer hover:bg-surface-bright/40 transition-all duration-300">
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-full bg-white/10 flex items-center justify-center relative overflow-hidden">
+<img alt="Nagad" class="z-10" data-alt="modern minimalist logo for mobile finance service nagad on a vibrant orange gradient circular background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGAErS8JpKfvrrar88c5gJKzQ9KWEamq2Ou9skM1UFXS821LGOD92GNdvWRYXDjEtPHsy8nuM2ZIKPHNIVIPfzqN7wiXekwXFHKKPeUCDbKVLGzPNPlhLCQOk-DQBh_kGXM0RzjSi73HOeql2u-cbJRaHldLL1fd8CJpfopIzo-1MGiWQeW6lD8qzYtHH-ynGegVudkilRwzisRluRXmCy-Pl2Fz-CddJ5yJ5GGVfhOd1gfZt8exy0HE9olby6uwmRVwdVTemfAgAd"/>
+<div class="absolute inset-0 bg-gradient-to-tr from-orange-500/20 to-transparent"></div>
+</div>
+<div>
+<h4 class="font-headline font-bold text-on-surface text-lg">Daily Bazaar</h4>
+<p class="text-on-surface-variant text-sm font-medium">Groceries • Nagad</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-headline font-bold text-lg text-on-surface">-$42.50</p>
+<p class="text-outline text-[10px] uppercase font-bold tracking-tighter mt-1">07:30 PM</p>
+</div>
+</div>
+<!-- Item 4 -->
+<div class="glass-panel rounded-lg p-4 flex items-center justify-between group cursor-pointer hover:bg-surface-bright/40 transition-all duration-300">
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-full bg-white/10 flex items-center justify-center relative overflow-hidden">
+<span class="material-symbols-outlined text-primary text-2xl z-10">electric_bolt</span>
+<div class="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent"></div>
+</div>
+<div>
+<h4 class="font-headline font-bold text-on-surface text-lg">Utility Bill</h4>
+<p class="text-on-surface-variant text-sm font-medium">Housing • bKash</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-headline font-bold text-lg text-on-surface">-$115.00</p>
+<p class="text-outline text-[10px] uppercase font-bold tracking-tighter mt-1">02:15 PM</p>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center px-4 pb-8 pt-4 bg-slate-900/70 backdrop-blur-2xl rounded-t-[3rem] shadow-[0_-8px_40px_rgba(0,0,0,0.5)]">
+<a class="flex flex-col items-center justify-center text-slate-500 hover:text-violet-200 transition-colors scale-110 active:scale-95 transition-all" href="#">
+<span class="material-symbols-outlined mb-1">dashboard</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 hover:text-violet-200 transition-colors scale-110 active:scale-95 transition-all" href="#">
+<span class="material-symbols-outlined mb-1">magic_button</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest">AI Chat</span>
+</a>
+<a class="flex flex-col items-center justify-center relative after:content-[''] after:absolute after:w-12 after:h-12 after:bg-violet-500/20 after:rounded-full after:blur-xl text-violet-300 scale-110 active:scale-95 transition-all" href="#">
+<span class="material-symbols-outlined mb-1">receipt_long</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest">History</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 hover:text-violet-200 transition-colors scale-110 active:scale-95 transition-all" href="#">
+<span class="material-symbols-outlined mb-1">settings</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest">Settings</span>
+</a>
+</nav>
+</body></html>

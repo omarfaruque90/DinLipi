@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-on-surface": "#4d556b",
+                    "on-primary-fixed-variant": "#370086",
+                    "primary-container": "#ae8dff",
+                    "primary": "#ba9eff",
+                    "on-background": "#dee5ff",
+                    "secondary-fixed-dim": "#d9b5ff",
+                    "on-primary": "#39008c",
+                    "error": "#ff6e84",
+                    "tertiary": "#9bffce",
+                    "on-tertiary": "#006443",
+                    "on-primary-container": "#2b006e",
+                    "inverse-primary": "#6e3bd7",
+                    "on-error": "#490013",
+                    "primary-dim": "#8455ef",
+                    "on-surface-variant": "#a3aac4",
+                    "on-error-container": "#ffb2b9",
+                    "on-secondary-fixed-variant": "#614283",
+                    "on-tertiary-fixed-variant": "#006544",
+                    "secondary-container": "#573878",
+                    "primary-fixed": "#ae8dff",
+                    "surface": "#060e20",
+                    "surface-dim": "#060e20",
+                    "outline-variant": "#40485d",
+                    "on-secondary-container": "#e2c5ff",
+                    "background": "#060e20",
+                    "on-secondary-fixed": "#432564",
+                    "surface-container": "#0f1930",
+                    "outline": "#6d758c",
+                    "surface-container-high": "#141f38",
+                    "primary-fixed-dim": "#a27cff",
+                    "surface-tint": "#ba9eff",
+                    "secondary-fixed": "#e3c6ff",
+                    "error-container": "#a70138",
+                    "tertiary-dim": "#58e7ab",
+                    "surface-container-lowest": "#000000",
+                    "on-tertiary-container": "#005a3c",
+                    "on-secondary": "#4c2e6d",
+                    "surface-container-highest": "#192540",
+                    "secondary": "#d6b2fc",
+                    "surface-container-low": "#091328",
+                    "inverse-surface": "#faf8ff",
+                    "tertiary-fixed-dim": "#58e7ab",
+                    "on-tertiary-fixed": "#00452d",
+                    "secondary-dim": "#c8a5ed",
+                    "tertiary-fixed": "#69f6b8",
+                    "on-primary-fixed": "#000000",
+                    "surface-variant": "#192540",
+                    "surface-bright": "#1f2b49",
+                    "tertiary-container": "#69f6b8",
+                    "on-surface": "#dee5ff",
+                    "error-dim": "#d73357"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Plus Jakarta Sans"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(25, 37, 64, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .keypad-button {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.2s ease;
+        }
+        .keypad-button:active {
+            background: rgba(186, 158, 255, 0.2);
+            transform: scale(0.95);
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #ba9eff 0%, #8455ef 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body min-h-screen pb-6 overflow-hidden">
+<!-- TopAppBar -->
+<header class="bg-slate-950/60 backdrop-blur-xl fixed top-0 w-full z-50 shadow-2xl shadow-indigo-950/20">
+<div class="flex justify-between items-center w-full px-6 py-4">
+<div class="flex items-center gap-4">
+<button class="text-violet-300 dark:text-violet-200 hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h1 class="font-['Plus_Jakarta_Sans'] font-semibold tracking-tight text-xl text-violet-300">Transfer</h1>
+</div>
+<div class="w-10 h-10 rounded-full overflow-hidden border border-outline-variant/30">
+<img alt="User profile" class="w-full h-full object-cover" data-alt="Professional male portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCX3oFydQXQzRmizeMLBeuNZN3Vyobbw4AuPswkDlsyYRAtvAHgHj2MF-xi4Xp9EDI3awrbUX3WhjlXZwymY0iLnA2Pv-eFVFfj74rsJKauyuPjgsuFajiaSyQVhItMNMXDM47xJ-md0ZHwKeRKCO5zXYzu2AQ_yE_YK6xh_5JKYpTHzU9aB8FGkPL2OUURhzDJ_7jyy8PyqUqe7ZPVEyQtgBJ5kc_4GihVE7Wc__Dbk-8rIUo9yHqL8JttZDvq3mEvHmze4ne5APvX"/>
+</div>
+</div>
+</header>
+<main class="pt-20 px-6 flex flex-col h-screen max-h-screen">
+<!-- Favorites Section - Quick Context -->
+<section class="mt-4 flex-shrink-0">
+<div class="flex items-baseline justify-between mb-3">
+<h2 class="font-headline text-on-surface text-sm font-bold opacity-80 uppercase tracking-widest">Recent</h2>
+</div>
+<div class="flex gap-5 overflow-x-auto pb-2">
+<!-- Mom -->
+<div class="flex flex-col items-center gap-1.5 flex-shrink-0">
+<div class="w-14 h-14 rounded-full p-0.5 bg-gradient-to-tr from-primary to-tertiary">
+<div class="w-full h-full rounded-full border-2 border-surface overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Middle-aged woman" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuJ5dvy-iX8trxIMvqnyvqHYnaU4rR59aiG85U_UH6KjnGhyoaZ5XPTsAjdJaT_-w3yfMIBseQzYpfDw3qftQqP9ai5XbYaAiwhbHaopdyqdHS2BrTlqY63fN9VfouMmm5Nfxrsak3vFITMYIxzf-9VCZji9NvnjowJXii-NvOOjbXLnBDy0WmhuY-psuDo1NacZsK68wtvyCQCwutSAg61qxS2lPxQvkKdGwQ4HL7IY83D-jOb-n3Qmm871qTcSsNBbsR4sA0t3ee"/>
+</div>
+</div>
+<span class="text-[11px] font-semibold">Mom</span>
+</div>
+<!-- Apu -->
+<div class="flex flex-col items-center gap-1.5 flex-shrink-0 opacity-60">
+<div class="w-14 h-14 rounded-full overflow-hidden border border-outline-variant/30">
+<img class="w-full h-full object-cover" data-alt="Young woman" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAKrvixMk1-Q59yPYOIrVCHBRv4fLVZUlfKSUr0tsLodXG_kif57o0xCxjK_aCi_G8hfJ5hx2tBylWRr5OaV604-eKNkJDXagtSmLpSBNyTnSNbNSHn7pv7it9zoXNNs7HxxQVJQkk7ieIetJE85Uk50CRthPUCge0dOk206sIKHt6_8MXlxNUEWIa4gwjBMxwKQEVysTKKRd379fo-1lPIkCk2aPCBA6VPO88pLpyKWknzAopHE6z-jzmC3gZ18B2ue57VV1NVqjpw"/>
+</div>
+<span class="text-[11px] font-semibold">Apu</span>
+</div>
+<!-- Rahat -->
+<div class="flex flex-col items-center gap-1.5 flex-shrink-0 opacity-60">
+<div class="w-14 h-14 rounded-full overflow-hidden border border-outline-variant/30">
+<img class="w-full h-full object-cover" data-alt="Young man" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCydssHJfOl59yBFj7b75YS6N-l9KV1NkJAP3aLZA7WE0wlYpNhBmspnikHdxm4o186iK_9Xsv6zxGljCM2jlwyNO9_ev5MpcVmL0HIQGpKk-sR0lnuaSn6EgM_n6gXfUm8t4X4iaMWRea710X0wsRaolCuBOgcCgPVcTAg0QyMGRJRiVuiCnk9L7CnZfVPgj9kBa7U521r-DB0V1Z0BkzjB2ChBm7wYBxuOdpc7ZgjzVPOWjgGdvW2vEs5hJIHKidiZ117IXC-3Nhc"/>
+</div>
+<span class="text-[11px] font-semibold">Rahat</span>
+</div>
+</div>
+</section>
+<!-- Amount Display Section -->
+<section class="flex flex-col items-center text-center py-6 flex-shrink-0">
+<span class="text-label-sm uppercase tracking-[0.2em] text-on-surface-variant font-bold text-[10px]">Enter Amount</span>
+<div class="mt-4 flex items-center justify-center gap-1">
+<span class="font-headline text-3xl text-primary font-bold opacity-80 self-center mt-1">৳</span>
+<div class="text-6xl md:text-7xl font-headline font-extrabold text-on-surface tracking-tight">12,500</div>
+<div class="w-1 h-12 bg-primary rounded-full animate-pulse ml-1"></div>
+</div>
+<button class="mt-4 bg-primary/10 hover:bg-primary/20 px-5 py-2 rounded-full border border-primary/20 transition-colors flex items-center gap-2">
+<span class="text-xs text-primary font-bold uppercase tracking-wider">Balance: ৳ 45,280.00</span>
+<span class="text-[10px] bg-primary text-on-primary px-2 py-0.5 rounded-md font-black">MAX</span>
+</button>
+</section>
+<!-- Keypad Area -->
+<section class="flex-grow flex flex-col justify-end pb-4">
+<div class="grid grid-cols-3 gap-3 w-full max-w-[360px] mx-auto">
+<button class="keypad-button h-16 rounded-2xl flex items-center justify-center text-2xl font-headline font-bold">1</button>
+<button class="keypad-button h-16 rounded-2xl flex items-center justify-center text-2xl font-headline font-bold">2</button>
+<button class="keypad-button h-16 rounded-2xl flex items-center justify-center text-2xl font-headline font-bold">3</button>
+<button class="keypad-button h-16 rounded-2xl flex items-center justify-center text-2xl font-headline font-bold">4</button>
+<button class="keypad-button h-16 rounded-2xl flex items-center justify-center text-2xl font-headline font-bold">5</button>
+<button class="keypad-button h-16 rounded-2xl flex items-center justify-center text-2xl font-headline font-bold">6</button>
+<button class="keypad-button h-16 rounded-2xl flex items-center justify-center text-2xl font-headline font-bold">7</button>
+<button class="keypad-button h-16 rounded-2xl flex items-center justify-center text-2xl font-headline font-bold">8</button>
+<button class="keypad-button h-16 rounded-2xl flex items-center justify-center text-2xl font-headline font-bold">9</button>
+<button class="keypad-button h-16 rounded-2xl flex items-center justify-center text-2xl font-headline font-bold">.</button>
+<button class="keypad-button h-16 rounded-2xl flex items-center justify-center text-2xl font-headline font-bold">0</button>
+<button class="keypad-button h-16 rounded-2xl flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-3xl">backspace</span>
+</button>
+</div>
+<!-- Continue Button -->
+<div class="mt-8 w-full">
+<button class="w-full py-5 bg-gradient-to-r from-primary-dim to-primary rounded-2xl text-on-primary font-headline font-extrabold text-lg shadow-2xl shadow-primary/30 active:scale-[0.98] transition-transform flex items-center justify-center gap-3">
+                    Continue
+                    <span class="material-symbols-outlined font-bold">chevron_right</span>
+</button>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Optional presence - kept for consistency but subtle) -->
+<nav class="bg-slate-900/40 backdrop-blur-md fixed bottom-0 left-0 w-full px-8 pb-3 pt-2 flex justify-between items-center z-50 rounded-t-3xl border-t border-white/5 opacity-50 pointer-events-none">
+<button class="flex flex-col items-center justify-center text-slate-500">
+<span class="material-symbols-outlined text-sm">grid_view</span>
+</button>
+<button class="flex flex-col items-center justify-center text-slate-500">
+<span class="material-symbols-outlined text-sm">account_balance_wallet</span>
+</button>
+<button class="flex flex-col items-center justify-center text-primary">
+<span class="material-symbols-outlined text-sm">swap_horiz</span>
+</button>
+<button class="flex flex-col items-center justify-center text-slate-500">
+<span class="material-symbols-outlined text-sm">settings</span>
+</button>
+</nav>
+</body></html>

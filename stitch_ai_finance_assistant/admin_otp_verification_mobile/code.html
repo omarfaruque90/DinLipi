@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Secure Access | Admin Verification</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "on-secondary-fixed-variant": "#614283",
+                "tertiary-dim": "#58e7ab",
+                "on-secondary-fixed": "#432564",
+                "on-surface-variant": "#a3aac4",
+                "secondary": "#d6b2fc",
+                "tertiary-container": "#69f6b8",
+                "on-tertiary-container": "#005a3c",
+                "outline-variant": "#40485d",
+                "on-secondary": "#4c2e6d",
+                "on-primary": "#39008c",
+                "secondary-container": "#573878",
+                "on-primary-fixed": "#000000",
+                "surface-bright": "#1f2b49",
+                "background": "#060e20",
+                "surface-container-highest": "#192540",
+                "tertiary": "#9bffce",
+                "on-primary-fixed-variant": "#370086",
+                "on-error-container": "#ffb2b9",
+                "surface-variant": "#192540",
+                "error-container": "#a70138",
+                "surface-dim": "#060e20",
+                "secondary-dim": "#c8a5ed",
+                "secondary-fixed": "#e3c6ff",
+                "error": "#ff6e84",
+                "secondary-fixed-dim": "#d9b5ff",
+                "primary-dim": "#8455ef",
+                "on-tertiary-fixed": "#00452d",
+                "inverse-primary": "#6e3bd7",
+                "surface-tint": "#ba9eff",
+                "inverse-surface": "#faf8ff",
+                "surface-container-lowest": "#000000",
+                "surface-container-low": "#091328",
+                "tertiary-fixed-dim": "#58e7ab",
+                "tertiary-fixed": "#69f6b8",
+                "error-dim": "#d73357",
+                "on-tertiary-fixed-variant": "#006544",
+                "on-tertiary": "#006443",
+                "primary": "#ba9eff",
+                "inverse-on-surface": "#4d556b",
+                "on-primary-container": "#2b006e",
+                "outline": "#6d758c",
+                "primary-fixed-dim": "#a27cff",
+                "on-secondary-container": "#e2c5ff",
+                "surface": "#060e20",
+                "on-error": "#490013",
+                "surface-container-high": "#141f38",
+                "primary-container": "#ae8dff",
+                "primary-fixed": "#ae8dff",
+                "on-background": "#dee5ff",
+                "surface-container": "#0f1930",
+                "on-surface": "#dee5ff"
+            },
+            "borderRadius": {
+                "DEFAULT": "1rem",
+                "lg": "2rem",
+                "xl": "3rem",
+                "full": "9999px"
+            },
+            "fontFamily": {
+                "headline": ["Plus Jakarta Sans"],
+                "body": ["Inter"],
+                "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(31, 43, 73, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body min-h-screen flex flex-col overflow-hidden">
+<!-- TopAppBar -->
+<header class="w-full top-0 z-50 bg-gradient-to-b from-[#060e20] to-transparent">
+<div class="flex items-center justify-between px-6 py-4 w-full">
+<button class="text-[#ba9eff] hover:bg-[#ba9eff]/10 transition-colors scale-95 active:scale-90 transition-transform p-2 rounded-full">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h1 class="text-[#ba9eff] font-['Plus_Jakarta_Sans'] font-bold text-lg">Secure Access</h1>
+<div class="w-10"></div> <!-- Spacer for centering -->
+</div>
+</header>
+<!-- Main Content: Admin OTP Verification -->
+<main class="flex-1 flex flex-col items-center justify-center px-6 pb-24 relative">
+<!-- Background Ambient Glows -->
+<div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-64 h-64 bg-primary/20 blur-[120px] rounded-full -z-10"></div>
+<div class="absolute bottom-1/4 right-0 w-48 h-48 bg-secondary/10 blur-[100px] rounded-full -z-10"></div>
+<!-- Verification Container -->
+<div class="w-full max-w-md flex flex-col gap-8">
+<!-- Header Group -->
+<div class="text-center space-y-3">
+<div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-surface-container-highest mb-4 shadow-[0_0_40px_rgba(186,158,255,0.15)]">
+<span class="material-symbols-outlined text-primary text-4xl" style="font-variation-settings: 'FILL' 1;">admin_panel_settings</span>
+</div>
+<h2 class="font-headline text-3xl font-extrabold tracking-tight text-on-surface">Verify Identity</h2>
+<p class="text-on-surface-variant text-sm px-8 leading-relaxed">
+                    A high-security 6-digit code has been sent to your registered admin device.
+                </p>
+</div>
+<!-- OTP Input Card -->
+<div class="glass-panel rounded-lg p-8 shadow-2xl border border-white/5 space-y-8">
+<!-- Code Inputs -->
+<div class="flex justify-between gap-2">
+<input class="w-12 h-14 text-center text-xl font-bold bg-surface-container-high border-none rounded-md text-primary focus:ring-2 focus:ring-primary/30 transition-all placeholder:opacity-20" maxlength="1" placeholder="0" type="text"/>
+<input class="w-12 h-14 text-center text-xl font-bold bg-surface-container-high border-none rounded-md text-primary focus:ring-2 focus:ring-primary/30 transition-all placeholder:opacity-20" maxlength="1" placeholder="0" type="text"/>
+<input class="w-12 h-14 text-center text-xl font-bold bg-surface-container-high border-none rounded-md text-primary focus:ring-2 focus:ring-primary/30 transition-all placeholder:opacity-20" maxlength="1" placeholder="0" type="text"/>
+<input class="w-12 h-14 text-center text-xl font-bold bg-surface-container-high border-none rounded-md text-primary focus:ring-2 focus:ring-primary/30 transition-all placeholder:opacity-20" maxlength="1" placeholder="0" type="text"/>
+<input class="w-12 h-14 text-center text-xl font-bold bg-surface-container-high border-none rounded-md text-primary focus:ring-2 focus:ring-primary/30 transition-all placeholder:opacity-20" maxlength="1" placeholder="0" type="text"/>
+<input class="w-12 h-14 text-center text-xl font-bold bg-surface-container-high border-none rounded-md text-primary focus:ring-2 focus:ring-primary/30 transition-all placeholder:opacity-20" maxlength="1" placeholder="0" type="text"/>
+</div>
+<!-- Action Button -->
+<button class="w-full h-14 bg-gradient-to-br from-primary to-primary-dim text-on-primary-fixed font-bold rounded-xl shadow-[0_8px_24px_rgba(132,85,239,0.3)] active:scale-95 transition-transform">
+                    Verify &amp; Continue
+                </button>
+<!-- Resend Logic -->
+<div class="text-center">
+<p class="text-on-surface-variant text-sm font-medium">
+                        Didn't receive the code? 
+                        <span class="text-primary cursor-pointer hover:underline block mt-1">Resend Code (01:54)</span>
+</p>
+</div>
+</div>
+<!-- Trust Badges -->
+<div class="flex items-center justify-center gap-6 mt-4">
+<div class="flex items-center gap-2 px-3 py-1.5 bg-surface-container-low rounded-full">
+<span class="material-symbols-outlined text-[14px] text-tertiary">lock</span>
+<span class="text-[10px] font-label font-bold uppercase tracking-widest text-on-surface-variant">AES-256</span>
+</div>
+<div class="flex items-center gap-2 px-3 py-1.5 bg-surface-container-low rounded-full">
+<span class="material-symbols-outlined text-[14px] text-tertiary">vpn_lock</span>
+<span class="text-[10px] font-label font-bold uppercase tracking-widest text-on-surface-variant">Secure Tunnel</span>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-8 pb-8 pt-4 bg-[#0d162d]/70 backdrop-blur-[30px] rounded-t-[3rem] shadow-[0_-8px_32px_rgba(222,229,255,0.06)]">
+<button class="flex items-center justify-center text-[#dee5ff] opacity-40 p-3 hover:opacity-100 transition-opacity scale-96 active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined">shield</span>
+</button>
+<button class="flex items-center justify-center bg-gradient-to-br from-[#ba9eff] to-[#8455ef] rounded-full p-3 shadow-[0_0_15px_rgba(186,158,255,0.3)] scale-96 active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">lock</span>
+</button>
+<button class="flex items-center justify-center text-[#dee5ff] opacity-40 p-3 hover:opacity-100 transition-opacity scale-96 active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined">help</span>
+</button>
+</nav>
+<!-- Decorative Bottom Gradient for Depth -->
+<div class="fixed bottom-0 left-0 w-full h-24 bg-gradient-to-t from-background to-transparent pointer-events-none -z-10"></div>
+</body></html>

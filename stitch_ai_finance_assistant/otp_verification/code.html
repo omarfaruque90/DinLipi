@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #060e20;
+            color: #dee5ff;
+        }
+        .font-plus-jakarta {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .glass-card {
+            background: rgba(31, 43, 73, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .otp-input:focus {
+            box-shadow: 0 0 0 2px rgba(186, 158, 255, 0.3);
+            outline: none;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "inverse-primary": "#6e3bd7",
+                      "on-secondary-fixed": "#432564",
+                      "on-error": "#490013",
+                      "secondary-fixed": "#e3c6ff",
+                      "secondary-dim": "#c8a5ed",
+                      "on-primary-fixed-variant": "#370086",
+                      "outline": "#6d758c",
+                      "on-tertiary-fixed": "#00452d",
+                      "on-secondary-fixed-variant": "#614283",
+                      "error-container": "#a70138",
+                      "outline-variant": "#40485d",
+                      "on-tertiary": "#006443",
+                      "on-background": "#dee5ff",
+                      "on-tertiary-container": "#005a3c",
+                      "background": "#060e20",
+                      "tertiary-fixed-dim": "#58e7ab",
+                      "tertiary-dim": "#58e7ab",
+                      "surface-tint": "#ba9eff",
+                      "surface-container-low": "#091328",
+                      "inverse-on-surface": "#4d556b",
+                      "tertiary-fixed": "#69f6b8",
+                      "surface-container-highest": "#192540",
+                      "primary-fixed-dim": "#a27cff",
+                      "surface": "#060e20",
+                      "surface-bright": "#1f2b49",
+                      "on-surface": "#dee5ff",
+                      "on-primary-fixed": "#000000",
+                      "error-dim": "#d73357",
+                      "on-surface-variant": "#a3aac4",
+                      "on-primary": "#39008c",
+                      "surface-container-high": "#141f38",
+                      "primary-dim": "#8455ef",
+                      "tertiary": "#9bffce",
+                      "on-secondary": "#4c2e6d",
+                      "inverse-surface": "#faf8ff",
+                      "primary-container": "#ae8dff",
+                      "on-tertiary-fixed-variant": "#006544",
+                      "surface-container": "#0f1930",
+                      "tertiary-container": "#69f6b8",
+                      "secondary-fixed-dim": "#d9b5ff",
+                      "secondary": "#d6b2fc",
+                      "secondary-container": "#573878",
+                      "on-primary-container": "#2b006e",
+                      "error": "#ff6e84",
+                      "on-error-container": "#ffb2b9",
+                      "surface-variant": "#192540",
+                      "surface-dim": "#060e20",
+                      "primary": "#ba9eff",
+                      "primary-fixed": "#ae8dff",
+                      "on-secondary-container": "#e2c5ff",
+                      "surface-container-lowest": "#000000"
+              },
+              "borderRadius": {
+                      "DEFAULT": "1rem",
+                      "lg": "2rem",
+                      "xl": "3rem",
+                      "full": "9999px"
+              },
+              "fontFamily": {
+                      "headline": ["Plus Jakarta Sans"],
+                      "body": ["Inter"],
+                      "label": ["Inter"]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky bg-[#060e20] z-50">
+<div class="flex items-center justify-between px-6 py-4 w-full">
+<button class="text-[#ba9eff] hover:bg-[#ba9eff]/10 p-2 rounded-full transition-transform duration-200 active:scale-95">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="font-plus-jakarta text-xl font-semibold text-[#ba9eff]">Verification</h1>
+<div class="w-10"></div> <!-- Spacer for symmetry -->
+</div>
+</header>
+<main class="flex-1 flex flex-col px-6 pt-8 pb-12 max-w-md mx-auto w-full">
+<!-- Editorial Header Section -->
+<section class="mb-12">
+<h2 class="font-plus-jakarta text-[2.5rem] font-extrabold leading-tight text-primary tracking-tight mb-4">
+                Verify Your Identity
+            </h2>
+<p class="text-on-surface-variant font-body text-base leading-relaxed">
+                We've sent a 6-digit code to your email/phone. Enter it below to proceed.
+            </p>
+</section>
+<!-- OTP Input Grid -->
+<section class="mb-12">
+<div class="grid grid-cols-6 gap-3">
+<div class="aspect-square glass-card rounded-xl flex items-center justify-center border border-outline-variant/10">
+<span class="text-2xl font-bold font-plus-jakarta text-primary">4</span>
+</div>
+<div class="aspect-square glass-card rounded-xl flex items-center justify-center border border-outline-variant/10">
+<span class="text-2xl font-bold font-plus-jakarta text-primary">8</span>
+</div>
+<div class="aspect-square glass-card rounded-xl flex items-center justify-center border border-outline-variant/10">
+<span class="text-2xl font-bold font-plus-jakarta text-primary">2</span>
+</div>
+<div class="aspect-square glass-card rounded-xl flex items-center justify-center border border-primary/30 shadow-[0_0_15px_rgba(186,158,255,0.2)]">
+<div class="w-0.5 h-8 bg-primary animate-pulse"></div>
+</div>
+<div class="aspect-square glass-card rounded-xl flex items-center justify-center border border-outline-variant/10">
+</div>
+<div class="aspect-square glass-card rounded-xl flex items-center justify-center border border-outline-variant/10">
+</div>
+</div>
+<div class="mt-8 flex flex-col items-center gap-2">
+<p class="text-on-surface-variant text-sm">Didn't receive the code?</p>
+<button class="text-on-surface-variant font-medium text-sm flex items-center gap-2 opacity-60 cursor-not-allowed">
+                    Resend Code <span class="text-primary font-bold">00:45</span>
+</button>
+</div>
+</section>
+<!-- Custom Numeric Keypad -->
+<section class="mt-auto grid grid-cols-3 gap-4 mb-8">
+<button class="h-16 glass-card rounded-xl flex items-center justify-center text-2xl font-bold font-plus-jakarta hover:bg-surface-bright/50 active:scale-95 transition-all">1</button>
+<button class="h-16 glass-card rounded-xl flex items-center justify-center text-2xl font-bold font-plus-jakarta hover:bg-surface-bright/50 active:scale-95 transition-all">2</button>
+<button class="h-16 glass-card rounded-xl flex items-center justify-center text-2xl font-bold font-plus-jakarta hover:bg-surface-bright/50 active:scale-95 transition-all">3</button>
+<button class="h-16 glass-card rounded-xl flex items-center justify-center text-2xl font-bold font-plus-jakarta hover:bg-surface-bright/50 active:scale-95 transition-all">4</button>
+<button class="h-16 glass-card rounded-xl flex items-center justify-center text-2xl font-bold font-plus-jakarta hover:bg-surface-bright/50 active:scale-95 transition-all">5</button>
+<button class="h-16 glass-card rounded-xl flex items-center justify-center text-2xl font-bold font-plus-jakarta hover:bg-surface-bright/50 active:scale-95 transition-all">6</button>
+<button class="h-16 glass-card rounded-xl flex items-center justify-center text-2xl font-bold font-plus-jakarta hover:bg-surface-bright/50 active:scale-95 transition-all">7</button>
+<button class="h-16 glass-card rounded-xl flex items-center justify-center text-2xl font-bold font-plus-jakarta hover:bg-surface-bright/50 active:scale-95 transition-all">8</button>
+<button class="h-16 glass-card rounded-xl flex items-center justify-center text-2xl font-bold font-plus-jakarta hover:bg-surface-bright/50 active:scale-95 transition-all">9</button>
+<div class="h-16 flex items-center justify-center"></div>
+<button class="h-16 glass-card rounded-xl flex items-center justify-center text-2xl font-bold font-plus-jakarta hover:bg-surface-bright/50 active:scale-95 transition-all">0</button>
+<button class="h-16 flex items-center justify-center text-primary-dim active:scale-90 transition-all">
+<span class="material-symbols-outlined text-3xl" data-icon="backspace">backspace</span>
+</button>
+</section>
+<!-- CTA Button -->
+<section>
+<button class="w-full h-16 bg-gradient-to-br from-primary to-primary-dim text-on-primary-fixed font-bold text-lg rounded-full shadow-[0_8px_32px_rgba(186,158,255,0.25)] active:scale-95 transition-transform duration-200">
+                Verify &amp; Continue
+            </button>
+</section>
+</main>
+<!-- Visual Anchor / Background Bloom -->
+<div class="fixed top-[-10%] right-[-10%] w-[60%] h-[40%] bg-primary/10 blur-[120px] rounded-full -z-10"></div>
+<div class="fixed bottom-[-5%] left-[-5%] w-[50%] h-[30%] bg-tertiary/5 blur-[100px] rounded-full -z-10"></div>
+<!-- BottomNavBar (Hidden for Transactional Flow as per rules) -->
+<!-- Suppressed to prioritize content focus on security task -->
+</body></html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Finzo - Account Recovery</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-container": "#ae8dff",
+                    "on-background": "#dee5ff",
+                    "surface-container-lowest": "#000000",
+                    "primary-dim": "#8455ef",
+                    "on-error": "#490013",
+                    "outline": "#6d758c",
+                    "on-secondary-fixed-variant": "#614283",
+                    "on-tertiary-container": "#005a3c",
+                    "tertiary-container": "#69f6b8",
+                    "inverse-surface": "#faf8ff",
+                    "on-tertiary-fixed": "#00452d",
+                    "surface-container-highest": "#192540",
+                    "error": "#ff6e84",
+                    "on-tertiary-fixed-variant": "#006544",
+                    "on-secondary": "#4c2e6d",
+                    "surface-tint": "#ba9eff",
+                    "on-tertiary": "#006443",
+                    "secondary-container": "#573878",
+                    "secondary-fixed-dim": "#d9b5ff",
+                    "tertiary-dim": "#58e7ab",
+                    "surface-container-low": "#091328",
+                    "surface-container": "#0f1930",
+                    "secondary": "#d6b2fc",
+                    "tertiary": "#9bffce",
+                    "outline-variant": "#40485d",
+                    "primary-fixed-dim": "#a27cff",
+                    "inverse-on-surface": "#4d556b",
+                    "secondary-fixed": "#e3c6ff",
+                    "on-secondary-container": "#e2c5ff",
+                    "on-secondary-fixed": "#432564",
+                    "on-primary-fixed": "#000000",
+                    "surface-bright": "#1f2b49",
+                    "surface-variant": "#192540",
+                    "on-error-container": "#ffb2b9",
+                    "error-container": "#a70138",
+                    "tertiary-fixed": "#69f6b8",
+                    "primary-fixed": "#ae8dff",
+                    "on-surface": "#dee5ff",
+                    "primary": "#ba9eff",
+                    "on-primary-fixed-variant": "#370086",
+                    "on-surface-variant": "#a3aac4",
+                    "surface": "#060e20",
+                    "tertiary-fixed-dim": "#58e7ab",
+                    "surface-dim": "#060e20",
+                    "secondary-dim": "#c8a5ed",
+                    "on-primary": "#39008c",
+                    "inverse-primary": "#6e3bd7",
+                    "error-dim": "#d73357",
+                    "on-primary-container": "#2b006e",
+                    "background": "#060e20",
+                    "surface-container-high": "#141f38"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Plus Jakarta Sans"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(31, 43, 73, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background font-body selection:bg-primary/30 min-h-screen flex flex-col items-center">
+<!-- TopAppBar Shared Component -->
+<header class="fixed top-0 w-full z-[100] flex items-center justify-between px-6 h-16 bg-[#060e20]/60 backdrop-blur-xl shadow-[0_32px_64px_-15px_rgba(222,229,255,0.06)]">
+<div class="flex items-center gap-4">
+<button class="active:scale-96 transition-transform duration-200 hover:bg-[#dee5ff]/10 hover:scale-95 p-2 rounded-full text-[#ba9eff]">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="font-['Plus_Jakarta_Sans'] font-semibold text-lg text-[#ba9eff]">Account Recovery</h1>
+</div>
+<div class="h-[1px] absolute bottom-0 left-0 w-full bg-gradient-to-r from-transparent via-[#40485d]/15 to-transparent"></div>
+</header>
+<main class="w-full max-w-md px-6 pt-32 pb-24 flex-grow flex flex-col justify-center relative overflow-hidden text-center">
+<!-- Background Ambient Glow -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-primary/10 blur-[120px] rounded-full -z-10"></div>
+<!-- Header Section -->
+<div class="space-y-4 mb-12">
+<h2 class="font-headline text-[3.5rem] leading-[1.1] font-extrabold text-primary tracking-tight">Forgot Credentials</h2>
+<p class="text-lg leading-relaxed mx-auto">Enter your email or phone number and we'll send you a link to reset your password.</p>
+</div>
+<!-- Form Section -->
+<form class="space-y-8" onsubmit="return false;">
+<div class="space-y-3">
+<label class="text-label-sm uppercase tracking-[0.2em] font-semibold text-primary/70 block" for="recovery-input">Email or Phone Number</label>
+<div class="relative group">
+<input class="w-full h-16 px-6 glass-card border-none text-on-surface placeholder:text-on-surface-variant/40 focus:ring-2 focus:ring-primary/30 transition-all duration-300 outline-none rounded-full" id="recovery-input" placeholder="e.g. hello@finzo.com" type="text"/>
+<div class="absolute right-6 top-1/2 -translate-y-1/2 text-on-surface-variant/30 group-focus-within:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="alternate_email">alternate_email</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-4">
+<!-- Primary Action -->
+<button class="h-16 w-full bg-gradient-to-br from-[#ba9eff] to-[#8455ef] text-on-primary-fixed font-bold text-lg shadow-[0_20px_40px_-10px_rgba(186,158,255,0.3)] active:scale-95 transition-all duration-200 rounded-full" type="submit">
+                    Send Reset Link
+                </button>
+<!-- Secondary Action -->
+<button class="h-16 w-full bg-surface-bright/20 border border-outline-variant/15 text-on-surface font-semibold hover:bg-surface-bright/30 active:scale-95 transition-all duration-200 rounded-full" type="button">
+                    Try another way
+                </button>
+</div>
+</form>
+<!-- Footer Link -->
+<div class="mt-12 text-center">
+<a class="inline-flex items-center gap-2 hover:text-primary transition-colors font-medium text-primary text-lg font-bold" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="arrow_back_ios_new">arrow_back_ios_new</span>
+                Back to Login
+            </a>
+</div>
+</main>
+<!-- Visual Polish: Bottom Soft Fade -->
+<div class="fixed bottom-0 left-0 w-full h-32 bg-gradient-to-t from-background to-transparent pointer-events-none z-10"></div>
+<!-- Decorative Image Placeholder (Branding) -->
+<div class="absolute top-24 -right-16 opacity-10 pointer-events-none rotate-12">
+<div class="w-64 h-64 rounded-full bg-gradient-to-tr from-primary to-primary-dim blur-3xl"></div>
+</div>
+<div class="hidden">
+<!-- Image descriptions as requested -->
+<img data-alt="Abstract fluid 3D geometric shapes in purple and violet tones floating in a dark ethereal space with soft volumetric lighting and high-end glass textures" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJ3uuo8bxmQlkZwpC7clD9tAFHZxGUpGVBjuQtLbdzm1oD7zjpDvk-fRCaEKL2joCXEOXdQIJEXVghH4V0k_E_IV3CjICE1iiDyCFGYs3O0oiRgNDcC06Db7LZjYHI9WMHgZYNSabqX9lQJ33s5H09gwlnnHpksoF7IGBZfiG_3cmNRGKpg3a7VtctSHo5C4BfI8UFVFDptK0et5KvxSjl7nLEI331Qnm5rgKIxQ_31WMgMXb8FCWsP9Q8hbDl-HvpiMT6iR0V2OGm"/>
+</div>
+</body></html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Finzo - AI Assistant</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "surface-tint": "#ba9eff",
+                "secondary-container": "#573878",
+                "on-tertiary-container": "#005a3c",
+                "on-tertiary": "#006443",
+                "outline-variant": "#40485d",
+                "tertiary-fixed": "#69f6b8",
+                "tertiary-dim": "#58e7ab",
+                "primary-container": "#ae8dff",
+                "primary-fixed": "#ae8dff",
+                "on-secondary-fixed": "#432564",
+                "surface-bright": "#1f2b49",
+                "on-secondary-fixed-variant": "#614283",
+                "primary": "#ba9eff",
+                "on-tertiary-fixed-variant": "#006544",
+                "secondary-dim": "#c8a5ed",
+                "secondary-fixed": "#e3c6ff",
+                "on-tertiary-fixed": "#00452d",
+                "on-error-container": "#ffb2b9",
+                "surface": "#060e20",
+                "on-primary-fixed-variant": "#370086",
+                "on-background": "#dee5ff",
+                "on-primary": "#39008c",
+                "on-primary-fixed": "#000000",
+                "inverse-on-surface": "#4d556b",
+                "error": "#ff6e84",
+                "surface-dim": "#060e20",
+                "on-secondary": "#4c2e6d",
+                "inverse-surface": "#faf8ff",
+                "primary-fixed-dim": "#a27cff",
+                "error-dim": "#d73357",
+                "on-surface-variant": "#a3aac4",
+                "surface-container": "#0f1930",
+                "tertiary": "#9bffce",
+                "background": "#060e20",
+                "surface-container-lowest": "#000000",
+                "on-primary-container": "#2b006e",
+                "primary-dim": "#8455ef",
+                "surface-container-highest": "#192540",
+                "outline": "#6d758c",
+                "on-secondary-container": "#e2c5ff",
+                "error-container": "#a70138",
+                "secondary": "#d6b2fc",
+                "surface-container-low": "#091328",
+                "surface-container-high": "#141f38",
+                "on-error": "#490013",
+                "on-surface": "#dee5ff",
+                "secondary-fixed-dim": "#d9b5ff",
+                "tertiary-container": "#69f6b8",
+                "inverse-primary": "#6e3bd7",
+                "tertiary-fixed-dim": "#58e7ab",
+                "surface-variant": "#192540"
+            },
+            "borderRadius": {
+                "DEFAULT": "1rem",
+                "lg": "2rem",
+                "xl": "3rem",
+                "full": "9999px"
+            },
+            "fontFamily": {
+                "headline": ["Plus Jakarta Sans"],
+                "body": ["Inter"],
+                "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #060e20;
+            font-family: 'Inter', sans-serif;
+        }
+        .glass-card {
+            background: rgba(25, 37, 64, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="text-on-background min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-6 py-4 bg-slate-950/60 backdrop-blur-xl shadow-2xl shadow-indigo-500/10">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden border border-primary/20">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="Close up portrait of a professional man with friendly expression in soft studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJ4Dm3_83oYyoeO3XZOI5yAjGIMhpJDtOwAcLgouisk5thzGKCJ5wyLepqLnvMvqAbDvTm9_28-I8qs3Oe-cCddYl3tEEwae7eJ3-ZEKcBU3ZQqCcj7erN1tH2qjU23TqggAKXpsuu_C6eXOe3cPP7ckcQfoPHE2PeXB0jdES-PKN95qFui30EZkJB4XgrnkYzLeRtqqlhLQ1HUIPqkvDERDEfz62ksCDwLzoH-SJir-jEotlyLmQ_27yfhH6WQ96zg7fuNJ4hidZf"/>
+</div>
+<h1 class="text-2xl font-bold bg-gradient-to-br from-violet-300 to-violet-500 bg-clip-text text-transparent font-['Plus_Jakarta_Sans'] tracking-tight">Finzo</h1>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-surface-container-high hover:opacity-80 transition-opacity active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-violet-300">notifications</span>
+</button>
+</header>
+<!-- Main Content: Chat Canvas -->
+<main class="flex-1 mt-20 mb-32 px-4 flex flex-col gap-8 max-w-3xl mx-auto w-full">
+<!-- Welcome / AI Intro -->
+<div class="text-center py-6">
+<span class="text-primary-container font-headline font-bold text-sm tracking-[0.2em] uppercase">AI Assistant</span>
+<h2 class="font-headline font-extrabold text-3xl mt-2 text-on-surface">How can I help with your <span class="text-primary">finances</span> today?</h2>
+</div>
+<!-- Chat Bubble: AI Initial -->
+<div class="flex items-start gap-3 max-w-[85%]">
+<div class="w-8 h-8 flex-shrink-0 rounded-full bg-gradient-to-br from-primary to-primary-dim flex items-center justify-center shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-on-primary text-sm" data-weight="fill" style="font-variation-settings: 'FILL' 1;">magic_button</span>
+</div>
+<div class="glass-card p-4 rounded-tr-xl rounded-br-xl rounded-bl-xl border-l-2 border-primary/30">
+<p class="text-on-surface font-body text-sm leading-relaxed">
+                    Hello! I'm your Finzo AI. You can tell me about your expenses in plain English or Banglish, and I'll track them for you.
+                </p>
+</div>
+</div>
+<!-- Chat Bubble: User Message (Banglish) -->
+<div class="flex items-start gap-3 max-w-[85%] self-end flex-row-reverse">
+<div class="w-8 h-8 flex-shrink-0 rounded-full bg-surface-container-highest flex items-center justify-center border border-outline-variant/30">
+<span class="material-symbols-outlined text-primary text-sm">person</span>
+</div>
+<div class="bg-primary/20 p-4 rounded-tl-xl rounded-bl-xl rounded-br-xl border-r-2 border-primary/50">
+<p class="text-on-background font-body text-sm leading-relaxed">
+                    ajke food e 200 taka, transport e 100 taka khoroj korci
+                </p>
+</div>
+</div>
+<!-- Chat Bubble: AI Response (Confirmation) -->
+<div class="flex items-start gap-3 max-w-[85%]">
+<div class="w-8 h-8 flex-shrink-0 rounded-full bg-gradient-to-br from-primary to-primary-dim flex items-center justify-center shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-on-primary text-sm" data-weight="fill" style="font-variation-settings: 'FILL' 1;">magic_button</span>
+</div>
+<div class="flex flex-col gap-3">
+<div class="glass-card p-4 rounded-tr-xl rounded-br-xl rounded-bl-xl border-l-2 border-primary/30">
+<p class="text-on-surface font-body text-sm leading-relaxed">
+                        Thik ache! I've recorded those expenses for today:
+                    </p>
+<!-- Expense Summary Card (High-End UI) -->
+<div class="mt-4 flex flex-col gap-2">
+<div class="flex items-center justify-between p-3 rounded-lg bg-surface-container-highest/40">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-orange-500/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-orange-400 text-sm">restaurant</span>
+</div>
+<span class="font-label text-xs text-on-surface-variant">Food &amp; Dining</span>
+</div>
+<span class="font-headline font-bold text-tertiary">৳ 200.00</span>
+</div>
+<div class="flex items-center justify-between p-3 rounded-lg bg-surface-container-highest/40">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-blue-400 text-sm">directions_bus</span>
+</div>
+<span class="font-label text-xs text-on-surface-variant">Transport</span>
+</div>
+<span class="font-headline font-bold text-tertiary">৳ 100.00</span>
+</div>
+</div>
+<p class="text-on-surface-variant font-body text-xs mt-4 italic">
+                        Everything is saved in your history. Anything else?
+                    </p>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Input Area (Sticky above Nav) -->
+<div class="fixed bottom-[100px] left-0 w-full px-4 z-40 max-w-3xl mx-auto left-1/2 -translate-x-1/2">
+<div class="glass-card p-2 rounded-full flex items-center gap-2 border border-outline-variant/20 shadow-2xl">
+<button class="w-12 h-12 flex items-center justify-center rounded-full bg-surface-container-highest text-primary hover:text-violet-200 transition-colors active:scale-90">
+<span class="material-symbols-outlined">add</span>
+</button>
+<input class="flex-1 bg-transparent border-none focus:ring-0 text-on-surface font-body text-sm px-2" placeholder="Type an expense or ask AI..." type="text" value=""/>
+<div class="flex items-center gap-2 pr-1">
+<button class="w-12 h-12 flex items-center justify-center rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-all active:scale-95">
+<span class="material-symbols-outlined" data-weight="fill" style="font-variation-settings: 'FILL' 1;">mic</span>
+</button>
+<button class="w-12 h-12 flex items-center justify-center rounded-full bg-gradient-to-br from-primary to-primary-dim text-on-primary-fixed shadow-lg shadow-primary/30 active:scale-90 transition-transform">
+<span class="material-symbols-outlined">send</span>
+</button>
+</div>
+</div>
+</div>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center px-4 pb-8 pt-4 bg-slate-900/70 backdrop-blur-2xl rounded-t-[3rem] shadow-[0_-8px_40px_rgba(0,0,0,0.5)]">
+<a class="flex flex-col items-center justify-center text-slate-500 hover:text-violet-200 transition-colors scale-110 active:scale-95" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center relative after:content-[''] after:absolute after:w-12 after:h-12 after:bg-violet-500/20 after:rounded-full after:blur-xl text-violet-300 scale-110 active:scale-95" href="#">
+<span class="material-symbols-outlined" data-weight="fill" style="font-variation-settings: 'FILL' 1;">magic_button</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest mt-1">AI Chat</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 hover:text-violet-200 transition-colors scale-110 active:scale-95" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest mt-1">History</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 hover:text-violet-200 transition-colors scale-110 active:scale-95" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-['Inter'] text-[10px] font-medium uppercase tracking-widest mt-1">Settings</span>
+</a>
+</nav>
+</body></html>
