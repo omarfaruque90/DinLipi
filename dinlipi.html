@@ -11,17 +11,48 @@
 <body>
   <div class="phone" id="phone">
 
+    <!-- STATUS BAR -->
     <div class="sbar">
       <span id="sbar-time">9:41</span>
       <span class="sbar-logo">DinLipi</span>
-      <div style="display:flex;align-items:center;gap:12px">
-        <div id="lang-toggle" onclick="toggleLang()"
-          style="cursor:pointer;font-size:12px;font-weight:bold;background:rgba(255,255,255,0.1);padding:4px 8px;border-radius:6px;color:var(--t2);">
-          EN</div>
-        <div class="sync-badge" id="sync-badge">
-          <div class="sync-dot pulse" id="sync-dot"></div>
-          <span id="sync-lbl">Synced</span>
-        </div>
+      <div class="sync-badge" id="sync-badge">
+        <div class="sync-dot pulse" id="sync-dot"></div>
+        <span id="sync-lbl">Synced</span>
+      </div>
+    </div>
+
+    <!-- TOP NAV - Secondary Tools -->
+    <div class="top-nav">
+      <div class="top-nav-left">
+        <button class="top-nav-btn" onclick="goTab('profile')" title="Profile">
+          <svg fill="currentColor" viewBox="0 0 24 24" width="20" height="20">
+            <path d="M12 12a4 4 0 100-8 4 4 0 000 8zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+          </svg>
+        </button>
+      </div>
+      <div class="top-nav-right">
+        <button class="top-nav-btn" onclick="goTab('ai')" title="AI Assistant">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="20" height="20">
+            <rect x="5" y="2" width="14" height="20" rx="2"></rect>
+            <circle cx="9" cy="9" r="1" fill="currentColor"></circle>
+            <circle cx="15" cy="9" r="1" fill="currentColor"></circle>
+            <path d="M9 16a3 3 0 0 0 6 0"></path>
+          </svg>
+        </button>
+        <button class="top-nav-btn" onclick="goTab('calc')" title="Calculator">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="20" height="20">
+            <rect x="4" y="4" width="16" height="16" rx="2"/>
+            <line x1="8" y1="9" x2="16" y2="9"/>
+            <line x1="8" y1="13" x2="16" y2="13"/>
+            <line x1="8" y1="17" x2="12" y2="17"/>
+          </svg>
+        </button>
+        <button class="top-nav-btn" title="Notifications" onclick="showToast('No new notifications 🔔')">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="20" height="20">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+          </svg>
+        </button>
       </div>
     </div>
 
@@ -152,6 +183,17 @@
           <h1 id="lbl-txn-h1">লেনদেন</h1>
           <p id="lbl-txn-p">All Transactions</p>
         </div>
+
+        <!-- CALENDAR FILTER WIDGET -->
+        <div class="txn-cal-widget">
+          <div class="cal-mini-header">
+            <button onclick="calMiniNav(-1)">‹</button>
+            <span id="cal-mini-month">April 2026</span>
+            <button onclick="calMiniNav(1)">›</button>
+          </div>
+          <div class="cal-mini-grid" id="cal-mini-grid"></div>
+        </div>
+
         <div class="txn-search">
           <svg width="15" height="15" fill="none" stroke="var(--t3)" stroke-width="2" viewBox="0 0 24 24">
             <circle cx="11" cy="11" r="8" />
@@ -395,16 +437,27 @@
           <h1 id="lbl-prof-h1">Profile</h1>
           <p id="lbl-prof-p">User Settings & Preferences</p>
         </div>
-        <div class="prof-card"
-          style="background:rgba(255,255,255,0.05);padding:20px;border-radius:16px;margin-bottom:16px;display:flex;align-items:center;gap:16px">
-          <div
-            style="width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--p),var(--pink));display:flex;align-items:center;justify-content:center;font-size:24px">
-            👤</div>
-          <div>
-            <div style="font-size:18px;font-weight:700">Omar</div>
-            <div style="font-size:13px;color:var(--t2)">@OmarTheBhaijan</div>
-            <div style="font-size:12px;color:var(--t3)">omar@example.com</div>
+
+        <!-- PROFILE CARD WITH EDIT BUTTON -->
+        <div class="prof-card" style="background:rgba(255,255,255,0.05);padding:20px;border-radius:16px;margin-bottom:16px;display:flex;align-items:center;gap:16px;justify-content:space-between">
+          <div style="display:flex;align-items:center;gap:16px;flex:1">
+            <div class="prof-img-upload" onclick="triggerProfileImageUpload()" title="Click to change photo">
+              <img id="prof-img-preview" src="" alt="Profile" style="width:60px;height:60px;border-radius:50%;object-fit:cover;display:none;"/>
+              <div id="prof-img-placeholder" style="width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--p),var(--pink));display:flex;align-items:center;justify-content:center;font-size:24px;cursor:pointer;transition:all .2s;">👤</div>
+              <input type="file" id="prof-img-input" accept="image/*" style="display:none;" onchange="handleProfileImageUpload(event)"/>
+            </div>
+            <div>
+              <div style="font-size:18px;font-weight:700" id="prof-name">Omar</div>
+              <div style="font-size:13px;color:var(--t2)" id="prof-handle">@OmarTheBhaijan</div>
+              <div style="font-size:12px;color:var(--t3)" id="prof-email">omar@example.com</div>
+            </div>
           </div>
+          <button class="edit-profile-btn" onclick="openEditProfileModal()" title="Edit Profile">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="18" height="18">
+              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+            </svg>
+          </button>
         </div>
 
         <div class="sec"><span id="lbl-prof-sec-app">⚙️ App Settings</span></div>
@@ -418,14 +471,6 @@
             <button onclick="toggleLang()"
               style="background:rgba(255,255,255,0.1);border:none;color:#fff;padding:6px 12px;border-radius:8px;font-size:12px;cursor:pointer"
               id="lang-toggle-prof">EN / BN</button>
-          </div>
-          <div class="prof-item"
-            style="display:flex;justify-content:space-between;padding:16px 0;border-bottom:1px solid rgba(255,255,255,0.05)">
-            <div>
-              <div style="font-size:14px" id="lbl-prof-curr">Currency</div>
-              <div style="font-size:11px;color:var(--t2)" id="lbl-prof-curr-sub">Current: BDT (৳)</div>
-            </div>
-            <div style="color:var(--t2);font-size:13px">৳</div>
           </div>
         </div>
 
@@ -448,12 +493,22 @@
             <div style="color:var(--red)">🗑️</div>
           </div>
         </div>
+
+        <!-- LOGOUT BUTTON -->
+        <div style="margin-top:32px; padding:0 20px;">
+          <button class="logout-btn" onclick="doLogout()" id="btn-logout">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="18" height="18">
+              <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            <span id="lbl-logout">Logout</span>
+          </button>
+        </div>
       </div>
 
     </div><!-- /screens -->
 
-    <!-- NAV -->
-    <div class="nav" id="main-nav" style="display:none">
+    <!-- BOTTOM NAV - Primary Actions (5 Items) -->
+    <div class="nav" id="main-nav">
       <button class="nb" id="btn-home" onclick="goTab('home')">
         <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
           viewBox="0 0 24 24">
@@ -461,22 +516,27 @@
           <polyline points="9 22 9 12 15 12 15 22" />
         </svg><span id="nav-home">Home</span>
       </button>
-      <button class="nb" id="btn-calc" onclick="goTab('calc')">
+      <button class="nb" id="btn-txns" onclick="goTab('txns')">
         <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
           viewBox="0 0 24 24">
-          <rect x="4" y="4" width="16" height="16" rx="2" />
-          <line x1="8" y1="9" x2="16" y2="9" />
-          <line x1="8" y1="12" x2="11" y2="12" />
-          <line x1="8" y1="15" x2="11" y2="15" />
-          <line x1="14" y1="12" x2="16" y2="15" />
-          <line x1="16" y1="12" x2="14" y2="15" />
-        </svg><span id="nav-calc">Calc</span>
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <polyline points="19 12 12 19 5 12"></polyline>
+        </svg><span>Txns</span>
       </button>
+      <div style="position:relative; flex-shrink:0; padding:0 4px;">
+        <button class="fab" id="fab-btn" onclick="openModal()" title="Add Transaction">
+          <svg id="fab-icon" width="24" height="24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"
+            viewBox="0 0 24 24">
+            <line x1="12" y1="5" x2="12" y2="19" />
+            <line x1="5" y1="12" x2="19" y2="12" />
+          </svg>
+        </button>
+      </div>
       <button class="nb" id="btn-budget" onclick="goTab('budget')">
         <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
           viewBox="0 0 24 24">
-          <circle cx="12" cy="12" r="10" />
-          <polyline points="12 6 12 12 16 14" />
+          <circle cx="12" cy="12" r="1"></circle>
+          <path d="M12 7v10m-4-3h8M3 12c0-4.97 4.03-9 9-9s9 4.03 9 9-4.03 9-9 9-9-4.03-9-9z"></path>
         </svg><span id="nav-budget">Budget</span>
       </button>
       <button class="nb" id="btn-reports" onclick="goTab('reports')">
@@ -486,32 +546,6 @@
           <line x1="12" y1="20" x2="12" y2="4" />
           <line x1="6" y1="20" x2="6" y2="14" />
         </svg><span id="nav-reports">Reports</span>
-      </button>
-      <div style="position:relative; flex-shrink:0; padding:0 6px;">
-        <div class="fab-label" id="fab-lbl">+ Add</div>
-        <button class="fab" id="fab-btn" onclick="openModal()">
-          <svg id="fab-icon" width="24" height="24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"
-            viewBox="0 0 24 24">
-            <line x1="12" y1="5" x2="12" y2="19" />
-            <line x1="5" y1="12" x2="19" y2="12" />
-          </svg>
-        </button>
-      </div>
-      <button class="nb" id="btn-cal" onclick="goTab('cal')">
-        <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-          viewBox="0 0 24 24">
-          <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-          <line x1="16" y1="2" x2="16" y2="6" />
-          <line x1="8" y1="2" x2="8" y2="6" />
-          <line x1="3" y1="10" x2="21" y2="10" />
-        </svg><span id="nav-cal">Calendar</span>
-      </button>
-      <button class="nb" id="btn-profile" onclick="goTab('profile')">
-        <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-          viewBox="0 0 24 24">
-          <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
-          <circle cx="12" cy="7" r="4" />
-        </svg><span id="nav-profile">Profile</span>
       </button>
     </div>
 
@@ -584,6 +618,19 @@
         </div>
         <button class="sbtn" onclick="closeSourceModal(event, true)"
           style="background:var(--glass); border:1px solid var(--gb); color:var(--text);">Close</button>
+      </div>
+    </div>
+
+    <!-- EDIT PROFILE MODAL -->
+    <div class="modal-ov" id="edit-profile-modal" onclick="closeEditProfileModal(event)">
+      <div class="modal-sh">
+        <div class="mhandle"></div>
+        <div class="mt">✏️ Edit Profile</div>
+        <div class="fg"><label class="fl">Full Name</label><input class="fi" id="edit-prof-name" placeholder="Enter your name" /></div>
+        <div class="fg"><label class="fl">Handle (@username)</label><input class="fi" id="edit-prof-handle" placeholder="Enter your handle" /></div>
+        <div class="fg"><label class="fl">Email</label><input class="fi" type="email" id="edit-prof-email" placeholder="Enter your email" /></div>
+        <button class="sbtn" onclick="saveProfileChanges()">Save Changes ✓</button>
+        <button class="sbtn" onclick="closeEditProfileModal()" style="background:var(--glass); border:1px solid var(--gb); color:var(--text); margin-top:8px;">Cancel</button>
       </div>
     </div>
 

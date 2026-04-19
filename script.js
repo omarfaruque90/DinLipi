@@ -48,7 +48,7 @@ function pendingClear() {
 
 // ── "Supabase" Insert Simulation ──
 async function supabaseInsert(txn) {
-  // Simulate network latency (200-800ms). 
+  // Simulate network latency (200-800ms).
   // In production: await supabase.from('transactions').insert(txn)
   await new Promise(r => setTimeout(r, 300 + Math.random() * 500));
   if (!navigator.onLine) throw new Error('offline');
@@ -180,7 +180,6 @@ function translateDateText(text) {
 function toggleLang() {
   currentLang = currentLang === 'en' ? 'bn' : 'en';
   localStorage.setItem('dinlipi_lang', currentLang);
-  document.getElementById('lang-toggle').textContent = currentLang.toUpperCase();
   localizeUI();
   renderAll();
   renderCal();
@@ -199,10 +198,10 @@ function localizeUI() {
       cal_p: 'Bangladesh Calendar',
       prof_h1: 'Profile', prof_p: 'User Settings & Preferences',
       prof_sec_app: '⚙️ App Settings', prof_lang: 'Language', prof_lang_sub: 'Change app language',
-      prof_curr: 'Currency', prof_curr_sub: 'Current: BDT (৳)',
       prof_sec_priv: '🔒 Privacy & Security', prof_lock: 'App Lock', prof_lock_sub: 'Require PIN/Biometric',
       prof_clear: 'Clear Data', prof_clear_sub: 'Delete all local records',
-      nav_home: 'Home', nav_calc: 'Calc', nav_budget: 'Budget', nav_reports: 'Reports', nav_cal: 'Calendar', nav_profile: 'Profile'
+      logout: 'Logout', logout_confirm: 'Are you sure?',
+      nav_home: 'Home', nav_txns: 'Txns', nav_budget: 'Budget', nav_reports: 'Reports'
     },
     bn: {
       total: 'মোট ব্যালেন্স', inc: '↑ আয়', exp: '↓ ব্যয়', rem: '💰 অবশিষ্ট',
@@ -214,10 +213,10 @@ function localizeUI() {
       cal_p: 'বাংলাদেশ ক্যালেন্ডার',
       prof_h1: 'প্রোফাইল', prof_p: 'ব্যবহারকারী সেটিংস',
       prof_sec_app: '⚙️ অ্যাপ সেটিংস', prof_lang: 'ভাষা', prof_lang_sub: 'অ্যাপের ভাষা পরিবর্তন করুন',
-      prof_curr: 'মুদ্রা', prof_curr_sub: 'বর্তমান: টাকা (৳)',
       prof_sec_priv: '🔒 গোপনীয়তা এবং নিরাপত্তা', prof_lock: 'অ্যাপ লক', prof_lock_sub: 'পিন/বায়োমেট্রিক প্রয়োজন',
       prof_clear: 'ডেটা মুছুন', prof_clear_sub: 'সব স্থানীয় রেকর্ড মুছুন',
-      nav_home: 'হোম', nav_calc: 'ক্যালক', nav_budget: 'বাজেট', nav_reports: 'রিপোর্ট', nav_cal: 'ক্যালেন্ডার', nav_profile: 'প্রোফাইল'
+      logout: 'লগ আউট', logout_confirm: 'আপনি কি নিশ্চিত?',
+      nav_home: 'হোম', nav_txns: 'লেনদেন', nav_budget: 'বাজেট', nav_reports: 'রিপোর্ট'
     }
   }[currentLang];
 
@@ -236,19 +235,21 @@ function localizeUI() {
   const calc_h1 = document.getElementById('lbl-calc-h1'); if (calc_h1) calc_h1.textContent = t.calc_h1;
   const calc_p = document.getElementById('lbl-calc-p'); if (calc_p) calc_p.textContent = t.calc_p;
   const cal_p = document.getElementById('lbl-cal-p'); if (cal_p) cal_p.textContent = t.cal_p;
+  const prof_h1 = document.getElementById('lbl-prof-h1'); if (prof_h1) prof_h1.textContent = t.prof_h1;
+  const prof_p = document.getElementById('lbl-prof-p'); if (prof_p) prof_p.textContent = t.prof_p;
 
   const toggleBtn = document.getElementById('lang-toggle'); if (toggleBtn) toggleBtn.textContent = currentLang.toUpperCase();
   const toggleBtnProf = document.getElementById('lang-toggle-prof'); if (toggleBtnProf) toggleBtnProf.textContent = currentLang === 'en' ? 'EN / BN' : 'বাংলা / EN';
 
   // Profile and Nav Strings
   const ids = [
-    'lbl-prof-h1', 'lbl-prof-p', 'lbl-prof-sec-app', 'lbl-prof-lang', 'lbl-prof-lang-sub',
-    'lbl-prof-curr', 'lbl-prof-curr-sub', 'lbl-prof-sec-priv', 'lbl-prof-lock', 'lbl-prof-lock-sub',
-    'lbl-prof-clear', 'lbl-prof-clear-sub', 'nav-home', 'nav-calc', 'nav-budget', 'nav-reports', 'nav-cal', 'nav-profile'
+    'lbl-prof-sec-app', 'lbl-prof-lang', 'lbl-prof-lang-sub',
+    'lbl-prof-sec-priv', 'lbl-prof-lock', 'lbl-prof-lock-sub',
+    'lbl-prof-clear', 'lbl-prof-clear-sub', 'lbl-logout', 'nav-home', 'nav-budget', 'nav-reports'
   ];
   ids.forEach(id => {
     const el = document.getElementById(id);
-    const key = id.replace('lbl-', '').replace(/-/g, '_'); 
+    const key = id.replace('lbl-', '').replace(/-/g, '_');
     if (el && t[key]) el.textContent = t[key];
   });
 
@@ -274,7 +275,7 @@ const CHART = {
 // NAV + ROUTING
 // ═══════════════════════════════════════════════
 const ALL_TABS = ['home', 'txns', 'ai', 'budget', 'reports', 'calc', 'cal', 'profile'];
-const MAIN_TABS = ['home', 'calc', 'budget', 'reports', 'cal', 'profile'];
+const MAIN_TABS = ['home', 'txns', 'budget', 'reports'];
 let curTab = 'home';
 
 function goTab(tab) {
@@ -284,8 +285,10 @@ function goTab(tab) {
   const ab = document.getElementById('btn-' + tab);
   if (ab) ab.classList.add('active');
   curTab = tab;
-  if (tab === 'ai') setTimeout(() => { document.getElementById('chat-msgs').scrollTop = 9999; }, 100);
+  if (tab === 'ai') setTimeout(() => { const cm = document.getElementById('chat-msgs'); if (cm) cm.scrollTop = 9999; }, 100);
+  if (tab === 'txns') setTimeout(renderMiniCal, 100);
   if (tab === 'cal') renderCal();
+  if (tab === 'profile') loadUserProfile();
 }
 
 // ═══════════════════════════════════════════════
@@ -303,7 +306,8 @@ function doAuth() {
   setTimeout(() => {
     document.getElementById('s-auth').classList.remove('active');
     document.getElementById('s-home').classList.add('active');
-    document.getElementById('main-nav').style.display = 'flex';
+    document.getElementById('main-nav').classList.add('visible');
+    document.querySelector('.top-nav').classList.add('visible');
     renderAll(); attemptSync();
   }, 500);
 }
@@ -700,6 +704,86 @@ function txnCard(n, a, s, ty, cat, icon) {
     <div class="txn-log-ok">✅ Saved locally · Syncing... 🔒</div></div>`;
 }
 
+// ── Financial Advisor Helpers ──
+function getFinancialMetrics() {
+  const totalBal = SRCS.reduce((a, s) => a + s.bal, 0);
+  const totalInc = transactions.filter(t => t.type === 'income').reduce((a, t) => a + t.amount, 0);
+  const totalExp = transactions.filter(t => t.type === 'expense').reduce((a, t) => a + t.amount, 0);
+  const expenseRatio = totalInc > 0 ? (totalExp / totalInc * 100) : 0;
+
+  // Category-wise spending
+  const categorySpend = {};
+  transactions.filter(t => t.type === 'expense').forEach(t => {
+    categorySpend[t.category] = (categorySpend[t.category] || 0) + t.amount;
+  });
+
+  return { totalBal, totalInc, totalExp, expenseRatio, categorySpend };
+}
+
+function generateSavingsRoadmap(lang = 'en') {
+  const { totalInc, totalExp, expenseRatio, categorySpend } = getFinancialMetrics();
+
+  if (totalInc === 0) {
+    return lang === 'bn'
+      ? "Bhai, এখনো কোনো আয় add করোনি। প্রথমে income যোগ করলে আমি roadmap দিতে পারব!"
+      : "Bhai, no income recorded yet. Add some income first and I'll give you a savings roadmap!";
+  }
+
+  // Get top 3 spending categories
+  const topCats = Object.entries(categorySpend)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 3);
+
+  let roadmap = '';
+  if (lang === 'bn') {
+    roadmap = `<strong>📊 Amar Analysis:</strong><br/>Bhai, এই মাসে তুমি <strong>৳${totalInc.toLocaleString()}</strong> earn করেছ আর <strong>৳${totalExp.toLocaleString()}</strong> খরচ করেছ।<br/>`;
+
+    if (expenseRatio > 70) {
+      roadmap += `<br/><strong>⚠️ Alert:</strong> Expense ratio <strong>${expenseRatio.toFixed(0)}%</strong> — এটা একটু বেশি! কিছু কাটাতে হবে।<br/>`;
+      roadmap += `<br/><strong>💡 তোমার জন্য Roadmap:</strong><br/>`;
+      roadmap += `<strong>Step 1:</strong> প্রথমে <strong>20%</strong> (৳${Math.floor(totalInc * 0.2).toLocaleString()}) save করার লক্ষ্য রাখ।<br/>`;
+
+      if (topCats.length > 0) {
+        roadmap += `<strong>Step 2:</strong> ${topCats[0][0]} কমাইয়া ৳${topCats[0][1].toLocaleString()} থেকে ৳${Math.floor(topCats[0][1] * 0.7).toLocaleString()} এ আনো।<br/>`;
+      }
+      if (topCats.length > 1) {
+        roadmap += `<strong>Step 3:</strong> ${topCats[1][0]} সীমাবদ্ধ করুন ৳${Math.floor(topCats[1][1] * 0.8).toLocaleString()} এ।<br/>`;
+      }
+      roadmap += `<strong>Step 4:</strong> বাকি সব normal রাখ।<br/>`;
+      roadmap += `<br/>এই plan follow করলে মাসিক <strong>৳${Math.floor(totalInc * 0.25).toLocaleString()}</strong> পর্যন্ত বাঁচাতে পারবে! 🎯`;
+    } else {
+      roadmap += `<br/><strong>✅ Great news:</strong> Expense ratio <strong>${expenseRatio.toFixed(0)}%</strong> — ভালো আছে!<br/>`;
+      roadmap += `আরও optimize করতে চাইলে:<br/>`;
+      roadmap += `• ${topCats[0]?.[0] || 'বাজেট'} খরচ ১০-১৫% কমানোর চেষ্টা করো।<br/>`;
+      roadmap += `• বাকি টাকা সেভিংস-এ রাখো। 💰`;
+    }
+  } else {
+    roadmap = `<strong>📊 My Analysis:</strong><br/>Bhai, this month you earned <strong>৳${totalInc.toLocaleString()}</strong> and spent <strong>৳${totalExp.toLocaleString()}</strong>.<br/>`;
+
+    if (expenseRatio > 70) {
+      roadmap += `<br/><strong>⚠️ Alert:</strong> Expense ratio is <strong>${expenseRatio.toFixed(0)}%</strong> — that's high, bhai!<br/>`;
+      roadmap += `<br/><strong>💡 Here's your roadmap:</strong><br/>`;
+      roadmap += `<strong>Step 1:</strong> Aim to save <strong>20%</strong> (৳${Math.floor(totalInc * 0.2).toLocaleString()}) every month.<br/>`;
+
+      if (topCats.length > 0) {
+        roadmap += `<strong>Step 2:</strong> Cut ${topCats[0][0]} from ৳${topCats[0][1].toLocaleString()} to ৳${Math.floor(topCats[0][1] * 0.7).toLocaleString()}.<br/>`;
+      }
+      if (topCats.length > 1) {
+        roadmap += `<strong>Step 3:</strong> Limit ${topCats[1][0]} to ৳${Math.floor(topCats[1][1] * 0.8).toLocaleString()}.<br/>`;
+      }
+      roadmap += `<strong>Step 4:</strong> Keep other categories steady.<br/>`;
+      roadmap += `<br/>Follow this and you can save ~৳${Math.floor(totalInc * 0.25).toLocaleString()} monthly! 🎯`;
+    } else {
+      roadmap += `<br/><strong>✅ Looking good:</strong> Your ratio is <strong>${expenseRatio.toFixed(0)}%</strong> — that's healthy!<br/>`;
+      roadmap += `To optimize further:<br/>`;
+      roadmap += `• Try reducing ${topCats[0]?.[0] || 'some category'} by 10-15%.<br/>`;
+      roadmap += `• Keep the extra in savings. 💰`;
+    }
+  }
+
+  return roadmap;
+}
+
 async function sendMsg() {
   const inp = document.getElementById('chat-in');
   const txt = inp.value.trim(); if (!txt) return;
@@ -744,6 +828,100 @@ NON-TRANSACTION: reply in 2-4 sentences in user's language mix. Be helpful and f
   setTimeout(async () => {
     removeTyping();
     const lTxt = txt.toLowerCase();
+
+    // ═══ PRIORITY 1: Check for ADVICE/ROADMAP intent FIRST ═══
+    const adviceKeywords = /roadmap|plan|planning|advise|advice|savings?|sanchay|bachat|kharch kam|save money|khoroch komano|পরামর্শ|বুদ্ধি|রোডম্যাপ|বাঁচাবো|বাঁচানো|সঞ্চয়|বাজেট|financial guidance|guide me/i;
+
+    if (adviceKeywords.test(lTxt)) {
+      // User wants financial advice/roadmap - DO NOT create transaction
+      const roadmap = generateSavingsRoadmap(currentLang);
+      addMsg('ai', roadmap);
+      return;
+    }
+
+    // ═══ PRIORITY 2: Check for GREETING/CASUAL intent ═══
+    const isGreeting = /^(hello|hi|hey|howdy|sup|yo|yo bhai|salam|assalam|kmn|kmon|kiman|ki obostha|k obostha|kaise|kaisy|kya haal|haal|howzit)/.test(lTxt);
+    const isThanks = /^(thanks|thank you|shukriya|dhonnobad|ta vai|ar valo nai|thanks bhai|tq|ty)/.test(lTxt);
+
+    if (isGreeting || isThanks) {
+      // Just chat - don't show transaction cards, just reply
+      if (isGreeting) {
+        const replies = {
+          en: [
+            "Yo bhai! 👋 Kaisy? Kya khabar?",
+            "Sup bhai! 😊 How's it going?",
+            "Hello dost! 👋 Amar kache kya lagbe?",
+            "Howdy! 🎉 Money management koro naki just checking in?"
+          ],
+          bn: [
+            "Yo bhai! 👋 Kmn acho? Ki khabar?",
+            "Assalamu alaikum bhai! 😊 Kaisa acho?",
+            "Hello dost! 👋 Ki obostha?",
+            "Sup! 🎉 Amar kache balance nao naki roadmap?"
+          ]
+        };
+        const replyList = currentLang === 'bn' ? replies.bn : replies.en;
+        const reply = replyList[Math.floor(Math.random() * replyList.length)];
+        addMsg('ai', reply);
+      } else {
+        const replies = {
+          en: [
+            "Anytime bhai! 😊",
+            "No problem dost! Always here for you 💪",
+            "Welcome welcome! 🎉"
+          ],
+          bn: [
+            "Anytime bhai! 😊 Ar ki lagbe?",
+            "Kono problem nai! Ami tomar pase ache 💪",
+            "Welcome bhai! 🎉"
+          ]
+        };
+        const replyList = currentLang === 'bn' ? replies.bn : replies.en;
+        const reply = replyList[Math.floor(Math.random() * replyList.length)];
+        addMsg('ai', reply);
+      }
+      return;
+    }
+
+    // ═══ PRIORITY 3: Check for OFF-TOPIC questions ═══
+    const offTopicKeywords = /\b(cricket|football|goal|match|score|player|team|win|lose|sports|movie|actor|actress|politics|politician|election|vote|government|minister|parliament|bill|law|capital|country|history|science|math|literature|homework|assignment|doctor|disease|medicine|recipe|cooking|dating|love|relationship|advice|secret|joke|funny|game|video game|xbox|playstation|nintendo|genshin|pubg|call of duty|fortnite|entertainment|celebrity|singer|artist|concert|album|song|book|novel|author|poem|poetry|weather|climate|global warming|covid|pandemic|conspiracy)\b/i;
+
+    if (offTopicKeywords.test(lTxt) && !/balance|roadmap|savings|spend|expense|income|transaction|kharch|income|finance|budget|taka|৳|dinlipi/.test(lTxt)) {
+      const reply = currentLang === 'bn'
+        ? "🚫 Dukkhibo bhai, ami shudhu DinLipi app ebong apnar finance niye shahajjo korte pari. Er baire ami kichu jani na! 😊"
+        : "🚫 Sorry bhai, I'm only trained to help you with DinLipi and your finances. I can't answer things outside that! 😊";
+      addMsg('ai', reply);
+      return;
+    }
+
+    // ═══ PRIORITY 4: Check for BALANCE query ═══
+    if (/balance|kitna|how much|amar|total|status|কত|আমার|kmn?|kemon|kiyo|ki obotha|obostha|acha|current/.test(lTxt)) {
+      const { totalBal, totalInc, totalExp, expenseRatio } = getFinancialMetrics();
+      const balMsg = currentLang === 'bn'
+        ? `💰 <strong>Balance:</strong> ৳${totalBal.toLocaleString()}<br/><strong>Income:</strong> ৳${totalInc.toLocaleString()}<br/><strong>Expense:</strong> ৳${totalExp.toLocaleString()}<br/><strong>Ratio:</strong> ${expenseRatio.toFixed(1)}% ${expenseRatio > 70 ? '⚠️' : '✅'}`
+        : `💰 <strong>Balance:</strong> ৳${totalBal.toLocaleString()}<br/><strong>Income:</strong> ৳${totalInc.toLocaleString()}<br/><strong>Expense:</strong> ৳${totalExp.toLocaleString()}<br/><strong>Ratio:</strong> ${expenseRatio.toFixed(1)}% ${expenseRatio > 70 ? '⚠️' : '✅'}`;
+      addMsg('ai', balMsg);
+      return;
+    }
+
+    // ═══ PRIORITY 5: Handle "Mane?" (What/Meaning?) ═══
+    if (/^(mane|mane\?|matlab|matlab kya|kya matlab|what|what do you mean|ki bolte chai)/.test(lTxt)) {
+      const lastMsg = chatMsgs.querySelector('.msg.ai:last-of-type .msg-bubble')?.textContent || '';
+      let explanation = '';
+      if (lastMsg.includes('Expense') || lastMsg.includes('Balance')) {
+        explanation = currentLang === 'bn'
+          ? "Mane: Takar details deklam. Balance = koto taka ache, Income = koto income korechi, Expense = koto kharch korechi, Ratio = kharch koto % income er. Bujhle? 😊"
+          : "Meaning: I showed you your money details. Balance = how much you have, Income = how much you earned, Expense = how much you spent, Ratio = what % of income you spent. Got it? 😊";
+      } else {
+        explanation = currentLang === 'bn'
+          ? "Sorry bhai, ki bolte chai seta bujhlam na. Tumi bolte paro: 'Balance dey', 'Roadmap chai', ba 'Lunch 200 taka' — ami bujhbo! 😊"
+          : "Sorry bhai, didn't catch that. You can ask: 'Show balance', 'Give roadmap', or 'Lunch 200 taka' — I'll understand! 😊";
+      }
+      addMsg('ai', explanation);
+      return;
+    }
+
+    // ═══ PRIORITY 6: Now check for TRANSACTION (only after all other intents) ═══
     let type = 'expense';
 
     // Amount extraction
@@ -771,7 +949,7 @@ NON-TRANSACTION: reply in 2-4 sentences in user's language mix. Be helpful and f
           : `Done bhai! Added ৳${amt} as an expense.`;
       }
 
-      let name = txt.replace(/\d+/g, '').replace(/taka|tk|dilam|khailam|khoroch|spent|pailam|paisi|ashlo/gi, '').trim();
+      let name = txt.replace(/\d+/g, '').replace(/taka|tk|dilam|khailam|khoroch|spent|pailam|paisi|ashlo|roadmap|plan|advice|advise/gi, '').trim();
       name = name || (type === 'income' ? 'Income' : 'Expense');
       if (name.length > 25) name = name.substring(0, 25);
 
@@ -784,18 +962,143 @@ NON-TRANSACTION: reply in 2-4 sentences in user's language mix. Be helpful and f
       };
 
       const srcObj = SRCS.find(s => s.name === src);
-      if (srcObj) {
-        if (type === 'expense') srcObj.bal -= amt;
-        else if (type === 'income') srcObj.bal += amt;
-      }
 
       await dbInsert(txn);
       renderAll();
       addMsg('ai', reply, txnCard(name, amt, src, type, cat, icon));
     } else {
-      const reply = currentLang === 'bn'
-        ? "আমি আপনার কথা বুঝতে পারিনি। দয়া করে টাকার পরিমাণ উল্লেখ করুন ভাই!"
-        : "I didn't catch an amount there, bhai. Give me a number!";
+      // ──── Enhanced Smart Intent Recognition with Domain Boundaries ────
+      const lower = lTxt.toLowerCase();
+      const lastMsg = chatMsgs.querySelector('.msg.ai:last-of-type .msg-bubble')?.textContent || '';
+
+      // ✅ ALLOWED INITIAL CHECKS (Greetings & Casual) - don't block these
+      const isGreeting = /^(hello|hi|hey|howdy|sup|yo|yo bhai|salam|assalam|kmn|kmon|kiman|ki obostha|k obostha|kaise|kaisy|kya haal|haal|howzit)/.test(lower);
+      const isThanks = /^(thanks|thank you|shukriya|dhonnobad|ta vai|ar valo nai|thanks bhai|tq|ty)/.test(lower);
+
+      // ❌ DOMAIN BOUNDARIES - Reject off-topic questions
+      const offTopicKeywords = /\b(cricket|football|goal|match|score|player|team|win|lose|sports|movie|actor|actress|politics|politician|election|vote|government|minister|parliament|bill|law|capital|country|history|science|math|literature|homework|assignment|doctor|disease|medicine|recipe|cooking|dating|love|relationship|advice|secret|joke|funny|game|video game|xbox|playstation|nintendo|genshin|pubg|call of duty|fortnite|entertainment|celebrity|singer|artist|concert|album|song|book|novel|author|poem|poetry|weather|climate|global warming|covid|pandemic|conspiracy)\b/i;
+
+      // Smart check: if it contains off-topic keywords AND it's not just a casual greeting
+      if (offTopicKeywords.test(lower) && !isGreeting && !isThanks && !/balance|roadmap|savings|spend|expense|income|transaction|kharch|income|finance|budget|taka|৳|dinlipi/.test(lower)) {
+        const reply = currentLang === 'bn'
+          ? "🚫 Dukkhibo bhai, ami shudhu DinLipi app ebong apnar finance niye shahajjo korte pari. Er baire ami kichu jani na! 😊"
+          : "🚫 Sorry bhai, I'm only trained to help you with DinLipi and your finances. I can't answer things outside that! 😊";
+        addMsg('ai', reply);
+        return;
+      }
+
+      // FINANCIAL ADVISOR MODE - Roadmap/Savings Plan
+      if (/roadmap|savings?|plan|save money|sanchay|bachat|kharch kam|খরচ কমাতে|বাঁচানো|সঞ্চয়|বাজেট|পরামর্শ|financial/.test(lower)) {
+        const roadmap = generateSavingsRoadmap(currentLang);
+        addMsg('ai', roadmap);
+        return;
+      }
+
+      // Balance Query - with expanded casual keywords
+      if (/balance|kitna|how much|amar|total|status|কত|আমার|kmn?|kemon|kiyo|ki obotha|obostha|acha|current/.test(lower)) {
+        const { totalBal, totalInc, totalExp, expenseRatio } = getFinancialMetrics();
+        const balMsg = currentLang === 'bn'
+          ? `💰 <strong>Balance:</strong> ৳${totalBal.toLocaleString()}<br/><strong>Income:</strong> ৳${totalInc.toLocaleString()}<br/><strong>Expense:</strong> ৳${totalExp.toLocaleString()}<br/><strong>Ratio:</strong> ${expenseRatio.toFixed(1)}% ${expenseRatio > 70 ? '⚠️' : '✅'}`
+          : `💰 <strong>Balance:</strong> ৳${totalBal.toLocaleString()}<br/><strong>Income:</strong> ৳${totalInc.toLocaleString()}<br/><strong>Expense:</strong> ৳${totalExp.toLocaleString()}<br/><strong>Ratio:</strong> ${expenseRatio.toFixed(1)}% ${expenseRatio > 70 ? '⚠️' : '✅'}`;
+        addMsg('ai', balMsg);
+        return;
+      }
+
+      // Casual Conversation - Status checks & Banglish
+      if (/^(hello|hi|hey|howdy|sup|yo|yo bhai|salam|assalam|kmn|kmon|kiman|ki obostha|k obostha|kaise|kaisy|kya haal|haal|howzit)/.test(lower)) {
+        const replies = {
+          en: [
+            "Yo bhai! 👋 Kaisy? Kya khabar?",
+            "Sup bhai! 😊 How's it going?",
+            "Hello dost! 👋 Amar kache kya lagbe?",
+            "Howdy! 🎉 Money management koro naki just checking in?"
+          ],
+          bn: [
+            "Yo bhai! 👋 Kmn acho? Ki khabar?",
+            "Assalamu alaikum bhai! 😊 Kaisa acho?",
+            "Hello dost! 👋 Ki obostha?",
+            "Sup! 🎉 Amar kache balance nao naki roadmap?"
+          ]
+        };
+        const replyList = currentLang === 'bn' ? replies.bn : replies.en;
+        const reply = replyList[Math.floor(Math.random() * replyList.length)];
+        addMsg('ai', reply);
+        return;
+      }
+
+      // Thanks - Banglish variants
+      if (/^(thanks|thank you|shukriya|dhonnobad|ta vai|ar valo nai|thanks bhai|tq|ty|❤️|💖)/.test(lower)) {
+        const replies = {
+          en: [
+            "Anytime bhai! 😊",
+            "No problem dost! Always here for you 💪",
+            "Welcome welcome! 🎉"
+          ],
+          bn: [
+            "Anytime bhai! 😊 Ar ki lagbe?",
+            "Kono problem nai! Ami tomar pase ache 💪",
+            "Welcome bhai! 🎉"
+          ]
+        };
+        const replyList = currentLang === 'bn' ? replies.bn : replies.en;
+        const reply = replyList[Math.floor(Math.random() * replyList.length)];
+        addMsg('ai', reply);
+        return;
+      }
+
+      // Handle "Mane?" (What/Meaning?) - Contextual explanation
+      if (/^(mane|mane\?|matlab|matlab kya|kya matlab|what|what do you mean|ki bolte chai)/.test(lower)) {
+        let explanation = '';
+        if (lastMsg.includes('Expense') || lastMsg.includes('Balance')) {
+          explanation = currentLang === 'bn'
+            ? "Mane: Takar details deklam. Balance = koto taka ache, Income = koto income korechi, Expense = koto kharch korechi, Ratio = kharch koto % income er. Bujhle? 😊"
+            : "Meaning: I showed you your money details. Balance = how much you have, Income = how much you earned, Expense = how much you spent, Ratio = what % of income you spent. Got it? 😊";
+        } else {
+          explanation = currentLang === 'bn'
+            ? "Sorry bhai, ki bolte chai seta bujhlam na. Tumi bolte paro: 'Balance dey', 'Roadmap chai', ba 'Lunch 200 taka' — ami bujhbo! 😊"
+            : "Sorry bhai, didn't catch that. You can ask: 'Show balance', 'Give roadmap', or 'Lunch 200 taka' — I'll understand! 😊";
+        }
+        addMsg('ai', explanation);
+        return;
+      }
+
+      // Incomplete transaction - Expanded keywords
+      const hasCat = CAT_MAP.some(c => c.keys.some(k => lower.includes(k.toLowerCase())));
+      if (hasCat && !/\d+/.test(txt)) {
+        const reply = currentLang === 'bn'
+          ? "Takar amount bolun bhai! Jemon: 'Lunch 150', 'Rickshaw 50', 'Salary 30000' 😊"
+          : "Give me the amount too bhai! Like: 'Lunch 150', 'Rickshaw 50', 'Salary 30000' 😊";
+        addMsg('ai', reply);
+        return;
+      }
+
+      // Smart Fallback - Check if unclear but potentially DinLipi-related
+      const isDinLipiRelated = /dinlipi|app|feature|button|screen|tab|notification|sync|data|phone|device|save|store|offline/.test(lower);
+
+      if (isDinLipiRelated && !/(roadmap|balance|transaction|expense|income|budget|taka|৳|financial)/.test(lower)) {
+        // Unsure if DinLipi-related but mentions app terms
+        const reply = currentLang === 'bn'
+          ? "Ami thik bujhlam na bhai! 🤔 Apni ki apnar balance ba budget niye kotha bolte chan? Naki kono DinLipi feature niye proshno ache?"
+          : "I'm not sure about that, bhai! 🤔 Are you asking about your balance or budget? Or is there something about DinLipi itself?";
+        addMsg('ai', reply);
+        return;
+      }
+
+      // Generic Fallback - Friendly & Encouraging for unclear queries
+      const fallbacks = {
+        en: [
+          "Ami thik bujhlam na, bhai! 🤔 Apni ki balance, roadmap, ba transaction niye kotha bolte chan?",
+          "Sorry dost, ta samjhlam na 😅 Try: 'Balance?', 'Roadmap?', or 'Add Lunch 200 taka' — ami ei khane expert! 💪",
+          "Hmm, that's tricky bhai! 🤔 Ask me about balance, savings roadmap, or add a transaction instead! 😊"
+        ],
+        bn: [
+          "Ami thik bujhlam na, bhai! 🤔 Apni ki balance, roadmap, ba transaction niye kotha bolte chan?",
+          "Sorry bhai, ta bujhlam na 😅 Try: 'Balance?', 'Roadmap?', ba 'Lunch 150 taka add kar' — ami eta pro! 💪",
+          "Hmm, eita mushkil bhai! 🤔 Balance, roadmap ba transaction — ei niye kotha bolo! 😊"
+        ]
+      };
+      const fallbackList = currentLang === 'bn' ? fallbacks.bn : fallbacks.en;
+      const reply = fallbackList[Math.floor(Math.random() * fallbackList.length)];
       addMsg('ai', reply);
     }
   }, 500);
@@ -844,6 +1147,226 @@ function stopVoice() {
 }
 
 // ═══════════════════════════════════════════════
+// PROFILE MANAGEMENT
+// ═══════════════════════════════════════════════
+let userProfile = {
+  name: localStorage.getItem('dinlipi_prof_name') || 'Omar',
+  handle: localStorage.getItem('dinlipi_prof_handle') || '@OmarTheBhaijan',
+  email: localStorage.getItem('dinlipi_prof_email') || 'omar@example.com'
+};
+
+function loadUserProfile() {
+  document.getElementById('prof-name').textContent = userProfile.name;
+  document.getElementById('prof-handle').textContent = userProfile.handle;
+  document.getElementById('prof-email').textContent = userProfile.email;
+  loadProfileImage();
+}
+
+function openEditProfileModal() {
+  document.getElementById('edit-profile-modal').classList.add('open');
+  document.getElementById('edit-prof-name').value = userProfile.name;
+  document.getElementById('edit-prof-handle').value = userProfile.handle;
+  document.getElementById('edit-prof-email').value = userProfile.email;
+}
+
+function closeEditProfileModal(e) {
+  if (e && e.target !== document.getElementById('edit-profile-modal')) return;
+  if (!e) document.getElementById('edit-profile-modal').classList.remove('open');
+  else if (e.target === document.getElementById('edit-profile-modal')) document.getElementById('edit-profile-modal').classList.remove('open');
+}
+
+function saveProfileChanges() {
+  const name = document.getElementById('edit-prof-name').value.trim();
+  const handle = document.getElementById('edit-prof-handle').value.trim();
+  const email = document.getElementById('edit-prof-email').value.trim();
+
+  if (!name) { showToast('Please enter a name', 'warn'); return; }
+  if (!handle) { showToast('Please enter a handle', 'warn'); return; }
+  if (!email) { showToast('Please enter an email', 'warn'); return; }
+
+  userProfile = { name, handle, email };
+  localStorage.setItem('dinlipi_prof_name', name);
+  localStorage.setItem('dinlipi_prof_handle', handle);
+  localStorage.setItem('dinlipi_prof_email', email);
+
+  loadUserProfile();
+  document.getElementById('edit-profile-modal').classList.remove('open');
+  showToast('✅ Profile updated!');
+}
+
+// Profile Image Upload
+function triggerProfileImageUpload() {
+  document.getElementById('prof-img-input').click();
+}
+
+function handleProfileImageUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  if (file.size > 2 * 1024 * 1024) {
+    showToast('Image too large (max 2MB)', 'warn');
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const base64 = e.target.result;
+    localStorage.setItem('dinlipi_prof_img', base64);
+    loadProfileImage();
+    showToast('✅ Photo updated!');
+  };
+  reader.readAsDataURL(file);
+}
+
+function loadProfileImage() {
+  const savedImg = localStorage.getItem('dinlipi_prof_img');
+  const preview = document.getElementById('prof-img-preview');
+  const placeholder = document.getElementById('prof-img-placeholder');
+
+  if (savedImg) {
+    preview.src = savedImg;
+    preview.style.display = 'block';
+    placeholder.style.display = 'none';
+  } else {
+    preview.style.display = 'none';
+    placeholder.style.display = 'flex';
+  }
+}
+
+// Logout
+function doLogout() {
+  const confirmLogout = currentLang === 'bn' ? 'আপনি কি নিশ্চিত?' : 'Are you sure?';
+  if (!confirm(confirmLogout)) return;
+
+  // Clear profile image but keep other data
+  localStorage.removeItem('dinlipi_prof_img');
+
+  // Hide navbars
+  const mainNav = document.getElementById('main-nav');
+  const topNav = document.querySelector('.top-nav');
+  if (mainNav) mainNav.classList.remove('visible');
+  if (topNav) topNav.classList.remove('visible');
+
+  // Go back to auth screen
+  ALL_TABS.forEach(t => {
+    const s = document.getElementById('s-' + t);
+    if (s) s.classList.remove('active');
+  });
+  MAIN_TABS.forEach(t => {
+    const b = document.getElementById('btn-' + t);
+    if (b) b.classList.remove('active');
+  });
+
+  document.getElementById('s-auth').classList.add('active');
+  showToast('✅ Logged out successfully!');
+}
+
+// ═══════════════════════════════════════════════
+// MINI CALENDAR - Transactions Tab Integration
+// ═══════════════════════════════════════════════
+let miniCalYear = 2026, miniCalMonth = 3;
+let selectedDate = null;
+
+function renderMiniCal() {
+  const header = document.getElementById('cal-mini-month');
+  if (header) header.textContent = translateDateText(MONTHS[miniCalMonth] + ' ' + miniCalYear);
+
+  const grid = document.getElementById('cal-mini-grid');
+  if (!grid) return;
+
+  grid.innerHTML = '';
+  const first = new Date(miniCalYear, miniCalMonth, 1).getDay();
+  const days = new Date(miniCalYear, miniCalMonth + 1, 0).getDate();
+  const prevDays = new Date(miniCalYear, miniCalMonth, 0).getDate();
+  const today = new Date();
+  const txnDates = getTxnDates();
+
+  // Previous month days
+  for (let i = first - 1; i >= 0; i--) {
+    const d = document.createElement('div');
+    d.className = 'cal-mini-day other-month';
+    d.textContent = translateNumbers(prevDays - i);
+    grid.appendChild(d);
+  }
+
+  // Current month days
+  for (let d = 1; d <= days; d++) {
+    const key = `${miniCalYear}-${miniCalMonth + 1}-${d}`;
+    const isToday = today.getFullYear() === miniCalYear && today.getMonth() === miniCalMonth && today.getDate() === d;
+    const hasTxn = txnDates.has(key);
+
+    const el = document.createElement('div');
+    el.className = 'cal-mini-day';
+    if (isToday) el.classList.add('today');
+    if (selectedDate === key) el.classList.add('selected');
+
+    el.textContent = translateNumbers(d);
+    el.onclick = () => {
+      document.querySelectorAll('.cal-mini-day.selected').forEach(e => e.classList.remove('selected'));
+      el.classList.add('selected');
+      selectedDate = key;
+      filterTxnsByDate(key);
+    };
+
+    grid.appendChild(el);
+  }
+
+  // Next month days
+  const totalCells = grid.children.length;
+  const remainingCells = 42 - totalCells;
+  for (let d = 1; d <= remainingCells; d++) {
+    const el = document.createElement('div');
+    el.className = 'cal-mini-day other-month';
+    el.textContent = translateNumbers(d);
+    grid.appendChild(el);
+  }
+}
+
+function calMiniNav(dir) {
+  miniCalMonth += dir;
+  if (miniCalMonth > 11) { miniCalMonth = 0; miniCalYear++; }
+  if (miniCalMonth < 0) { miniCalMonth = 11; miniCalYear--; }
+  renderMiniCal();
+}
+
+function filterTxnsByDate(dateKey) {
+  const [year, month, day] = dateKey.split('-').map(Number);
+  const filtered = transactions.filter(t => {
+    try {
+      const d = new Date(t.created_at);
+      return d.getFullYear() === year && (d.getMonth() + 1) === month && d.getDate() === day;
+    } catch { return false; }
+  });
+  renderTxnsByFilter(filtered, 'date');
+}
+
+function renderTxnsByFilter(txnList, filterType = 'all') {
+  const list = document.getElementById('txn-list');
+  if (!list) return;
+
+  list.innerHTML = '';
+  if (!txnList.length) {
+    const e = document.createElement('div');
+    e.style.cssText = 'text-align:center;color:var(--t3);padding:40px 20px;font-size:13px;';
+    e.textContent = currentLang === 'bn' ? 'কোনো লেনদেন পাওয়া যায়নি' : 'No transactions found';
+    list.appendChild(e);
+    return;
+  }
+
+  let lastDate = '';
+  txnList.forEach(t => {
+    if (t.date !== lastDate) {
+      const dg = document.createElement('div');
+      dg.className = 'date-grp';
+      dg.textContent = translateDateText(t.date);
+      list.appendChild(dg);
+      lastDate = t.date;
+    }
+    list.appendChild(mkTxni(t));
+  });
+}
+
+// ═══════════════════════════════════════════════
 // TOAST + CLOCK
 // ═══════════════════════════════════════════════
 let toastTimer;
@@ -861,3 +1384,5 @@ setInterval(updateClock, 30000); updateClock();
 addMsg('ai', 'আসসালামু আলাইকুম bhai! 👋 আমি তোমার DinLipi AI — তোমার personal finance-এর সবচেয়ে বিশ্বস্ত দোস্ত।<br><br>শুধু বলো বা লেখো যেমন <strong>"Lunch 150 taka"</strong> বা <strong>"Rickshaw 30 dilam"</strong> — ami rest kore nebo! 😄<br><br>🔒 তোমার সব data শুধু তোমার phone-এ — offline-এও কাজ করে, net na thakleo!');
 setSyncState('synced');
 localizeUI();
+loadUserProfile();
+renderMiniCal();
