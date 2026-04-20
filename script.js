@@ -823,13 +823,24 @@ function generateFinancialAdvice(lang = 'en', mentionedAmount = null, context = 
       advice = `<strong>💼 Your Customized Financial Plan (৳${mentionedAmount.toLocaleString()}):</strong><br/>`;
 
       if (isInvestmentQ) {
+        const amountSize = getAmountContext(mentionedAmount);
         const invest10 = Math.floor(mentionedAmount * 0.1);
         const invest5 = Math.floor(mentionedAmount * 0.05);
+        const monthlyReturn = Math.floor(mentionedAmount * 0.2 / 12);
         advice += `<br/>🎯 <strong>Investment Strategy:</strong><br/>`;
         advice += `• Start with ৳${invest10.toLocaleString()} (10% of amount)<br/>`;
         advice += `• Increase by ৳${invest5.toLocaleString()} next month<br/>`;
-        advice += `• Safe options: Savings Account, Bonds, Mutual Funds<br/>`;
-        advice += `• Long-term target: 20% annual return<br/>`;
+        advice += `• Monthly return target: ~৳${monthlyReturn.toLocaleString()}<br/>`;
+        
+        if (amountSize === 'small') {
+          advice += `• Beginner level: Savings, Mutual Funds<br/>`;
+        } else if (amountSize === 'medium') {
+          advice += `• Balanced portfolio: 50% Safe, 50% Growth<br/>`;
+        } else if (amountSize === 'large') {
+          advice += `• Diversified: Stocks, Bonds, Real Estate<br/>`;
+        } else {
+          advice += `• Professional wealth management recommended<br/>`;
+        }
       } else if (isExpenseQ) {
         const reduced20 = Math.floor(mentionedAmount * 0.2);
         advice += `<br/>✂️ <strong>Expense Reduction Plan:</strong><br/>`;
