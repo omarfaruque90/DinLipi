@@ -307,7 +307,7 @@ function doAuth() {
     document.getElementById('s-home').classList.add('active');
     document.getElementById('main-nav').classList.add('visible');
     document.querySelector('.top-nav').classList.add('visible');
-    document.getElementById('sbar').classList.add('hidden');
+    document.getElementById('sbar').classList.add('visible');
     renderAll(); attemptSync();
   }, 500);
 }
