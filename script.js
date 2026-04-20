@@ -969,7 +969,8 @@ async function sendMsg() {
 
     // STEP 1: DETECT IF THIS IS A QUESTION (most important)
     const hasQuestionMark = txt.includes('?');
-    const questionWords = /\b(how|why|what|when|where|who|which|can\s+i|could\s+i|should\s+i|would\s+i|is\s+it|does|do\s+you|suggestion|suggest|think|advice|advise|opinion|recommend|كيف|কিভাবে|কেন|কোন|কিসের|কি|কত|কখন|কোথা)\b/i;
+    // Enhanced question detection - covers Bengali, Banglish, English, and financial concepts
+    const questionWords = /\b(how|why|what|when|where|who|which|can\s+i|could\s+i|should\s+i|would\s+i|is\s+it|does|do\s+you|suggestion|suggest|think|advice|advise|opinion|recommend|inflation|growth|return|profit|scenario|planning|strategy|idea|concept|explanation|understand|ki\s+korbo|कि\s+करो|কিভাবে|কেন|কোন|কিসের|কি|কত|কখন|কোথা|কোথায়|পরামর্শ|রোডম্যাপ|idea|example|scenario|compare|difference|advantage|disadvantage|best|worst|better|increase|decrease|grow|reduce|manage|calculate|estimate|forecast)\b/i;
     const isQuestion = hasQuestionMark || questionWords.test(lTxt);
 
     // Extract any mentioned amount
