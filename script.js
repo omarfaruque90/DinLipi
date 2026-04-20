@@ -1018,12 +1018,52 @@ async function sendMsg() {
       let response = '';
 
       // Analyze what the question is about
-      if (/balance|kitna|how\s+much|total|current|amar|আমার|কত|state|status|position/i.test(lTxt)) {
-        // Balance/Status question
-        response = currentLang === 'bn'
-          ? `💰 <strong>আপনার আর্থিক অবস্থা:</strong><br/>Balance: ৳${totalBal.toLocaleString()}<br/>Income: ৳${totalInc.toLocaleString()}<br/>Expense: ৳${totalExp.toLocaleString()}<br/>Ratio: ${expenseRatio.toFixed(1)}% ${expenseRatio > 70 ? '⚠️' : '✅'}`
-          : `💰 <strong>Your Financial Snapshot:</strong><br/>Balance: ৳${totalBal.toLocaleString()}<br/>Income: ৳${totalInc.toLocaleString()}<br/>Expense: ৳${totalExp.toLocaleString()}<br/>Ratio: ${expenseRatio.toFixed(1)}% ${expenseRatio > 70 ? '⚠️' : '✅'}`;
-      } else if (/inflation|value|worth|দাম|মূল্য|বৃদ্ধি|বাড়ছে|decrease|depreciate/i.test(lTxt)) {
+      // ✅ PRIORITY: CHECK FINANCIAL KEYWORDS FIRST (DETAILED ADVICE) BEFORE SNAPSHOTS
+      
+      // Check for explicit financial keywords - route to expert knowledge base
+      const hasFinancialKeywords = /invest|save|plan|roadmap|પ્રણાली|পরামর্শ|किसी|advise|strategy|budget|allocate|reduce|expense|income|earn|freelance|loan|debt|inflation|business|growth|passive|portfolio|diversif|risk|return|profit|emergency|crisis|goal|target|forecast|calculate|estimate/i.test(lTxt);
+      
+      if (hasFinancialKeywords) {
+        // 🎯 FORCE ROUTE TO EXPERT FINANCIAL ADVISOR - NO SHORTCUTS
+        const detailedAdvice = generateFinancialAdvice(currentLang, mentionedAmount, txt);
+        response = detailedAdvice;
+      } else if (/balance|kitna|how\s+much|total|current|amar|আমার|কত|state|status|position|obostha/i.test(lTxt)) {
+        // BALANCE/STATUS - But provide smart analysis with optional snapshot
+        const { totalBal, totalInc, totalExp, expenseRatio } = getFinancialMetrics();
+        
+        // Provide smart financial analysis FIRST, then snapshot
+        let statusAnalysis = currentLang === 'bn'
+          ? `<strong>📊 আপনার আর্থিক বিশ্লেষণ:</strong><br/>`
+          : `<strong>📊 Your Financial Analysis:</strong><br/>`;
+        
+        // Add contextual advice based on expense ratio
+        if (expenseRatio > 75) {
+          statusAnalysis += currentLang === 'bn'
+            ? `🚨 <strong>সতর্কতা:</strong> আপনার খরচ আয়ের ${expenseRatio.toFixed(0)}% — এটি খুবই বেশি এবং অস্থিতিশীল।<br/>` 
+              + `<strong>তাৎক্ষণিক পদক্ষেপ:</strong><br/>• এই মাসে ২০% খরচ কমানোর লক্ষ্য রাখুন<br/>• প্রতিটি সাবস্ক্রিপশন বাতিল করুন যা আপনি ব্যবহার করছেন না<br/>• বড় খরচের ক্যাটাগরি চিহ্নিত করুন এবং সেখান থেকে শুরু করুন<br/><br/>`
+            : `🚨 <strong>Warning:</strong> Your spending is ${expenseRatio.toFixed(0)}% of income — unsustainable!<br/>`
+              + `<strong>Immediate Actions:</strong><br/>• Cut 20% spending this month<br/>• Cancel subscriptions you don't use<br/>• Identify and reduce biggest expense category<br/><br/>`;
+        } else if (expenseRatio > 60) {
+          statusAnalysis += currentLang === 'bn'
+            ? `⚠️ <strong>মনোযোগ:</strong> খরচ-আয় অনুপাত ${expenseRatio.toFixed(0)}%। এটি অপ্টিমাইজ করা যায়।<br/>`
+              + `<strong>সুপারিশ:</strong><br/>• লক্ষ্য: পরবর্তী ৩ মাসে ৫৫% নামিয়ে আনুন<br/>• মাসিক ৳${Math.floor(totalInc * 0.15).toLocaleString()} বিনিয়োগ করুন<br/>• নিয়মিত ট্র্যাকিং চালু করুন<br/><br/>`
+            : `⚠️ <strong>Attention:</strong> Spending ratio is ${expenseRatio.toFixed(0)}%. You can optimize this.<br/>`
+              + `<strong>Recommendations:</strong><br/>• Target: Reduce to 55% in 3 months<br/>• Invest ৳${Math.floor(totalInc * 0.15).toLocaleString()} monthly<br/>• Start regular tracking<br/><br/>`;
+        } else {
+          statusAnalysis += currentLang === 'bn'
+            ? `✅ <strong>চমৎকার:</strong> আপনার আর্থিক অবস্থা স্বাস্থ্যকর (${expenseRatio.toFixed(0)}% খরচ অনুপাত)।<br/>`
+              + `<strong>পরবর্তী পদক্ষেপ:</strong><br/>• বিনিয়োগ বাড়ান - লক্ষ্য ৳${Math.floor(totalInc * 0.25).toLocaleString()} মাসিক<br/>• জরুরি তহবিল ৬ মাসে সম্প্রসারিত করুন<br/>• দীর্ঘমেয়াদী সম্পদ তৈরিতে ফোকাস করুন<br/><br/>`
+            : `✅ <strong>Excellent:</strong> Your finances are healthy (${expenseRatio.toFixed(0)}% spending ratio).<br/>`
+              + `<strong>Next Steps:</strong><br/>• Increase investments to ৳${Math.floor(totalInc * 0.25).toLocaleString()} monthly<br/>• Expand emergency fund to 6 months<br/>• Focus on long-term wealth building<br/><br/>`;
+        }
+        
+        // Add snapshot as secondary info
+        statusAnalysis += currentLang === 'bn'
+          ? `<strong>📈 আপনার সংখ্যা:</strong><br/>Balance: ৳${totalBal.toLocaleString()} | Income: ৳${totalInc.toLocaleString()} | Expense: ৳${totalExp.toLocaleString()}`
+          : `<strong>📈 Your Numbers:</strong><br/>Balance: ৳${totalBal.toLocaleString()} | Income: ৳${totalInc.toLocaleString()} | Expense: ৳${totalExp.toLocaleString()}`;
+        
+        response = statusAnalysis;
+      }
         // Inflation/economics question
         if (mentionedAmount) {
           const futureValue3Yr = Math.floor(mentionedAmount * 1.03 * 1.03 * 1.03);
