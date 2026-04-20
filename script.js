@@ -733,7 +733,7 @@ function generateFinancialAdvice(lang = 'en', mentionedAmount = null, context = 
   const isInflationQ = /inflation|value|worth|দাম|মূল্য|বৃদ্ধি|বাড়ছে|decrease|depreciate|purchasing.*power/i.test(context);
   const isIncomeQ = /salary|freelance|income|earning|job|business|revenue|earn|side\s+hustle|passive/i.test(context);
   const isDebtQ = /loan|debt|credit|emi|interest|কর্জ|ঋণ|default|repay|payoff/i.test(context);
-  
+
   // Helper: Amount size categorization for smart recommendations
   const getAmountContext = (amt) => {
     if (amt < 10000) return 'small';
@@ -757,7 +757,7 @@ function generateFinancialAdvice(lang = 'en', mentionedAmount = null, context = 
         advice += `• শুরু করুন ৳${invest10.toLocaleString()} দিয়ে (10% of amount)<br/>`;
         advice += `• প্রথম মাসে ৳${invest5.toLocaleString()} বাড়ান<br/>`;
         advice += `• মাসিক রিটার্ন লক্ষ্য: ~৳${monthlyReturn.toLocaleString()}<br/>`;
-        
+
         if (amountSize === 'small') {
           advice += `• শুরুর স্তর: সেভিংস অ্যাকাউন্ট, মিউচুয়াল ফান্ড<br/>`;
         } else if (amountSize === 'medium') {
@@ -831,7 +831,7 @@ function generateFinancialAdvice(lang = 'en', mentionedAmount = null, context = 
         advice += `• Start with ৳${invest10.toLocaleString()} (10% of amount)<br/>`;
         advice += `• Increase by ৳${invest5.toLocaleString()} next month<br/>`;
         advice += `• Monthly return target: ~৳${monthlyReturn.toLocaleString()}<br/>`;
-        
+
         if (amountSize === 'small') {
           advice += `• Beginner level: Savings, Mutual Funds<br/>`;
         } else if (amountSize === 'medium') {
@@ -1043,7 +1043,7 @@ async function sendMsg() {
           const invest5 = Math.floor(mentionedAmount * 0.05);
           const yearlyReturn = Math.floor(mentionedAmount * 0.2); // 20% target annual
           const monthlyReturn = Math.floor(yearlyReturn / 12);
-          
+
           // Handle different amount ranges
           let investAdvice = '';
           if (mentionedAmount < 10000) {
@@ -1063,7 +1063,7 @@ async function sendMsg() {
               ? `• আপনার বিনিয়োগ পোর্টফোলিও তৈরি করুন বিশেষজ্ঞদের সাথে<br/>• বিভিন্ন সেক্টরে বিনিয়োগ করুন ঝুঁকি কমাতে<br/>• ট্যাক্স প্ল্যানিং খুবই জরুরি এই স্তরে`
               : `• Build investment portfolio with experts<br/>• Diversify across sectors<br/>• Tax planning is crucial at this level`;
           }
-          
+
           response = currentLang === 'bn'
             ? `💼 <strong>৳${mentionedAmount.toLocaleString()} বিনিয়োগের কৌশল:</strong><br/>• শুরু করুন: ৳${invest10.toLocaleString()} (10%)<br/>• পরবর্তী মাসে বাড়ান: ৳${invest5.toLocaleString()}<br/>• মাসিক লক্ষ্য রিটার্ন: ~৳${monthlyReturn.toLocaleString()}<br/><br/>📍 <strong>আপনার অবস্থা অনুযায়ী:</strong><br/>${investAdvice}`
             : `💼 <strong>Investment Strategy for ৳${mentionedAmount.toLocaleString()}:</strong><br/>• Start with: ৳${invest10.toLocaleString()} (10%)<br/>• Increase by ৳${invest5.toLocaleString()} next month<br/>• Monthly return target: ~৳${monthlyReturn.toLocaleString()}<br/><br/>📍 <strong>Based on your amount:</strong><br/>${investAdvice}`;
@@ -1091,7 +1091,7 @@ async function sendMsg() {
           const essential = Math.floor(mentionedAmount * 0.5);
           const savings = Math.floor(mentionedAmount * 0.25);
           const personal = Math.floor(mentionedAmount * 0.25);
-          
+
           let budgetNote = '';
           if (mentionedAmount < 50000) {
             budgetNote = currentLang === 'bn'
@@ -1102,7 +1102,7 @@ async function sendMsg() {
               ? '<br/>💡 বড় বাজেটের জন্য: ট্যাক্স প্ল্যানিং এবং বিনিয়োগ পরামর্শ নিন'
               : '<br/>💡 Large budget tip: Get tax planning and investment advice';
           }
-          
+
           response = currentLang === 'bn'
             ? `📋 <strong>৳${mentionedAmount.toLocaleString()} এর আদর্শ বাজেট:</strong><br/>• 🏠 প্রয়োজনীয় খরচ: ৳${essential.toLocaleString()} (50%)<br/>• 💰 সঞ্চয়/বিনিয়োগ: ৳${savings.toLocaleString()} (25%)<br/>• 🎉 ব্যক্তিগত/বিনোদন: ৳${personal.toLocaleString()} (25%)${budgetNote}`
             : `📋 <strong>Ideal Budget for ৳${mentionedAmount.toLocaleString()}:</strong><br/>• 🏠 Essential: ৳${essential.toLocaleString()} (50%)<br/>• 💰 Savings/Investment: ৳${savings.toLocaleString()} (25%)<br/>• 🎉 Personal/Entertainment: ৳${personal.toLocaleString()} (25%)${budgetNote}`;
@@ -1253,10 +1253,10 @@ async function sendMsg() {
 
     // ═══ PRIORITY 5: FINANCIAL KNOWLEDGE BASE (Fallback) ═══
     // If nothing matched, treat as a financial question/request with intelligent fallback
-    
+
     // Check if this is financial-related even without question marks
     const financialTerms = /taka|টাকা|rupee|money|পয়সা|kharch|কখরচ|খরচ|expense|spending|spend|save|savings|sanchay|সঞ্চয়|bachat|বাঁচান|বাঁচানো|invest|investment|বিনিয়োগ|plan|planning|পরিকল্পনা|budget|বাজেট|roadmap|management|পরামর্শ|advice|suggestion|reduce|cut|grow|কমান|profit|return|income|earning|আয়|earned|freelance|business|allocate|distribute|divide|split|financial|wealth|rich|prosperity|সমৃদ্ধি|goal|লক্ষ্য|strategy|কৌশল|optimize|growth|emergency\s+fund|help|assistance|tips?|suggestions?|recommendations?/i;
-    
+
     if (financialTerms.test(lTxt)) {
       // This is about money/finance, provide smart advice using generateFinancialAdvice
       const response = generateFinancialAdvice(currentLang, mentionedAmount, txt);
