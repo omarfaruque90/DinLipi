@@ -1406,11 +1406,13 @@ function doLogout() {
   // Clear profile image but keep other data
   localStorage.removeItem('dinlipi_prof_img');
 
-  // Hide navbars
+  // Hide navbars and show sbar again
   const mainNav = document.getElementById('main-nav');
   const topNav = document.querySelector('.top-nav');
+  const sbar = document.getElementById('sbar');
   if (mainNav) mainNav.classList.remove('visible');
   if (topNav) topNav.classList.remove('visible');
+  if (sbar) sbar.classList.remove('hidden');
 
   // Go back to auth screen
   ALL_TABS.forEach(t => {
