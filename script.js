@@ -183,7 +183,6 @@ function toggleLang() {
   localizeUI();
   renderAll();
   renderCal();
-  updateClock();
 }
 
 function localizeUI() {
