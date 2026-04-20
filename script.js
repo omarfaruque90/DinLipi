@@ -1023,7 +1023,7 @@ async function sendMsg() {
       // Check for explicit financial keywords - route to expert knowledge base
       const hasFinancialKeywords = /invest|save|plan|roadmap|પ્રણાली|পরামর্শ|किसी|advise|strategy|budget|allocate|reduce|expense|income|earn|freelance|loan|debt|inflation|business|growth|passive|portfolio|diversif|risk|return|profit|emergency|crisis|goal|target|forecast|calculate|estimate/i.test(lTxt);
 
-      if (hasPlanKeywords) {
+      if (/save|saving|savings|invest|investment|plan|planning|roadmap|strategy|kmne|kiveabe|ki\s*korbo/i.test(lTxt)) {
         // 🎯 TIER 1: PLAN REQUEST - Route to generateFinancialAdvice() ONLY (NO snapshot)
         const detailedAdvice = generateFinancialAdvice(currentLang, mentionedAmount, txt);
         response = detailedAdvice;
