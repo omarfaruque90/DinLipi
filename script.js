@@ -957,7 +957,7 @@ NON-TRANSACTION: reply in 2-4 sentences in user's language mix. Be helpful and f
     // ═══ PRIORITY 6: TRANSACTION DETECTION (ONLY AFTER ALL INTENT CHECKS) ═══
     let type = 'expense';
     const matchAmt = txt.match(/\d+/);
-    
+
     if (matchAmt) {
       const amt = parseInt(matchAmt[0]);
       // Keywords
