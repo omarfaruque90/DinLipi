@@ -1219,9 +1219,20 @@ async function sendMsg() {
     }
 
     // ═══ PRIORITY 5: FINANCIAL KNOWLEDGE BASE (Fallback) ═══
-    // If nothing matched, treat as a financial question/request
-    const response = generateFinancialAdvice(currentLang, mentionedAmount, txt);
-    addMsg('ai', response);
+    // If nothing matched, treat as a financial question/request with intelligent fallback
+    
+    // Check if this is financial-related even without question marks
+    const financialTerms = /taka|টাকা|rupee|money|পয়সা|kharch|কখরচ|খরচ|expense|spending|spend|save|savings|sanchay|সঞ্চয়|bachat|বাঁচান|বাঁচানো|invest|investment|বিনিয়োগ|plan|planning|পরিকল্পনা|budget|বাজেট|roadmap|management|পরামর্শ|advice|suggestion|reduce|cut|grow|কমান|profit|return|income|earning|আয়|earned|freelance|business|allocate|distribute|divide|split|financial|wealth|rich|prosperity|সমৃদ্ধি|goal|লক্ষ্য|strategy|কৌশল|optimize|growth|emergency\s+fund|help|assistance|tips?|suggestions?|recommendations?/i;
+    
+    if (financialTerms.test(lTxt)) {
+      // This is about money/finance, provide smart advice using generateFinancialAdvice
+      const response = generateFinancialAdvice(currentLang, mentionedAmount, txt);
+      addMsg('ai', response);
+    } else {
+      // Non-financial fallback
+      const response = generateFinancialAdvice(currentLang, mentionedAmount, txt);
+      addMsg('ai', response);
+    }
   }, 500);
 }
 
