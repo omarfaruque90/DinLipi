@@ -725,11 +725,22 @@ function generateFinancialAdvice(lang = 'en', mentionedAmount = null, context = 
   const { totalInc, totalExp, expenseRatio, categorySpend } = getFinancialMetrics();
   const contextLower = context.toLowerCase();
 
-  // Determine what type of advice is needed based on context
-  const isInvestmentQ = /invest|stock|fund|business|passive\s+income|earning|return|profit/i.test(context);
-  const isExpenseQ = /reduce|cut|save|less|khoroch|খরচ|কমান|কম/i.test(context);
-  const isBudgetQ = /budget|allocate|how\s+much|distribute|divide|split|kharch|planning/i.test(context);
-  const isEmergencyQ = /emergency|crisis|need|problem|khrap|বিপদ|সমস্যা|প্রয়োজন/i.test(context);
+  // Determine what type of advice is needed based on context - COMPREHENSIVE DETECTION
+  const isInvestmentQ = /invest|stock|fund|business|passive\s+income|earning|return|profit|growth|wealth|rich|portfolio|diversi/i.test(context);
+  const isExpenseQ = /reduce|cut|save|less|khoroch|খরচ|কমান|কম|decrease|spending|minimize|slash/i.test(context);
+  const isBudgetQ = /budget|allocate|how.*much|distribute|divide|split|kharch|planning|plan|strategy|organize/i.test(context);
+  const isEmergencyQ = /emergency|crisis|need|problem|খরাপ|বিপদ|সমস্যা|প্রয়োজন|urgent|immediate|জরুরি/i.test(context);
+  const isInflationQ = /inflation|value|worth|দাম|মূল্য|বৃদ্ধি|বাড়ছে|decrease|depreciate|purchasing.*power/i.test(context);
+  const isIncomeQ = /salary|freelance|income|earning|job|business|revenue|earn|side\s+hustle|passive/i.test(context);
+  const isDebtQ = /loan|debt|credit|emi|interest|কর্জ|ঋণ|default|repay|payoff/i.test(context);
+  
+  // Helper: Amount size categorization for smart recommendations
+  const getAmountContext = (amt) => {
+    if (amt < 10000) return 'small';
+    if (amt < 100000) return 'medium';
+    if (amt < 1000000) return 'large';
+    return 'xlarge';
+  };
 
   let advice = '';
 
