@@ -1539,8 +1539,6 @@ function showToast(msg, type = '') {
   t.textContent = msg; t.className = 'toast show' + (type ? ' ' + type : '');
   clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove('show'), 2600);
 }
-function updateClock() { document.getElementById('sbar-time').textContent = translateDateText(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })); }
-setInterval(updateClock, 30000); updateClock();
 
 // ═══════════════════════════════════════════════
 // INIT
