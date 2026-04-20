@@ -999,18 +999,18 @@ NON-TRANSACTION: reply in 2-4 sentences in user's language mix. Be helpful and f
     // BULLETPROOF INTENT DETECTION — Check BEFORE Amount Extraction
     // ═══════════════════════════════════════════════════════════════
 
-    // ═══ PRIORITY 1: ADVICE/ROADMAP INTENT (MUST BE FIRST!) ═══
-    // Extract any amount FIRST in case user mentions it for advice
+    // ═══ PRIORITY 1: FINANCIAL EXPERT INTENT (BROADEST CATCH) ═══
+    // Extract any amount FIRST in case user mentions it
     const mentionedAmountMatch = txt.match(/\d+/);
     const mentionedAmount = mentionedAmountMatch ? parseInt(mentionedAmountMatch[0]) : null;
 
-    // COMPREHENSIVE advice keyword list - all variations
-    const adviceKeywords = /\b(roadmap|plan|planning|advise|advice|suggestion|suggestions|savings?|sanchay|bachat|kharch\s+kam|khoroch\s+komano|save\s+money|porikolpona|somsay|sanchai|bachanor|kharch|komay|banchabo|sanchay\s+korbo|জীবন\s+পরিকল্পনা|আর্থিক\s+পরামর্শ|বাজেট|খরচ\s+কমান|পরামর্শ|বুদ্ধি|রোডম্যাপ|বাঁচাবো|বাঁচানো|সঞ্চয়|বাজেট|পরিকল্পনা|পরিকল্পনা|financial|guidance|guide|optimize|optimization)\b/i;
+    // ✅ COMPREHENSIVE financial keywords - catches ANY money question
+    const financialKeywords = /\b(taka|টাকা|rupee|money|পয়সা|kharch|কখরচ|খরচ|expense|spending|spend|save|savings|sanchay|সঞ্চয়|bachat|বাঁচান|বাঁচানো|khoroch\s+kam|invest|investment|বিনিয়োগ|plan|planning|পরিকল্পনা|budget|বাজেট|roadmap|management|পরামর্শ|advice|suggestion|reduce|cut|grow|কমান|reduce|profit|profit|return|income|earning|আয়|earned|freelance|business|management|allocate|distribute|divide|split|financial|wealth|rich|prosperity|সমৃদ্ধি|opportunity|opportunity|goal|লক্ষ্য|strategy|কৌশল|optimize|growth|growth plan|retire|retirement|retirement plan|emergency\s+fund|ki\s+korbo|কি\s+করব|advice|পরামর্শ|guide|direction|সাহায্য|help|assistance|how\s+to|কিভাবে|tips|tips?|suggestions?|recommendations?)\b/i;
 
-    if (adviceKeywords.test(lTxt)) {
-      // ✅ ADVICE/ROADMAP REQUEST — NO TRANSACTION, JUST ADVICE
-      const roadmap = generateSavingsRoadmap(currentLang, mentionedAmount);
-      addMsg('ai', roadmap);
+    if (financialKeywords.test(lTxt)) {
+      // ✅ FINANCIAL QUESTION — PROVIDE EXPERT ADVICE
+      const advice = generateFinancialAdvice(currentLang, mentionedAmount, txt);
+      addMsg('ai', advice);
       return;
     }
 
@@ -1059,7 +1059,7 @@ NON-TRANSACTION: reply in 2-4 sentences in user's language mix. Be helpful and f
     }
 
     // ═══ PRIORITY 3: OFF-TOPIC REJECTION ═══
-    const offTopicKeywords = /\b(cricket|football|goal|match|score|player|team|win|lose|sports|movie|actor|actress|politics|politician|election|vote|government|minister|parliament|bill|law|capital|country|history|science|math|literature|homework|assignment|doctor|disease|medicine|recipe|cooking|dating|love|relationship|secret|joke|funny|game|video\s+game|xbox|playstation|nintendo|genshin|pubg|call\s+of\s+duty|fortnite|entertainment|celebrity|singer|artist|concert|album|song|book|novel|author|poem|poetry|weather|climate|global\s+warming|covid|pandemic|conspiracy)\b/i;
+    const offTopicKeywords = /\b(cricket|football|goal|match|score|player|team|win|lose|sports|movie|actor|actress|politics|politician|election|vote|government|minister|parliament|bill|law|capital|country|history|science|math|literature|homework|assignment|recipe|cooking|dating|love|relationship|secret|joke|funny|game|video\s+game|xbox|playstation|nintendo|genshin|pubg|call\s+of\s+duty|fortnite|entertainment|celebrity|singer|artist|concert|album|song|book|novel|author|poem|poetry|weather|climate|global\s+warming|covid|pandemic|conspiracy)\b/i;
 
     if (offTopicKeywords.test(lTxt) && !/balance|roadmap|savings|spend|expense|income|transaction|kharch|finance|budget|taka|৳|dinlipi|advice/i.test(lTxt)) {
       // ❌ OFF-TOPIC
