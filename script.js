@@ -980,9 +980,9 @@ async function sendMsg() {
     if (isQuestion) {
       // This is definitely a question - provide guidance, don't create transaction
       const { totalBal, totalInc, totalExp, expenseRatio } = getFinancialMetrics();
-      
+
       let response = '';
-      
+
       // Analyze what the question is about
       if (/balance|kitna|how\s+much|total|current|amar|আমার|কত|state|status|position/i.test(lTxt)) {
         // Balance/Status question
@@ -1038,7 +1038,7 @@ async function sendMsg() {
           ? `💡 <strong>আর্থিক পরামর্শ:</strong><br/>আপনার প্রশ্নের উত্তর দিতে আরও বিস্তারিত জানানো দরকার। আপনি জিজ্ঞাসা করতে পারেন:<br/>• "আমার বাজেট কত হওয়া উচিত?"<br/>• "কিভাবে ৫০০০ টাকা বাঁচাতে পারি?"<br/>• "কোথায় বিনিয়োগ করব?"<br/>আমি সবসময় সাহায্য করতে প্রস্তুত!`
           : `💡 <strong>Financial Guidance:</strong><br/>To better help you, please ask:<br/>• "What should my budget be?"<br/>• "How to save ৳5000?"<br/>• "Where should I invest?"<br/>I'm always here to help!`;
       }
-      
+
       addMsg('ai', response);
       return;
     }
@@ -1093,7 +1093,7 @@ async function sendMsg() {
     // 3. Clear action words like "add", "spent", "paid", "dilam", "khailam"
 
     const hasActionWord = /add|added|spend|spent|paid|pay|dilam|khailam|khoroch|করেছি|করেছে/i.test(txt);
-    
+
     if (mentionedAmount && hasActionWord) {
       let type = 'expense';
       if (lTxt.includes('pailam') || lTxt.includes('paisi') || lTxt.includes('salary') || lTxt.includes('income')) {
