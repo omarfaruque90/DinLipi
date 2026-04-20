@@ -720,7 +720,7 @@ function getFinancialMetrics() {
   return { totalBal, totalInc, totalExp, expenseRatio, categorySpend };
 }
 
-function generateSavingsRoadmap(lang = 'en') {
+function generateSavingsRoadmap(lang = 'en', mentionedAmount = null) {
   const { totalInc, totalExp, expenseRatio, categorySpend } = getFinancialMetrics();
 
   if (totalInc === 0) {
@@ -734,9 +734,22 @@ function generateSavingsRoadmap(lang = 'en') {
     .sort((a, b) => b[1] - a[1])
     .slice(0, 3);
 
+  // If user mentioned an amount in their query, use it for personalized advice
+  let contextAmount = mentionedAmount || null;
+
   let roadmap = '';
   if (lang === 'bn') {
-    roadmap = `<strong>📊 Amar Analysis:</strong><br/>Bhai, এই মাসে তুমি <strong>৳${totalInc.toLocaleString()}</strong> earn করেছ আর <strong>৳${totalExp.toLocaleString()}</strong> খরচ করেছ।<br/>`;
+    // If amount was mentioned, give advice specific to that amount
+    if (contextAmount) {
+      roadmap = `<strong>📊 Amar Advice:</strong><br/>Bhai, apnar kache যদি <strong>৳${contextAmount.toLocaleString()}</strong> থাকে, তাহলে:<br/>`;
+      const savings20 = Math.floor(contextAmount * 0.2);
+      const savings30 = Math.floor(contextAmount * 0.3);
+      roadmap += `<br/>• <strong>Sanchay করো:</strong> ৳${savings20.toLocaleString()} থেকে ৳${savings30.toLocaleString()} (20-30%)<br/>`;
+      roadmap += `• <strong>Kharch করো:</strong> বাকিটা বুদ্ধিমানের মতো খরচ করো।<br/>`;
+      roadmap += `<br/>কিন্তু overall:</strong> এই মাসে তুমি <strong>৳${totalInc.toLocaleString()}</strong> earn করেছ, <strong>৳${totalExp.toLocaleString()}</strong> খরচ করেছ।<br/>`;
+    } else {
+      roadmap = `<strong>📊 Amar Analysis:</strong><br/>Bhai, এই মাসে তুমি <strong>৳${totalInc.toLocaleString()}</strong> earn করেছ আর <strong>৳${totalExp.toLocaleString()}</strong> খরচ করেছ।<br/>`;
+    }
 
     if (expenseRatio > 70) {
       roadmap += `<br/><strong>⚠️ Alert:</strong> Expense ratio <strong>${expenseRatio.toFixed(0)}%</strong> — এটা একটু বেশি! কিছু কাটাতে হবে।<br/>`;
@@ -758,7 +771,17 @@ function generateSavingsRoadmap(lang = 'en') {
       roadmap += `• বাকি টাকা সেভিংস-এ রাখো। 💰`;
     }
   } else {
-    roadmap = `<strong>📊 My Analysis:</strong><br/>Bhai, this month you earned <strong>৳${totalInc.toLocaleString()}</strong> and spent <strong>৳${totalExp.toLocaleString()}</strong>.<br/>`;
+    // English version
+    if (contextAmount) {
+      roadmap = `<strong>📊 My Advice:</strong><br/>Bhai, if you have <strong>৳${contextAmount.toLocaleString()}</strong>, here's what I suggest:<br/>`;
+      const savings20 = Math.floor(contextAmount * 0.2);
+      const savings30 = Math.floor(contextAmount * 0.3);
+      roadmap += `<br/>• <strong>Save:</strong> ৳${savings20.toLocaleString()} to ৳${savings30.toLocaleString()} (20-30%)<br/>`;
+      roadmap += `• <strong>Spend:</strong> Use the rest wisely.<br/>`;
+      roadmap += `<br/><strong>Your overall stats:</strong> This month you earned <strong>৳${totalInc.toLocaleString()}</strong> and spent <strong>৳${totalExp.toLocaleString()}</strong>.<br/>`;
+    } else {
+      roadmap = `<strong>📊 My Analysis:</strong><br/>Bhai, this month you earned <strong>৳${totalInc.toLocaleString()}</strong> and spent <strong>৳${totalExp.toLocaleString()}</strong>.<br/>`;
+    }
 
     if (expenseRatio > 70) {
       roadmap += `<br/><strong>⚠️ Alert:</strong> Expense ratio is <strong>${expenseRatio.toFixed(0)}%</strong> — that's high, bhai!<br/>`;
