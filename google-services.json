@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "464068570827",
+    "project_id": "dinlipi-d252d",
+    "storage_bucket": "dinlipi-d252d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:464068570827:android:08f6c32ce7f139f8b5754e",
+        "android_client_info": {
+          "package_name": "com.dinlipi.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYiSgAGHDhTPx5zSA901AWBMMfYzja_zY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
