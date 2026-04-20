@@ -852,22 +852,31 @@ NON-TRANSACTION: reply in 2-4 sentences in user's language mix. Be helpful and f
     removeTyping();
     const lTxt = txt.toLowerCase();
 
-    // ═══ PRIORITY 1: Check for ADVICE/ROADMAP intent FIRST ═══
-    const adviceKeywords = /roadmap|plan|planning|advise|advice|savings?|sanchay|bachat|kharch kam|save money|khoroch komano|পরামর্শ|বুদ্ধি|রোডম্যাপ|বাঁচাবো|বাঁচানো|সঞ্চয়|বাজেট|financial guidance|guide me/i;
+    // ═══════════════════════════════════════════════════════════════
+    // BULLETPROOF INTENT DETECTION — Check BEFORE Amount Extraction
+    // ═══════════════════════════════════════════════════════════════
+
+    // ═══ PRIORITY 1: ADVICE/ROADMAP INTENT (MUST BE FIRST!) ═══
+    // Extract any amount FIRST in case user mentions it for advice
+    const mentionedAmountMatch = txt.match(/\d+/);
+    const mentionedAmount = mentionedAmountMatch ? parseInt(mentionedAmountMatch[0]) : null;
+
+    // COMPREHENSIVE advice keyword list - all variations
+    const adviceKeywords = /\b(roadmap|plan|planning|advise|advice|suggestion|suggestions|savings?|sanchay|bachat|kharch\s+kam|khoroch\s+komano|save\s+money|porikolpona|somsay|sanchai|bachanor|kharch|komay|banchabo|sanchay\s+korbo|জীবন\s+পরিকল্পনা|আর্থিক\s+পরামর্শ|বাজেট|খরচ\s+কমান|পরামর্শ|বুদ্ধি|রোডম্যাপ|বাঁচাবো|বাঁচানো|সঞ্চয়|বাজেট|পরিকল্পনা|পরিকল্পনা|financial|guidance|guide|optimize|optimization)\b/i;
 
     if (adviceKeywords.test(lTxt)) {
-      // User wants financial advice/roadmap - DO NOT create transaction
-      const roadmap = generateSavingsRoadmap(currentLang);
+      // ✅ ADVICE/ROADMAP REQUEST — NO TRANSACTION, JUST ADVICE
+      const roadmap = generateSavingsRoadmap(currentLang, mentionedAmount);
       addMsg('ai', roadmap);
       return;
     }
 
-    // ═══ PRIORITY 2: Check for GREETING/CASUAL intent ═══
-    const isGreeting = /^(hello|hi|hey|howdy|sup|yo|yo bhai|salam|assalam|kmn|kmon|kiman|ki obostha|k obostha|kaise|kaisy|kya haal|haal|howzit)/.test(lTxt);
-    const isThanks = /^(thanks|thank you|shukriya|dhonnobad|ta vai|ar valo nai|thanks bhai|tq|ty)/.test(lTxt);
+    // ═══ PRIORITY 2: GREETING/CASUAL CHAT (NO FINANCIAL CARDS) ═══
+    const isGreeting = /^(hello|hi|hey|howdy|sup|yo|yo\s+bhai|yo\s+vai|salam|assalam|kmn|kmon|kiman|ki\s+obostha|k\s+obostha|kaise|kaisy|kya\s+haal|haal|howzit|hi\s+bhai|hello\s+bhai|hey\s+bhai)(\s+|$)/i.test(lTxt);
+    const isThanks = /^(thanks|thank\s+you|shukriya|dhonnobad|ta\s+vai|ar\s+valo\s+nai|thanks\s+bhai|tq|ty|thanks\s+a\s+lot|thx)(\s+|$)/i.test(lTxt);
 
     if (isGreeting || isThanks) {
-      // Just chat - don't show transaction cards, just reply
+      // ✅ PURE GREETING/CHAT — NO TRANSACTION CARD
       if (isGreeting) {
         const replies = {
           en: [
@@ -906,10 +915,11 @@ NON-TRANSACTION: reply in 2-4 sentences in user's language mix. Be helpful and f
       return;
     }
 
-    // ═══ PRIORITY 3: Check for OFF-TOPIC questions ═══
-    const offTopicKeywords = /\b(cricket|football|goal|match|score|player|team|win|lose|sports|movie|actor|actress|politics|politician|election|vote|government|minister|parliament|bill|law|capital|country|history|science|math|literature|homework|assignment|doctor|disease|medicine|recipe|cooking|dating|love|relationship|advice|secret|joke|funny|game|video game|xbox|playstation|nintendo|genshin|pubg|call of duty|fortnite|entertainment|celebrity|singer|artist|concert|album|song|book|novel|author|poem|poetry|weather|climate|global warming|covid|pandemic|conspiracy)\b/i;
+    // ═══ PRIORITY 3: OFF-TOPIC REJECTION ═══
+    const offTopicKeywords = /\b(cricket|football|goal|match|score|player|team|win|lose|sports|movie|actor|actress|politics|politician|election|vote|government|minister|parliament|bill|law|capital|country|history|science|math|literature|homework|assignment|doctor|disease|medicine|recipe|cooking|dating|love|relationship|secret|joke|funny|game|video\s+game|xbox|playstation|nintendo|genshin|pubg|call\s+of\s+duty|fortnite|entertainment|celebrity|singer|artist|concert|album|song|book|novel|author|poem|poetry|weather|climate|global\s+warming|covid|pandemic|conspiracy)\b/i;
 
-    if (offTopicKeywords.test(lTxt) && !/balance|roadmap|savings|spend|expense|income|transaction|kharch|income|finance|budget|taka|৳|dinlipi/.test(lTxt)) {
+    if (offTopicKeywords.test(lTxt) && !/balance|roadmap|savings|spend|expense|income|transaction|kharch|finance|budget|taka|৳|dinlipi|advice/i.test(lTxt)) {
+      // ❌ OFF-TOPIC
       const reply = currentLang === 'bn'
         ? "🚫 Dukkhibo bhai, ami shudhu DinLipi app ebong apnar finance niye shahajjo korte pari. Er baire ami kichu jani na! 😊"
         : "🚫 Sorry bhai, I'm only trained to help you with DinLipi and your finances. I can't answer things outside that! 😊";
@@ -917,8 +927,8 @@ NON-TRANSACTION: reply in 2-4 sentences in user's language mix. Be helpful and f
       return;
     }
 
-    // ═══ PRIORITY 4: Check for BALANCE query ═══
-    if (/balance|kitna|how much|amar|total|status|কত|আমার|kmn?|kemon|kiyo|ki obotha|obostha|acha|current/.test(lTxt)) {
+    // ═══ PRIORITY 4: BALANCE QUERY ═══
+    if (/balance|kitna|how\s+much|amar|total|status|কত|আমার|kmn?|kemon|kiyo|ki\s+obotha|obostha|acha|current/i.test(lTxt)) {
       const { totalBal, totalInc, totalExp, expenseRatio } = getFinancialMetrics();
       const balMsg = currentLang === 'bn'
         ? `💰 <strong>Balance:</strong> ৳${totalBal.toLocaleString()}<br/><strong>Income:</strong> ৳${totalInc.toLocaleString()}<br/><strong>Expense:</strong> ৳${totalExp.toLocaleString()}<br/><strong>Ratio:</strong> ${expenseRatio.toFixed(1)}% ${expenseRatio > 70 ? '⚠️' : '✅'}`
@@ -927,8 +937,8 @@ NON-TRANSACTION: reply in 2-4 sentences in user's language mix. Be helpful and f
       return;
     }
 
-    // ═══ PRIORITY 5: Handle "Mane?" (What/Meaning?) ═══
-    if (/^(mane|mane\?|matlab|matlab kya|kya matlab|what|what do you mean|ki bolte chai)/.test(lTxt)) {
+    // ═══ PRIORITY 5: "MANE?" (CLARIFICATION REQUEST) ═══
+    if (/^(mane|mane\?|matlab|matlab\s+kya|kya\s+matlab|what|what\s+do\s+you\s+mean|ki\s+bolte\s+chai)(\s+|$)/i.test(lTxt)) {
       const lastMsg = chatMsgs.querySelector('.msg.ai:last-of-type .msg-bubble')?.textContent || '';
       let explanation = '';
       if (lastMsg.includes('Expense') || lastMsg.includes('Balance')) {
@@ -944,15 +954,14 @@ NON-TRANSACTION: reply in 2-4 sentences in user's language mix. Be helpful and f
       return;
     }
 
-    // ═══ PRIORITY 6: Now check for TRANSACTION (only after all other intents) ═══
+    // ═══ PRIORITY 6: TRANSACTION DETECTION (ONLY AFTER ALL INTENT CHECKS) ═══
     let type = 'expense';
-
-    // Amount extraction
     const matchAmt = txt.match(/\d+/);
+    
     if (matchAmt) {
       const amt = parseInt(matchAmt[0]);
       // Keywords
-      if (lTxt.includes('pailam') || lTxt.includes('paisi') || lTxt.includes('ashlo') || lTxt.includes('salary')) {
+      if (lTxt.includes('pailam') || lTxt.includes('paisi') || lTxt.includes('ashlo') || lTxt.includes('salary') || lTxt.includes('income')) {
         type = 'income';
       }
 
@@ -960,6 +969,7 @@ NON-TRANSACTION: reply in 2-4 sentences in user's language mix. Be helpful and f
       if (lTxt.includes('bkash')) src = 'bKash';
       else if (lTxt.includes('nagad')) src = 'Nagad';
       else if (lTxt.includes('bank')) src = 'Bank';
+      else if (lTxt.includes('rocket')) src = 'Rocket';
 
       let reply = '';
       if (currentLang === 'bn') {
@@ -972,7 +982,7 @@ NON-TRANSACTION: reply in 2-4 sentences in user's language mix. Be helpful and f
           : `Done bhai! Added ৳${amt} as an expense.`;
       }
 
-      let name = txt.replace(/\d+/g, '').replace(/taka|tk|dilam|khailam|khoroch|spent|pailam|paisi|ashlo|roadmap|plan|advice|advise/gi, '').trim();
+      let name = txt.replace(/\d+/g, '').replace(/taka|tk|dilam|khailam|khoroch|spent|pailam|paisi|ashlo|roadmap|plan|advice|advise|বাজেট|সঞ্চয়|খরচ/gi, '').trim();
       name = name || (type === 'income' ? 'Income' : 'Expense');
       if (name.length > 25) name = name.substring(0, 25);
 
@@ -990,100 +1000,8 @@ NON-TRANSACTION: reply in 2-4 sentences in user's language mix. Be helpful and f
       renderAll();
       addMsg('ai', reply, txnCard(name, amt, src, type, cat, icon));
     } else {
-      // ──── Enhanced Smart Intent Recognition with Domain Boundaries ────
+      // ──── FALLBACK: No amount found ────
       const lower = lTxt.toLowerCase();
-      const lastMsg = chatMsgs.querySelector('.msg.ai:last-of-type .msg-bubble')?.textContent || '';
-
-      // ✅ ALLOWED INITIAL CHECKS (Greetings & Casual) - don't block these
-      const isGreeting = /^(hello|hi|hey|howdy|sup|yo|yo bhai|salam|assalam|kmn|kmon|kiman|ki obostha|k obostha|kaise|kaisy|kya haal|haal|howzit)/.test(lower);
-      const isThanks = /^(thanks|thank you|shukriya|dhonnobad|ta vai|ar valo nai|thanks bhai|tq|ty)/.test(lower);
-
-      // ❌ DOMAIN BOUNDARIES - Reject off-topic questions
-      const offTopicKeywords = /\b(cricket|football|goal|match|score|player|team|win|lose|sports|movie|actor|actress|politics|politician|election|vote|government|minister|parliament|bill|law|capital|country|history|science|math|literature|homework|assignment|doctor|disease|medicine|recipe|cooking|dating|love|relationship|advice|secret|joke|funny|game|video game|xbox|playstation|nintendo|genshin|pubg|call of duty|fortnite|entertainment|celebrity|singer|artist|concert|album|song|book|novel|author|poem|poetry|weather|climate|global warming|covid|pandemic|conspiracy)\b/i;
-
-      // Smart check: if it contains off-topic keywords AND it's not just a casual greeting
-      if (offTopicKeywords.test(lower) && !isGreeting && !isThanks && !/balance|roadmap|savings|spend|expense|income|transaction|kharch|income|finance|budget|taka|৳|dinlipi/.test(lower)) {
-        const reply = currentLang === 'bn'
-          ? "🚫 Dukkhibo bhai, ami shudhu DinLipi app ebong apnar finance niye shahajjo korte pari. Er baire ami kichu jani na! 😊"
-          : "🚫 Sorry bhai, I'm only trained to help you with DinLipi and your finances. I can't answer things outside that! 😊";
-        addMsg('ai', reply);
-        return;
-      }
-
-      // FINANCIAL ADVISOR MODE - Roadmap/Savings Plan
-      if (/roadmap|savings?|plan|save money|sanchay|bachat|kharch kam|খরচ কমাতে|বাঁচানো|সঞ্চয়|বাজেট|পরামর্শ|financial/.test(lower)) {
-        const roadmap = generateSavingsRoadmap(currentLang);
-        addMsg('ai', roadmap);
-        return;
-      }
-
-      // Balance Query - with expanded casual keywords
-      if (/balance|kitna|how much|amar|total|status|কত|আমার|kmn?|kemon|kiyo|ki obotha|obostha|acha|current/.test(lower)) {
-        const { totalBal, totalInc, totalExp, expenseRatio } = getFinancialMetrics();
-        const balMsg = currentLang === 'bn'
-          ? `💰 <strong>Balance:</strong> ৳${totalBal.toLocaleString()}<br/><strong>Income:</strong> ৳${totalInc.toLocaleString()}<br/><strong>Expense:</strong> ৳${totalExp.toLocaleString()}<br/><strong>Ratio:</strong> ${expenseRatio.toFixed(1)}% ${expenseRatio > 70 ? '⚠️' : '✅'}`
-          : `💰 <strong>Balance:</strong> ৳${totalBal.toLocaleString()}<br/><strong>Income:</strong> ৳${totalInc.toLocaleString()}<br/><strong>Expense:</strong> ৳${totalExp.toLocaleString()}<br/><strong>Ratio:</strong> ${expenseRatio.toFixed(1)}% ${expenseRatio > 70 ? '⚠️' : '✅'}`;
-        addMsg('ai', balMsg);
-        return;
-      }
-
-      // Casual Conversation - Status checks & Banglish
-      if (/^(hello|hi|hey|howdy|sup|yo|yo bhai|salam|assalam|kmn|kmon|kiman|ki obostha|k obostha|kaise|kaisy|kya haal|haal|howzit)/.test(lower)) {
-        const replies = {
-          en: [
-            "Yo bhai! 👋 Kaisy? Kya khabar?",
-            "Sup bhai! 😊 How's it going?",
-            "Hello dost! 👋 Amar kache kya lagbe?",
-            "Howdy! 🎉 Money management koro naki just checking in?"
-          ],
-          bn: [
-            "Yo bhai! 👋 Kmn acho? Ki khabar?",
-            "Assalamu alaikum bhai! 😊 Kaisa acho?",
-            "Hello dost! 👋 Ki obostha?",
-            "Sup! 🎉 Amar kache balance nao naki roadmap?"
-          ]
-        };
-        const replyList = currentLang === 'bn' ? replies.bn : replies.en;
-        const reply = replyList[Math.floor(Math.random() * replyList.length)];
-        addMsg('ai', reply);
-        return;
-      }
-
-      // Thanks - Banglish variants
-      if (/^(thanks|thank you|shukriya|dhonnobad|ta vai|ar valo nai|thanks bhai|tq|ty|❤️|💖)/.test(lower)) {
-        const replies = {
-          en: [
-            "Anytime bhai! 😊",
-            "No problem dost! Always here for you 💪",
-            "Welcome welcome! 🎉"
-          ],
-          bn: [
-            "Anytime bhai! 😊 Ar ki lagbe?",
-            "Kono problem nai! Ami tomar pase ache 💪",
-            "Welcome bhai! 🎉"
-          ]
-        };
-        const replyList = currentLang === 'bn' ? replies.bn : replies.en;
-        const reply = replyList[Math.floor(Math.random() * replyList.length)];
-        addMsg('ai', reply);
-        return;
-      }
-
-      // Handle "Mane?" (What/Meaning?) - Contextual explanation
-      if (/^(mane|mane\?|matlab|matlab kya|kya matlab|what|what do you mean|ki bolte chai)/.test(lower)) {
-        let explanation = '';
-        if (lastMsg.includes('Expense') || lastMsg.includes('Balance')) {
-          explanation = currentLang === 'bn'
-            ? "Mane: Takar details deklam. Balance = koto taka ache, Income = koto income korechi, Expense = koto kharch korechi, Ratio = kharch koto % income er. Bujhle? 😊"
-            : "Meaning: I showed you your money details. Balance = how much you have, Income = how much you earned, Expense = how much you spent, Ratio = what % of income you spent. Got it? 😊";
-        } else {
-          explanation = currentLang === 'bn'
-            ? "Sorry bhai, ki bolte chai seta bujhlam na. Tumi bolte paro: 'Balance dey', 'Roadmap chai', ba 'Lunch 200 taka' — ami bujhbo! 😊"
-            : "Sorry bhai, didn't catch that. You can ask: 'Show balance', 'Give roadmap', or 'Lunch 200 taka' — I'll understand! 😊";
-        }
-        addMsg('ai', explanation);
-        return;
-      }
 
       // Incomplete transaction - Expanded keywords
       const hasCat = CAT_MAP.some(c => c.keys.some(k => lower.includes(k.toLowerCase())));
@@ -1095,11 +1013,10 @@ NON-TRANSACTION: reply in 2-4 sentences in user's language mix. Be helpful and f
         return;
       }
 
-      // Smart Fallback - Check if unclear but potentially DinLipi-related
-      const isDinLipiRelated = /dinlipi|app|feature|button|screen|tab|notification|sync|data|phone|device|save|store|offline/.test(lower);
+      // Smart Fallback
+      const isDinLipiRelated = /dinlipi|app|feature|button|screen|tab|notification|sync|data|phone|device|save|store|offline/i.test(lower);
 
-      if (isDinLipiRelated && !/(roadmap|balance|transaction|expense|income|budget|taka|৳|financial)/.test(lower)) {
-        // Unsure if DinLipi-related but mentions app terms
+      if (isDinLipiRelated && !/(roadmap|balance|transaction|expense|income|budget|taka|৳|financial)/i.test(lower)) {
         const reply = currentLang === 'bn'
           ? "Ami thik bujhlam na bhai! 🤔 Apni ki apnar balance ba budget niye kotha bolte chan? Naki kono DinLipi feature niye proshno ache?"
           : "I'm not sure about that, bhai! 🤔 Are you asking about your balance or budget? Or is there something about DinLipi itself?";
@@ -1107,7 +1024,7 @@ NON-TRANSACTION: reply in 2-4 sentences in user's language mix. Be helpful and f
         return;
       }
 
-      // Generic Fallback - Friendly & Encouraging for unclear queries
+      // Generic Fallback
       const fallbacks = {
         en: [
           "Ami thik bujhlam na, bhai! 🤔 Apni ki balance, roadmap, ba transaction niye kotha bolte chan?",
