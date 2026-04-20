@@ -1023,12 +1023,16 @@ async function sendMsg() {
       // Check for explicit financial keywords - route to expert knowledge base
       const hasFinancialKeywords = /invest|save|plan|roadmap|પ્રણાली|পরামর্শ|किसी|advise|strategy|budget|allocate|reduce|expense|income|earn|freelance|loan|debt|inflation|business|growth|passive|portfolio|diversif|risk|return|profit|emergency|crisis|goal|target|forecast|calculate|estimate/i.test(lTxt);
 
-      if (hasFinancialKeywords) {
-        // 🎯 FORCE ROUTE TO EXPERT FINANCIAL ADVISOR - NO SHORTCUTS
+      if (hasPlanKeywords) {
+        // 🎯 TIER 1: PLAN REQUEST - Route to generateFinancialAdvice() ONLY (NO snapshot)
+        const detailedAdvice = generateFinancialAdvice(currentLang, mentionedAmount, txt);
+        response = detailedAdvice;
+      } else if (/advise|advice|budget|expense|income|earn|salary|freelance|loan|debt|emi|credit|business|passive|portfolio|risk|return|profit|emergency|inflation/i.test(lTxt)) {
+        // TIER 2: Other general financial keywords - Route to expert
         const detailedAdvice = generateFinancialAdvice(currentLang, mentionedAmount, txt);
         response = detailedAdvice;
       } else if (/balance|kitna|how\s+much|total|current|amar|আমার|কত|state|status|position|obostha/i.test(lTxt)) {
-        // BALANCE/STATUS - But provide smart analysis with optional snapshot
+        // TIER 3: PURE STATUS QUERIES - Show analysis with optional snapshot
         const { totalBal, totalInc, totalExp, expenseRatio } = getFinancialMetrics();
 
         // Provide smart financial analysis FIRST, then snapshot
