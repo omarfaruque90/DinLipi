@@ -749,13 +749,24 @@ function generateFinancialAdvice(lang = 'en', mentionedAmount = null, context = 
       advice = `<strong>💼 আপনার জন্য কাস্টমাইজড সুপারিশ (৳${mentionedAmount.toLocaleString()}):</strong><br/>`;
 
       if (isInvestmentQ) {
+        const amountSize = getAmountContext(mentionedAmount);
         const invest10 = Math.floor(mentionedAmount * 0.1);
         const invest5 = Math.floor(mentionedAmount * 0.05);
+        const monthlyReturn = Math.floor(mentionedAmount * 0.2 / 12);
         advice += `<br/>🎯 <strong>বিনিয়োগ কৌশল:</strong><br/>`;
         advice += `• শুরু করুন ৳${invest10.toLocaleString()} দিয়ে (10% of amount)<br/>`;
         advice += `• প্রথম মাসে ৳${invest5.toLocaleString()} বাড়ান<br/>`;
-        advice += `• Low-risk options: সাভিংস অ্যাকাউন্ট, বন্ড, মিউচুয়াল ফান্ড<br/>`;
-        advice += `• দীর্ঘমেয়াদী লক্ষ্য: প্রতি বছর ২০% রিটার্ন<br/>`;
+        advice += `• মাসিক রিটার্ন লক্ষ্য: ~৳${monthlyReturn.toLocaleString()}<br/>`;
+        
+        if (amountSize === 'small') {
+          advice += `• শুরুর স্তর: সেভিংস অ্যাকাউন্ট, মিউচুয়াল ফান্ড<br/>`;
+        } else if (amountSize === 'medium') {
+          advice += `• মিশ্র পোর্টফোলিও: ৫০% নিরাপদ, ৫০% বৃদ্ধি<br/>`;
+        } else if (amountSize === 'large') {
+          advice += `• বৈচিত্র্যময়: স্টক, বন্ড, রিয়েল এস্টেট<br/>`;
+        } else {
+          advice += `• বৈশ্বিক মনোযোগ: পেশাদার সম্পদ ব্যবস্থাপনা<br/>`;
+        }
       } else if (isExpenseQ) {
         const reduced20 = Math.floor(mentionedAmount * 0.2);
         advice += `<br/>✂️ <strong>খরচ কমানোর পরিকল্পনা:</strong><br/>`;
