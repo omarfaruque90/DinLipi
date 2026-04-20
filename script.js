@@ -724,19 +724,19 @@ function getFinancialMetrics() {
 function generateFinancialAdvice(lang = 'en', mentionedAmount = null, context = '') {
   const { totalInc, totalExp, expenseRatio, categorySpend } = getFinancialMetrics();
   const contextLower = context.toLowerCase();
-  
+
   // Determine what type of advice is needed based on context
   const isInvestmentQ = /invest|stock|fund|business|passive\s+income|earning|return|profit/i.test(context);
   const isExpenseQ = /reduce|cut|save|less|khoroch|খরচ|কমান|কম/i.test(context);
   const isBudgetQ = /budget|allocate|how\s+much|distribute|divide|split|kharch|planning/i.test(context);
   const isEmergencyQ = /emergency|crisis|need|problem|khrap|বিপদ|সমস্যা|প্রয়োজন/i.test(context);
-  
+
   let advice = '';
-  
+
   if (lang === 'bn') {
     if (mentionedAmount) {
       advice = `<strong>💼 আপনার জন্য কাস্টমাইজড সুপারিশ (৳${mentionedAmount.toLocaleString()}):</strong><br/>`;
-      
+
       if (isInvestmentQ) {
         const invest10 = Math.floor(mentionedAmount * 0.1);
         const invest5 = Math.floor(mentionedAmount * 0.05);
@@ -776,7 +776,7 @@ function generateFinancialAdvice(lang = 'en', mentionedAmount = null, context = 
       advice += `• মাসিক আয়: ৳${totalInc.toLocaleString()}<br/>`;
       advice += `• মাসিক খরচ: ৳${totalExp.toLocaleString()}<br/>`;
       advice += `• সঞ্চয় অনুপাত: ${(100 - expenseRatio).toFixed(1)}%<br/>`;
-      
+
       if (expenseRatio > 75) {
         advice += `<br/>🚨 <strong>জরুরি সতর্কতা:</strong> আপনার খরচ আয়ের ${expenseRatio.toFixed(0)}% — এটি অত্যন্ত বেশি!<br/>`;
         advice += `<br/>💡 <strong>৩০ দিনের চ্যালেঞ্জ:</strong><br/>`;
@@ -799,7 +799,7 @@ function generateFinancialAdvice(lang = 'en', mentionedAmount = null, context = 
     // English version
     if (mentionedAmount) {
       advice = `<strong>💼 Your Customized Financial Plan (৳${mentionedAmount.toLocaleString()}):</strong><br/>`;
-      
+
       if (isInvestmentQ) {
         const invest10 = Math.floor(mentionedAmount * 0.1);
         const invest5 = Math.floor(mentionedAmount * 0.05);
@@ -839,7 +839,7 @@ function generateFinancialAdvice(lang = 'en', mentionedAmount = null, context = 
       advice += `• Monthly Income: ৳${totalInc.toLocaleString()}<br/>`;
       advice += `• Monthly Spending: ৳${totalExp.toLocaleString()}<br/>`;
       advice += `• Savings Ratio: ${(100 - expenseRatio).toFixed(1)}%<br/>`;
-      
+
       if (expenseRatio > 75) {
         advice += `<br/>🚨 <strong>Critical Alert:</strong> You're spending ${expenseRatio.toFixed(0)}% of income — unsustainable!<br/>`;
         advice += `<br/>💡 <strong>30-Day Challenge:</strong><br/>`;
@@ -859,7 +859,7 @@ function generateFinancialAdvice(lang = 'en', mentionedAmount = null, context = 
       }
     }
   }
-  
+
   return advice;
 }
 

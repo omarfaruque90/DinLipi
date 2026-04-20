@@ -27,7 +27,7 @@ When user mentions a number with a financial question, it's automatically captur
 
 **Example Queries:**
 - ✅ "5000 taka roadmap dau" → AI gives roadmap for ৳5000
-- ✅ "10000 invest korte chai" → AI gives investment plan for ৳10000  
+- ✅ "10000 invest korte chai" → AI gives investment plan for ৳10000
 - ✅ "50000 taka budget plan" → AI allocates budget for ৳50000
 - ✅ "how to manage 15000" → AI provides management guide
 
@@ -107,7 +107,7 @@ Responses are now structured like a professional but friendly advisor:
 • Invest ৳6,750 monthly
 ```
 
-### Example 3: "Budget plan 20000" 
+### Example 3: "Budget plan 20000"
 ```
 📋 Ideal Budget Split:
 • 🏠 Essential Expenses: ৳10,000 (50%)
@@ -122,7 +122,7 @@ Responses are now structured like a professional but friendly advisor:
 These still create actual expense/income entries:
 
 - "Lunch 200 taka" → Creates expense
-- "Salary paisi 50000" → Creates income  
+- "Salary paisi 50000" → Creates income
 - "Rickshaw 80" → Creates expense
 - "Freelance payment 15000" → Creates income
 
@@ -146,13 +146,13 @@ These still create actual expense/income entries:
 
 ## 🎯 Tested Scenarios
 
-✅ User asks vague question → Gets expert advice  
-✅ User mentions amount → Gets tailored plan  
-✅ User asks about expense reduction → Gets cutting strategy  
-✅ User asks about investments → Gets investment plan  
-✅ User greets → Gets greeting (no financial cards)  
-✅ User says "Lunch 200" → Creates transaction (normal behavior)  
-✅ User asks "Roadmap 10000" → No transaction, pure advice  
+✅ User asks vague question → Gets expert advice
+✅ User mentions amount → Gets tailored plan
+✅ User asks about expense reduction → Gets cutting strategy
+✅ User asks about investments → Gets investment plan
+✅ User greets → Gets greeting (no financial cards)
+✅ User says "Lunch 200" → Creates transaction (normal behavior)
+✅ User asks "Roadmap 10000" → No transaction, pure advice
 
 ---
 
