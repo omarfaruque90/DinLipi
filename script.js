@@ -990,30 +990,67 @@ async function sendMsg() {
         response = currentLang === 'bn'
           ? `💰 <strong>আপনার আর্থিক অবস্থা:</strong><br/>Balance: ৳${totalBal.toLocaleString()}<br/>Income: ৳${totalInc.toLocaleString()}<br/>Expense: ৳${totalExp.toLocaleString()}<br/>Ratio: ${expenseRatio.toFixed(1)}% ${expenseRatio > 70 ? '⚠️' : '✅'}`
           : `💰 <strong>Your Financial Snapshot:</strong><br/>Balance: ৳${totalBal.toLocaleString()}<br/>Income: ৳${totalInc.toLocaleString()}<br/>Expense: ৳${totalExp.toLocaleString()}<br/>Ratio: ${expenseRatio.toFixed(1)}% ${expenseRatio > 70 ? '⚠️' : '✅'}`;
+      } else if (/inflation|value|worth|দাম|মূল্য|বৃদ্ধি|বাড়ছে|decrease|depreciate/i.test(lTxt)) {
+        // Inflation/economics question
+        if (mentionedAmount) {
+          const futureValue3Yr = Math.floor(mentionedAmount * 1.03 * 1.03 * 1.03);
+          const futureValue5Yr = Math.floor(mentionedAmount * 1.03 * 1.03 * 1.03 * 1.03 * 1.03);
+          response = currentLang === 'bn'
+            ? `📊 <strong>৳${mentionedAmount.toLocaleString()} এর ভবিষ্যত মূল্য:</strong><br/>বর্তমান: ৳${mentionedAmount.toLocaleString()}<br/>৩ বছরে (৩% বার্ষিক মুদ্রাস্ফীতি): ~৳${futureValue3Yr.toLocaleString()}<br/>৫ বছরে: ~৳${futureValue5Yr.toLocaleString()}<br/><br/>💡 <strong>পরামর্শ:</strong> এই কারণেই সঞ্চয় করা জরুরি - আপনার টাকা যেন আজকের মতো শক্তিশালী থাকে।`
+            : `📊 <strong>Future Value of ৳${mentionedAmount.toLocaleString()}:</strong><br/>Today: ৳${mentionedAmount.toLocaleString()}<br/>In 3 years (3% inflation): ~৳${futureValue3Yr.toLocaleString()}<br/>In 5 years: ~৳${futureValue5Yr.toLocaleString()}<br/><br/>💡 <strong>Why save?</strong> Keep your money's value strong against inflation!`;
+        } else {
+          response = currentLang === 'bn'
+            ? `📉 <strong>বাংলাদেশে মুদ্রাস্ফীতি সম্পর্কে:</strong><br/>• গড় বার্ষিক মুদ্রাস্ফীতি: ~৪-৫%<br/>• এর মানে: ৳১০০ আজ ৫ বছরে ~৭৮ টাকার সমান থাকবে<br/>• সমাধান: নিয়মিত সঞ্চয় এবং স্মার্ট বিনিয়োগ করুন`
+            : `📉 <strong>Inflation in Bangladesh:</strong><br/>• Average annual: 4-5%<br/>• Impact: ৳100 today = ~৳78 in 5 years<br/>• Solution: Regular savings + smart investments`;
+        }
       } else if (/invest|investment|stock|fund|business|passive\s+income|earn|earning|profit|return|growth/i.test(lTxt)) {
         // Investment question
         if (mentionedAmount) {
           const invest10 = Math.floor(mentionedAmount * 0.1);
           const invest5 = Math.floor(mentionedAmount * 0.05);
+          const yearlyReturn = Math.floor(mentionedAmount * 0.2); // 20% target annual
+          const monthlyReturn = Math.floor(yearlyReturn / 12);
+          
+          // Handle different amount ranges
+          let investAdvice = '';
+          if (mentionedAmount < 10000) {
+            investAdvice = currentLang === 'bn'
+              ? `• এই পরিমাণ দিয়ে শুরু করুন: সেভিংস, মিউচুয়াল ফান্ড<br/>• বাড়ান আপনার অভিজ্ঞতা বাড়ার সাথে`
+              : `• Start small: Savings, Mutual Funds<br/>• Build experience gradually`;
+          } else if (mentionedAmount < 100000) {
+            investAdvice = currentLang === 'bn'
+              ? `• ভাগ করুন: ৫০% নিরাপদ (সেভিংস, বন্ড), ৫০% বৃদ্ধি (স্টক, ফান্ড)<br/>• লক্ষ্য: বার্ষিক ১৫-২০% রিটার্ন`
+              : `• Split: 50% Safe (Savings, Bonds), 50% Growth (Stocks, Funds)<br/>• Target: 15-20% annual return`;
+          } else if (mentionedAmount < 1000000) {
+            investAdvice = currentLang === 'bn'
+              ? `• বৈচিত্র্য আনুন: স্টক, বন্ড, রিয়েল এস্টেট, ব্যবসা<br/>• ট্যাক্স সেভিং স্কিম বিবেচনা করুন<br/>• পেশাদার পরামর্শ নিন`
+              : `• Diversify: Stocks, Bonds, Real Estate, Business<br/>• Consider tax-saving schemes<br/>• Consult a financial advisor`;
+          } else {
+            investAdvice = currentLang === 'bn'
+              ? `• আপনার বিনিয়োগ পোর্টফোলিও তৈরি করুন বিশেষজ্ঞদের সাথে<br/>• বিভিন্ন সেক্টরে বিনিয়োগ করুন ঝুঁকি কমাতে<br/>• ট্যাক্স প্ল্যানিং খুবই জরুরি এই স্তরে`
+              : `• Build investment portfolio with experts<br/>• Diversify across sectors<br/>• Tax planning is crucial at this level`;
+          }
+          
           response = currentLang === 'bn'
-            ? `💼 <strong>৳${mentionedAmount.toLocaleString()} বিনিয়োগের পরিকল্পনা:</strong><br/>• শুরু করুন: ৳${invest10.toLocaleString()} (10%)<br/>• নিরাপদ বিকল্প: সেভিংস অ্যাকাউন্ট, বন্ড<br/>• লক্ষ্য: বার্ষিক ২০% রিটার্ন<br/>• কৌশল: ধাপে ধাপে বাড়ান`
-            : `💼 <strong>Investment Plan for ৳${mentionedAmount.toLocaleString()}:</strong><br/>• Start with: ৳${invest10.toLocaleString()} (10%)<br/>• Safe options: Savings, Bonds<br/>• Target: 20% annual return<br/>• Strategy: Increase gradually`;
+            ? `💼 <strong>৳${mentionedAmount.toLocaleString()} বিনিয়োগের কৌশল:</strong><br/>• শুরু করুন: ৳${invest10.toLocaleString()} (10%)<br/>• পরবর্তী মাসে বাড়ান: ৳${invest5.toLocaleString()}<br/>• মাসিক লক্ষ্য রিটার্ন: ~৳${monthlyReturn.toLocaleString()}<br/><br/>📍 <strong>আপনার অবস্থা অনুযায়ী:</strong><br/>${investAdvice}`
+            : `💼 <strong>Investment Strategy for ৳${mentionedAmount.toLocaleString()}:</strong><br/>• Start with: ৳${invest10.toLocaleString()} (10%)<br/>• Increase by ৳${invest5.toLocaleString()} next month<br/>• Monthly return target: ~৳${monthlyReturn.toLocaleString()}<br/><br/>📍 <strong>Based on your amount:</strong><br/>${investAdvice}`;
         } else {
           response = currentLang === 'bn'
-            ? `💡 <strong>বিনিয়োগের টিপস:</strong><br/>• ইমার্জেন্সি ফান্ড প্রথমে ৩ মাসের খরচ রাখুন<br/>• আপনার সঞ্চয়ের ১০-১৫% স্টার্ট করুন<br/>• দীর্ঘমেয়াদে চিন্তা করুন (১০+ বছর)<br/>• ঝুঁকি বুঝে বিনিয়োগ করুন`
-            : `💡 <strong>Investment Tips:</strong><br/>• Build 3-month emergency fund first<br/>• Start with 10-15% of savings<br/>• Think long-term (10+ years)<br/>• Understand risk before investing`;
+            ? `💡 <strong>বিনিয়োগের মৌলিক নীতি:</strong><br/>• ৩-৬ মাসের জরুরি তহবিল রাখুন প্রথমে<br/>• আপনার আয়ের ১০-২০% বিনিয়োগ করুন<br/>• দীর্ঘমেয়াদে চিন্তা করুন (৫+ বছর)<br/>• ঝুঁকি বুঝে বিনিয়োগ করুন<br/>• বৈচিত্র্যময় করুন - সব ডিমে রাখবেন না`
+            : `💡 <strong>Investment Basics:</strong><br/>• Keep 3-6 months emergency fund first<br/>• Invest 10-20% of income<br/>• Think long-term (5+ years)<br/>• Understand risk before investing<br/>• Diversify - don't put all eggs in one basket`;
         }
       } else if (/how.*save|reduce.*spend|cut.*expense|less\s+spending|খরচ\s+কমান|বাঁচানো|সঞ্চয়/i.test(lTxt)) {
         // Expense reduction question
         if (mentionedAmount) {
           const saved = Math.floor(mentionedAmount * 0.2);
+          const saved10 = Math.floor(mentionedAmount * 0.1);
           response = currentLang === 'bn'
-            ? `✂️ <strong>৳${mentionedAmount.toLocaleString()} থেকে সাশ্রয়ের উপায়:</strong><br/>• মাসিক সেভ করুন: ৳${saved.toLocaleString()}<br/>• বাদ দিন: অপ্রয়োজনীয় সাবস্ক্রিপশন<br/>• কমান: খাদ্য বাজেট ১৫%<br/>• পরিবহন: স্মার্ট পছন্দ করুন`
-            : `✂️ <strong>Save from ৳${mentionedAmount.toLocaleString()}:</strong><br/>• Monthly savings: ৳${saved.toLocaleString()}<br/>• Cut: Subscriptions you don't need<br/>• Reduce: Food budget by 15%<br/>• Smart: Transport choices`;
+            ? `✂️ <strong>৳${mentionedAmount.toLocaleString()} থেকে সাশ্রয়ের উপায়:</strong><br/>• তাৎক্ষণিক লক্ষ্য: ৳${saved10.toLocaleString()} (1st month)<br/>• মাসিক সাশ্রয়: ৳${saved.toLocaleString()}<br/><br/>💡 <strong>কী করতে পারেন:</strong><br/>• অপ্রয়োজনীয় সাবস্ক্রিপশন বাদ দিন<br/>• খাদ্য বাজেট ১৫% কমান<br/>• বিনোদন খরচ সীমাবদ্ধ করুন<br/>• পরিবহনে স্মার্ট পছন্দ করুন<br/>• মাসিক পর্যালোচনা করুন`
+            : `✂️ <strong>Save ৳${saved.toLocaleString()} from ৳${mentionedAmount.toLocaleString()}:</strong><br/>• Quick wins: Cut ৳${saved10.toLocaleString()} first<br/>• Monthly target: ৳${saved.toLocaleString()}<br/><br/>💡 <strong>Action items:</strong><br/>• Cancel unused subscriptions<br/>• Cut food budget by 15%<br/>• Limit entertainment spending<br/>• Smart transport choices<br/>• Weekly check-ins`;
         } else {
           response = currentLang === 'bn'
-            ? `💰 <strong>খরচ কমানোর ৫ ধাপ:</strong><br/>1. সব খরচ লিখে রাখুন<br/>2. ক্যাটাগরিতে ভাগ করুন<br/>3. সর্ববড়টা চিহ্নিত করুন<br/>4. ২০% কমানোর লক্ষ্য রাখুন<br/>5. প্রতি সপ্তাহে রিভিউ করুন`
-            : `💰 <strong>5-Step to Reduce Spending:</strong><br/>1. Track all expenses<br/>2. Group by category<br/>3. Find the biggest<br/>4. Target 20% reduction<br/>5. Review weekly`;
+            ? `💰 <strong>খরচ কমানোর কৌশল:</strong><br/>1. সব খরচ ৭ দিন ট্র্যাক করুন<br/>2. ক্যাটাগরিতে ভাগ করুন<br/>3. বৃহত্তম খরচ চিহ্নিত করুন<br/>4. সেখান থেকে ২০% কমানোর পরিকল্পনা করুন<br/>5. প্রতি সপ্তাহে রিভিউ করুন<br/><br/>💡 সাধারণ জায়গা যেখানে টাকা বেরিয়ে যায়: খাবার, যাতায়াত, অনলাইন শপিং`
+            : `💰 <strong>Spend-Cutting Strategy:</strong><br/>1. Track for 7 days<br/>2. Categorize expenses<br/>3. Identify biggest drain<br/>4. Plan 20% reduction<br/>5. Weekly review<br/><br/>💡 Common money leaks: Food, Transport, Online shopping`;
         }
       } else if (/budget|allocate|how.*much|distribute|divide|split|বাজেট|ভাগ|বিভাজন/i.test(lTxt)) {
         // Budget question
@@ -1021,23 +1058,69 @@ async function sendMsg() {
           const essential = Math.floor(mentionedAmount * 0.5);
           const savings = Math.floor(mentionedAmount * 0.25);
           const personal = Math.floor(mentionedAmount * 0.25);
+          
+          let budgetNote = '';
+          if (mentionedAmount < 50000) {
+            budgetNote = currentLang === 'bn'
+              ? '<br/>💡 ছোট বাজেটের টিপ: সঞ্চয় শুরু করুন কমপক্ষে ৳১০০০ দিয়ে'
+              : '<br/>💡 Small budget tip: Start saving with at least ৳1000';
+          } else if (mentionedAmount > 500000) {
+            budgetNote = currentLang === 'bn'
+              ? '<br/>💡 বড় বাজেটের জন্য: ট্যাক্স প্ল্যানিং এবং বিনিয়োগ পরামর্শ নিন'
+              : '<br/>💡 Large budget tip: Get tax planning and investment advice';
+          }
+          
           response = currentLang === 'bn'
-            ? `📋 <strong>৳${mentionedAmount.toLocaleString()} এর আদর্শ বাজেট:</strong><br/>• 🏠 জরুরি: ৳${essential.toLocaleString()} (50%)<br/>• 💰 সঞ্চয়: ৳${savings.toLocaleString()} (25%)<br/>• 🎉 ব্যক্তিগত: ৳${personal.toLocaleString()} (25%)`
-            : `📋 <strong>Ideal Budget for ৳${mentionedAmount.toLocaleString()}:</strong><br/>• 🏠 Essential: ৳${essential.toLocaleString()} (50%)<br/>• 💰 Savings: ৳${savings.toLocaleString()} (25%)<br/>• 🎉 Personal: ৳${personal.toLocaleString()} (25%)`;
+            ? `📋 <strong>৳${mentionedAmount.toLocaleString()} এর আদর্শ বাজেট:</strong><br/>• 🏠 প্রয়োজনীয় খরচ: ৳${essential.toLocaleString()} (50%)<br/>• 💰 সঞ্চয়/বিনিয়োগ: ৳${savings.toLocaleString()} (25%)<br/>• 🎉 ব্যক্তিগত/বিনোদন: ৳${personal.toLocaleString()} (25%)${budgetNote}`
+            : `📋 <strong>Ideal Budget for ৳${mentionedAmount.toLocaleString()}:</strong><br/>• 🏠 Essential: ৳${essential.toLocaleString()} (50%)<br/>• 💰 Savings/Investment: ৳${savings.toLocaleString()} (25%)<br/>• 🎉 Personal/Entertainment: ৳${personal.toLocaleString()} (25%)${budgetNote}`;
         } else {
           response = currentLang === 'bn'
-            ? `📊 <strong>বাজেট বানানোর নিয়ম:</strong><br/>1. আপনার আয় জানুন<br/>2. গত ৩ মাসের খরচ যোগ করুন<br/>3. ক্যাটাগরিতে ভাগ করুন<br/>4. প্রতিটিতে ১৫% কমান<br/>5. মাসিক রিভিউ করুন`
-            : `📊 <strong>Budget Making Steps:</strong><br/>1. Know your income<br/>2. Add last 3 months spending<br/>3. Split by categories<br/>4. Reduce each by 15%<br/>5. Monthly review`;
+            ? `📊 <strong>বাজেট তৈরির ধাপ:</strong><br/>1. আপনার মোট আয় বের করুন<br/>2. গত ৩ মাসের খরচ যোগ করুন<br/>3. প্রতিটি ক্যাটাগরির হার বের করুন<br/>4. প্রতিটিতে ১৫% কমানোর লক্ষ্য রাখুন<br/>5. প্রতি ১৫ দিনে রিভিউ করুন<br/><br/>📌 <strong>নিয়ম:</strong> খরচ < আয়ের ৬০%`
+            : `📊 <strong>Budget Creation Steps:</strong><br/>1. Calculate total income<br/>2. Sum last 3 months spending<br/>3. Find each category percentage<br/>4. Target 15% reduction each<br/>5. Bi-weekly review<br/><br/>📌 <strong>Rule:</strong> Spending < 60% of income`;
         }
-      } else if (/general|financial|money|manage|plan|strategy|idea|thinking|advice|suggestion|feel/i.test(lTxt)) {
-        // General financial question
+      } else if (/emergency|crisis|need|problem|খরাপ|বিপদ|সমস্যা|প্রয়োজন|ছাড়াই|জরুরি/i.test(lTxt)) {
+        // Emergency/crisis question
+        if (mentionedAmount) {
+          const emergency30 = Math.floor(mentionedAmount * 0.3);
+          const emergency50 = Math.floor(mentionedAmount * 0.5);
+          response = currentLang === 'bn'
+            ? `🚨 <strong>জরুরি ৳${mentionedAmount.toLocaleString()} এর পরিকল্পনা:</strong><br/>• ৩০% (৳${emergency30.toLocaleString()}) জমা রাখুন এমার্জেন্সির জন্য<br/>• বাকি ৫০% (৳${emergency50.toLocaleString()}) সাশ্রয়ী খরচে<br/>• বাকি ২০% দ্রুত ঋণ পরিশোধে<br/><br/>💡 বড় সমস্যায় পড়লে নগদ এক্সেস চেক করুন`
+            : `🚨 <strong>Emergency Plan for ৳${mentionedAmount.toLocaleString()}:</strong><br/>• 30% (৳${emergency30.toLocaleString()}) - Keep for emergencies<br/>• 50% (৳${emergency50.toLocaleString()}) - Reduce to essentials<br/>• 20% - Pay urgent debts<br/><br/>💡 For crises, ensure cash access`;
+        } else {
+          response = currentLang === 'bn'
+            ? `🚨 <strong>জরুরি পরিস্থিতিতে কী করবেন:</strong><br/>1. ঘাবড়াবেন না - দ্রুত সিদ্ধান্ত নিন<br/>2. এক্সেস করুন যা এক্সেসযোগ্য (সেভিংস, জরুরি তহবিল)<br/>3. প্রয়োজনীয় খরচে ফোকাস করুন<br/>4. অপ্রয়োজনীয় খরচ স্থগিত করুন<br/>5. পরিস্থিতি স্থিতিশীল হলে পুনরায় পরিকল্পনা করুন`
+            : `🚨 <strong>In Crisis:</strong><br/>1. Don't panic - make quick decisions<br/>2. Access what's liquid (savings, emergency fund)<br/>3. Focus on essentials only<br/>4. Pause non-urgent spending<br/>5. Replan once stabilized`;
+        }
+      } else if (/salary|freelance|income|earning|job|business|passive/i.test(lTxt)) {
+        // Income/earning question
+        if (mentionedAmount) {
+          const monthlyFromAmount = Math.floor(mentionedAmount / 12);
+          const savingTarget = Math.floor(mentionedAmount * 0.2);
+          response = currentLang === 'bn'
+            ? `💼 <strong>৳${mentionedAmount.toLocaleString()} বার্ষিক আয়ের পরিকল্পনা:</strong><br/>• মাসিক: ~৳${monthlyFromAmount.toLocaleString()}<br/>• সঞ্চয় লক্ষ্য: ৳${savingTarget.toLocaleString()} বছরে<br/>• মাসিক সঞ্চয়: ৳${Math.floor(savingTarget / 12).toLocaleString()}<br/><br/>💡 আয় বাড়ানোর উপায়:<br/>• নিয়মিত আপস্কিল করুন<br/>• পার্ট-টাইম বা ফ্রিল্যান্স শুরু করুন<br/>• প্যাসিভ ইনকাম তৈরি করুন`
+            : `💼 <strong>Plan for ৳${mentionedAmount.toLocaleString()} Annual:</strong><br/>• Monthly: ~৳${monthlyFromAmount.toLocaleString()}<br/>• Yearly savings target: ৳${savingTarget.toLocaleString()}<br/>• Monthly save: ৳${Math.floor(savingTarget / 12).toLocaleString()}<br/><br/>💡 Ways to increase income:<br/>• Upskill regularly<br/>• Start freelancing/part-time<br/>• Build passive income`;
+        } else {
+          response = currentLang === 'bn'
+            ? `💼 <strong>আয় ম্যানেজমেন্ট গাইড:</strong><br/>• ফ্রিল্যান্সিং শুরু করুন: ফিল্যান্স, আপওয়ার্ক, ফাইভার<br/>• অনলাইন বিক্রয়: আমাজন, শপি, দারাজ<br/>• কন্টেন্ট তৈরি: ইউটিউব, ব্লগ<br/>• পেশাদার নেটওয়ার্কিং করুন<br/>• প্রতি ১২ মাসে কমপক্ষে ১০% বৃদ্ধির লক্ষ্য রাখুন`
+            : `💼 <strong>Income Growth Guide:</strong><br/>• Try freelancing: Fiverr, Upwork<br/>• Online selling: Amazon, Daraz<br/>• Content creation: YouTube, Blog<br/>• Network professionally<br/>• Target 10% growth annually`;
+        }
+      } else if (/loan|debt|credit|emi|interest|কর্জ|ঋণ/i.test(lTxt)) {
+        // Debt/loan question
+        if (mentionedAmount) {
+          const monthly10pct = Math.floor(mentionedAmount * 0.1 / 12);
+          const interest = Math.floor(mentionedAmount * 0.15); // Assume 15% APR
+          response = currentLang === 'bn'
+            ? `💳 <strong>৳${mentionedAmount.toLocaleString()} ঋণ ম্যানেজমেন্ট:</strong><br/>• মাসিক ১০% পরিশোধ করলে: ৳${monthly10pct.toLocaleString()}<br/>• ১ বছরে নিষ্কাশন (১৫% সুদ): ~৳${interest.toLocaleString()} অতিরিক্ত<br/><br/>💡 <strong>ঋণ মুক্ত হওয়ার কৌশল:</strong><br/>• সবচেয়ে বেশি সুদের ঋণ প্রথমে পরিশোধ করুন<br/>• অতিরিক্ত আয় দিয়ে ঋণ পরিশোধ করুন<br/>• নতুন ঋণ নেবেন না যতক্ষণ না পুরানো শেষ হয়`
+            : `💳 <strong>Managing ৳${mentionedAmount.toLocaleString()} Debt:</strong><br/>• 10% monthly payment: ৳${monthly10pct.toLocaleString()}<br/>• With 15% interest (1 yr): ~৳${interest.toLocaleString()} extra<br/><br/>💡 <strong>Debt-free strategy:</strong><br/>• Pay highest interest first<br/>• Use extra income for repayment<br/>• No new debt until paid off`;
+        } else {
+          response = currentLang === 'bn'
+            ? `💳 <strong>ঋণ পরিচালনা নীতিমালা:</strong><br/>• হাই-ইন্টারেস্ট ডেট পে অফ ফার্স্ট মেথড ব্যবহার করুন<br/>• প্রতি মাসে ন্যূনতম পেমেন্ট + অতিরিক্ত করুন<br/>• ঋণের সম্প্রসারণ এড়িয়ে চলুন<br/>• যতক্ষণ সম্ভব নতুন ঋণ নিবেন না<br/>• বিনামূল্যে ঋণ পরামর্শ নিন (এনবিআর, বিকাশ)`
+            : `💳 <strong>Debt Management Principles:</strong><br/>• Use Highest Interest First (HIF) method<br/>• Minimum payment + extra each month<br/>• Avoid debt consolidation traps<br/>• Don't take new debt if possible<br/>• Seek free credit counseling`;
+        }
+      } else {
+        // General/fallback for questions that didn't match specific categories
         const advice = generateFinancialAdvice(currentLang, mentionedAmount, txt);
         response = advice;
-      } else {
-        // Fallback: Treat as general financial question
-        response = currentLang === 'bn'
-          ? `💡 <strong>আর্থিক পরামর্শ:</strong><br/>আপনার প্রশ্নের উত্তর দিতে আরও বিস্তারিত জানানো দরকার। আপনি জিজ্ঞাসা করতে পারেন:<br/>• "আমার বাজেট কত হওয়া উচিত?"<br/>• "কিভাবে ৫০০০ টাকা বাঁচাতে পারি?"<br/>• "কোথায় বিনিয়োগ করব?"<br/>আমি সবসময় সাহায্য করতে প্রস্তুত!`
-          : `💡 <strong>Financial Guidance:</strong><br/>To better help you, please ask:<br/>• "What should my budget be?"<br/>• "How to save ৳5000?"<br/>• "Where should I invest?"<br/>I'm always here to help!`;
       }
 
       addMsg('ai', response);
