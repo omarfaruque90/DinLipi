@@ -720,6 +720,149 @@ function getFinancialMetrics() {
   return { totalBal, totalInc, totalExp, expenseRatio, categorySpend };
 }
 
+// ═══ FINANCIAL EXPERT - UNIVERSAL ADVICE GENERATOR ═══
+function generateFinancialAdvice(lang = 'en', mentionedAmount = null, context = '') {
+  const { totalInc, totalExp, expenseRatio, categorySpend } = getFinancialMetrics();
+  const contextLower = context.toLowerCase();
+  
+  // Determine what type of advice is needed based on context
+  const isInvestmentQ = /invest|stock|fund|business|passive\s+income|earning|return|profit/i.test(context);
+  const isExpenseQ = /reduce|cut|save|less|khoroch|খরচ|কমান|কম/i.test(context);
+  const isBudgetQ = /budget|allocate|how\s+much|distribute|divide|split|kharch|planning/i.test(context);
+  const isEmergencyQ = /emergency|crisis|need|problem|khrap|বিপদ|সমস্যা|প্রয়োজন/i.test(context);
+  
+  let advice = '';
+  
+  if (lang === 'bn') {
+    if (mentionedAmount) {
+      advice = `<strong>💼 আপনার জন্য কাস্টমাইজড সুপারিশ (৳${mentionedAmount.toLocaleString()}):</strong><br/>`;
+      
+      if (isInvestmentQ) {
+        const invest10 = Math.floor(mentionedAmount * 0.1);
+        const invest5 = Math.floor(mentionedAmount * 0.05);
+        advice += `<br/>🎯 <strong>বিনিয়োগ কৌশল:</strong><br/>`;
+        advice += `• শুরু করুন ৳${invest10.toLocaleString()} দিয়ে (10% of amount)<br/>`;
+        advice += `• প্রথম মাসে ৳${invest5.toLocaleString()} বাড়ান<br/>`;
+        advice += `• Low-risk options: সাভিংস অ্যাকাউন্ট, বন্ড, মিউচুয়াল ফান্ড<br/>`;
+        advice += `• দীর্ঘমেয়াদী লক্ষ্য: প্রতি বছর ২০% রিটার্ন<br/>`;
+      } else if (isExpenseQ) {
+        const reduced20 = Math.floor(mentionedAmount * 0.2);
+        advice += `<br/>✂️ <strong>খরচ কমানোর পরিকল্পনা:</strong><br/>`;
+        advice += `• লক্ষ্য: ৳${reduced20.toLocaleString()} মাসিক সাশ্রয়<br/>`;
+        advice += `• আপনি যা করতে পারেন: অপ্রয়োজনীয় সাবস্ক্রিপশন বন্ধ করুন<br/>`;
+        advice += `• খাবারের বাজেট ১৫% কমান<br/>`;
+        advice += `• বিনোদনে ২০% কমান<br/>`;
+        advice += `• পরিবহনে স্মার্ট পছন্দ করুন<br/>`;
+      } else if (isBudgetQ) {
+        const essentail = Math.floor(mentionedAmount * 0.5);
+        const savings = Math.floor(mentionedAmount * 0.25);
+        const discretion = Math.floor(mentionedAmount * 0.25);
+        advice += `<br/>📋 <strong>আদর্শ বাজেট বিভাজন:</strong><br/>`;
+        advice += `• 🏠 <strong>অপরিহার্য খরচ:</strong> ৳${essentail.toLocaleString()} (50%)<br/>`;
+        advice += `• 💰 <strong>সঞ্চয়/বিনিয়োগ:</strong> ৳${savings.toLocaleString()} (25%)<br/>`;
+        advice += `• 🎉 <strong>ব্যক্তিগত/বিনোদন:</strong> ৳${discretion.toLocaleString()} (25%)<br/>`;
+      } else {
+        const generalSave = Math.floor(mentionedAmount * 0.25);
+        advice += `<br/>📊 <strong>সাধারণ আর্থিক পরিকল্পনা:</strong><br/>`;
+        advice += `• আপনার ৳${mentionedAmount.toLocaleString()} দিয়ে সর্বোচ্চ লাভ করুন<br/>`;
+        advice += `• লক্ষ্য: মাসিক ৳${generalSave.toLocaleString()} সঞ্চয়<br/>`;
+        advice += `• ৩ মাসের Emergency Fund তৈরি করুন<br/>`;
+        advice += `• বাকি ৳${Math.floor(mentionedAmount * 0.5).toLocaleString()} বিনিয়োগ করুন<br/>`;
+      }
+    } else {
+      // নো amount - use app data
+      advice = `<strong>💼 আমার বিশ্লেষণাত্মক রিপোর্ট:</strong><br/>`;
+      advice += `<br/>📈 <strong>আপনার বর্তমান পরিস্থিতি:</strong><br/>`;
+      advice += `• মাসিক আয়: ৳${totalInc.toLocaleString()}<br/>`;
+      advice += `• মাসিক খরচ: ৳${totalExp.toLocaleString()}<br/>`;
+      advice += `• সঞ্চয় অনুপাত: ${(100 - expenseRatio).toFixed(1)}%<br/>`;
+      
+      if (expenseRatio > 75) {
+        advice += `<br/>🚨 <strong>জরুরি সতর্কতা:</strong> আপনার খরচ আয়ের ${expenseRatio.toFixed(0)}% — এটি অত্যন্ত বেশি!<br/>`;
+        advice += `<br/>💡 <strong>৩০ দিনের চ্যালেঞ্জ:</strong><br/>`;
+        advice += `• সপ্তাহ ১: সব খরচ ট্র্যাক করুন<br/>`;
+        advice += `• সপ্তাহ ২-৩: ১০% খরচ কমানো শুরু করুন<br/>`;
+        advice += `• সপ্তাহ ৪: পরবর্তী মাসের লক্ষ্য ৬০% রাখুন<br/>`;
+      } else if (expenseRatio > 60) {
+        advice += `<br/>⚠️ <strong>মনোযোগ দরকার:</strong> খরচ-আয় অনুপাত ${expenseRatio.toFixed(0)}%<br/>`;
+        advice += `<br/>✅ <strong>অপ্টিমাইজেশন পরিকল্পনা:</strong><br/>`;
+        advice += `• ৫% আরও সাশ্রয় করুন (লক্ষ্য: ৫৫%)<br/>`;
+        advice += `• মাসিক ৳${Math.floor(totalInc * 0.15).toLocaleString()} বিনিয়োগ করুন<br/>`;
+      } else {
+        advice += `<br/>✅ <strong>চমৎকার আর্থিক স্বাস্থ্য:</strong><br/>`;
+        advice += `• আপনি সঠিক পথে আছেন<br/>`;
+        advice += `• পরবর্তী লক্ষ্য: ৳${Math.floor(totalInc * 0.3).toLocaleString()} মাসিক সঞ্চয়<br/>`;
+        advice += `• বিনিয়োগ বাড়ান দীর্ঘমেয়াদী সম্পদ তৈরির জন্য<br/>`;
+      }
+    }
+  } else {
+    // English version
+    if (mentionedAmount) {
+      advice = `<strong>💼 Your Customized Financial Plan (৳${mentionedAmount.toLocaleString()}):</strong><br/>`;
+      
+      if (isInvestmentQ) {
+        const invest10 = Math.floor(mentionedAmount * 0.1);
+        const invest5 = Math.floor(mentionedAmount * 0.05);
+        advice += `<br/>🎯 <strong>Investment Strategy:</strong><br/>`;
+        advice += `• Start with ৳${invest10.toLocaleString()} (10% of amount)<br/>`;
+        advice += `• Increase by ৳${invest5.toLocaleString()} next month<br/>`;
+        advice += `• Safe options: Savings Account, Bonds, Mutual Funds<br/>`;
+        advice += `• Long-term target: 20% annual return<br/>`;
+      } else if (isExpenseQ) {
+        const reduced20 = Math.floor(mentionedAmount * 0.2);
+        advice += `<br/>✂️ <strong>Expense Reduction Plan:</strong><br/>`;
+        advice += `• Target: Save ৳${reduced20.toLocaleString()} monthly<br/>`;
+        advice += `• Cancel unnecessary subscriptions<br/>`;
+        advice += `• Cut food budget by 15%<br/>`;
+        advice += `• Reduce entertainment by 20%<br/>`;
+        advice += `• Make smart transport choices<br/>`;
+      } else if (isBudgetQ) {
+        const essential = Math.floor(mentionedAmount * 0.5);
+        const savings = Math.floor(mentionedAmount * 0.25);
+        const discretion = Math.floor(mentionedAmount * 0.25);
+        advice += `<br/>📋 <strong>Ideal Budget Split:</strong><br/>`;
+        advice += `• 🏠 <strong>Essential Expenses:</strong> ৳${essential.toLocaleString()} (50%)<br/>`;
+        advice += `• 💰 <strong>Savings/Investment:</strong> ৳${savings.toLocaleString()} (25%)<br/>`;
+        advice += `• 🎉 <strong>Personal/Entertainment:</strong> ৳${discretion.toLocaleString()} (25%)<br/>`;
+      } else {
+        const generalSave = Math.floor(mentionedAmount * 0.25);
+        advice += `<br/>📊 <strong>General Financial Plan:</strong><br/>`;
+        advice += `• Maximize returns from ৳${mentionedAmount.toLocaleString()}<br/>`;
+        advice += `• Target: Save ৳${generalSave.toLocaleString()} monthly<br/>`;
+        advice += `• Build 3-month Emergency Fund<br/>`;
+        advice += `• Invest remaining ৳${Math.floor(mentionedAmount * 0.5).toLocaleString()}<br/>`;
+      }
+    } else {
+      // No amount - use app data
+      advice = `<strong>💼 My Financial Analysis Report:</strong><br/>`;
+      advice += `<br/>📈 <strong>Your Current Snapshot:</strong><br/>`;
+      advice += `• Monthly Income: ৳${totalInc.toLocaleString()}<br/>`;
+      advice += `• Monthly Spending: ৳${totalExp.toLocaleString()}<br/>`;
+      advice += `• Savings Ratio: ${(100 - expenseRatio).toFixed(1)}%<br/>`;
+      
+      if (expenseRatio > 75) {
+        advice += `<br/>🚨 <strong>Critical Alert:</strong> You're spending ${expenseRatio.toFixed(0)}% of income — unsustainable!<br/>`;
+        advice += `<br/>💡 <strong>30-Day Challenge:</strong><br/>`;
+        advice += `• Week 1: Track all expenses<br/>`;
+        advice += `• Week 2-3: Cut 10% spending<br/>`;
+        advice += `• Week 4: Target 60% for next month<br/>`;
+      } else if (expenseRatio > 60) {
+        advice += `<br/>⚠️ <strong>Needs Attention:</strong> Expense-to-Income ratio: ${expenseRatio.toFixed(0)}%<br/>`;
+        advice += `<br/>✅ <strong>Optimization Plan:</strong><br/>`;
+        advice += `• Save additional 5% (Target: 55%)<br/>`;
+        advice += `• Invest ৳${Math.floor(totalInc * 0.15).toLocaleString()} monthly<br/>`;
+      } else {
+        advice += `<br/>✅ <strong>Excellent Financial Health:</strong><br/>`;
+        advice += `• You're on the right track<br/>`;
+        advice += `• Next goal: Save ৳${Math.floor(totalInc * 0.3).toLocaleString()} monthly<br/>`;
+        advice += `• Increase investments for long-term wealth<br/>`;
+      }
+    }
+  }
+  
+  return advice;
+}
+
 function generateSavingsRoadmap(lang = 'en', mentionedAmount = null) {
   const { totalInc, totalExp, expenseRatio, categorySpend } = getFinancialMetrics();
 
