@@ -1019,10 +1019,10 @@ async function sendMsg() {
 
       // Analyze what the question is about
       // ✅ PRIORITY: CHECK FINANCIAL KEYWORDS FIRST (DETAILED ADVICE) BEFORE SNAPSHOTS
-      
+
       // Check for explicit financial keywords - route to expert knowledge base
       const hasFinancialKeywords = /invest|save|plan|roadmap|પ્રણાली|পরামর্শ|किसी|advise|strategy|budget|allocate|reduce|expense|income|earn|freelance|loan|debt|inflation|business|growth|passive|portfolio|diversif|risk|return|profit|emergency|crisis|goal|target|forecast|calculate|estimate/i.test(lTxt);
-      
+
       if (hasFinancialKeywords) {
         // 🎯 FORCE ROUTE TO EXPERT FINANCIAL ADVISOR - NO SHORTCUTS
         const detailedAdvice = generateFinancialAdvice(currentLang, mentionedAmount, txt);
@@ -1030,16 +1030,16 @@ async function sendMsg() {
       } else if (/balance|kitna|how\s+much|total|current|amar|আমার|কত|state|status|position|obostha/i.test(lTxt)) {
         // BALANCE/STATUS - But provide smart analysis with optional snapshot
         const { totalBal, totalInc, totalExp, expenseRatio } = getFinancialMetrics();
-        
+
         // Provide smart financial analysis FIRST, then snapshot
         let statusAnalysis = currentLang === 'bn'
           ? `<strong>📊 আপনার আর্থিক বিশ্লেষণ:</strong><br/>`
           : `<strong>📊 Your Financial Analysis:</strong><br/>`;
-        
+
         // Add contextual advice based on expense ratio
         if (expenseRatio > 75) {
           statusAnalysis += currentLang === 'bn'
-            ? `🚨 <strong>সতর্কতা:</strong> আপনার খরচ আয়ের ${expenseRatio.toFixed(0)}% — এটি খুবই বেশি এবং অস্থিতিশীল।<br/>` 
+            ? `🚨 <strong>সতর্কতা:</strong> আপনার খরচ আয়ের ${expenseRatio.toFixed(0)}% — এটি খুবই বেশি এবং অস্থিতিশীল।<br/>`
               + `<strong>তাৎক্ষণিক পদক্ষেপ:</strong><br/>• এই মাসে ২০% খরচ কমানোর লক্ষ্য রাখুন<br/>• প্রতিটি সাবস্ক্রিপশন বাতিল করুন যা আপনি ব্যবহার করছেন না<br/>• বড় খরচের ক্যাটাগরি চিহ্নিত করুন এবং সেখান থেকে শুরু করুন<br/><br/>`
             : `🚨 <strong>Warning:</strong> Your spending is ${expenseRatio.toFixed(0)}% of income — unsustainable!<br/>`
               + `<strong>Immediate Actions:</strong><br/>• Cut 20% spending this month<br/>• Cancel subscriptions you don't use<br/>• Identify and reduce biggest expense category<br/><br/>`;
@@ -1056,12 +1056,12 @@ async function sendMsg() {
             : `✅ <strong>Excellent:</strong> Your finances are healthy (${expenseRatio.toFixed(0)}% spending ratio).<br/>`
               + `<strong>Next Steps:</strong><br/>• Increase investments to ৳${Math.floor(totalInc * 0.25).toLocaleString()} monthly<br/>• Expand emergency fund to 6 months<br/>• Focus on long-term wealth building<br/><br/>`;
         }
-        
+
         // Add snapshot as secondary info
         statusAnalysis += currentLang === 'bn'
           ? `<strong>📈 আপনার সংখ্যা:</strong><br/>Balance: ৳${totalBal.toLocaleString()} | Income: ৳${totalInc.toLocaleString()} | Expense: ৳${totalExp.toLocaleString()}`
           : `<strong>📈 Your Numbers:</strong><br/>Balance: ৳${totalBal.toLocaleString()} | Income: ৳${totalInc.toLocaleString()} | Expense: ৳${totalExp.toLocaleString()}`;
-        
+
         response = statusAnalysis;
       }
 
